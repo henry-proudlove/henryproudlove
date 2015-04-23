@@ -246,7 +246,7 @@ article aside ul {
 }
 
 article aside li, article aside time{
-	padding: 0 0.67em 0.33em 0;
+	padding: 0 0.67em 0.34em 0;
 	display: block;
 }
 
@@ -1110,7 +1110,7 @@ nav.site-links a, .contact article li {
 
 .menu-button a.active .close .bar{
 	transition: background 0.33s ease 0s,
-				-webkit-transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.34s,
+				-webkit-transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.33s,
 					-ms-transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.33s,
 						transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.33s,
 				width 0.5s ease 0.33s,
@@ -1833,7 +1833,7 @@ span.cycle-pager-text {
 	font-size: 1.5em;
 	line-height: 1.33em;
 	opacity: 1;
-	padding : 0 0 0 0.33em;
+	padding : 0 0 0 0.34em;
 	box-sizing: border-box;
 }
 
@@ -2383,11 +2383,11 @@ img{
 	}
 	
 	.menu-button a span .bar, .slideshow-close a span .bar{
-		height: 0.33em;
+		height: 0.34em;
 	}
 	
 	.back-button span:after, .next-button span:after{
-		border-width: 0.33em;
+		border-width: 0.34em;
 	}
 	
 	.menu-button a.active .close, .slideshow-close a.active .close, .slideshow-paging a span{
@@ -2398,7 +2398,7 @@ img{
 	/* ---- cycle figcaption large version  ---- */
 
 	section.cycle figcaption{
-		height: 0.33em;
+		height: 0.34em;
 		margin-bottom: 0.67em;
 	}
 
@@ -2481,7 +2481,7 @@ img{
 	}
 	
 	nav li{
-		padding-bottom: 0.33em;
+		padding-bottom: 0.34em;
 	}
 	
 	/* ---- .site-title switches to single line  ---- */
