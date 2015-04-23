@@ -2,7 +2,6 @@
 	include(VIEW_FUNCTIONS);
 	$page = new Page;
 	$cs = get_the_project();
-	//var_dump($cs);
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -24,15 +23,13 @@
 		<meta name="application-name" content="Henry Proudlove // Independent Creative"/>
 		<meta name="msapplication-TileColor" content="#E55242" />
 		<meta name="msapplication-TileImage" content="<?php echo $page->rel_depth() . 'img/thumbs/mstile-144x144.png';?>" />
-		
-
+		<?php include(DIR_MARKUP . 'fonts.php');?>
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/normalize.css'; ?>">
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/main.css'; ?>">
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/dynamic.php'; ?>">
-		<script type="text/javascript" src="http://fast.fonts.net/jsapi/6debb9f6-678b-474d-b007-9fa2baf9b402.js"></script>
-		<?php// include(DIR_MARKUP . 'fonts.php'); ?>
         <script src="<?php echo $page->rel_depth() . 'js/vendor/modernizr.js'; ?>"></script>
-		<script src="<?php echo $page->rel_depth() . 'js/vendor/picturefill.min.js'?>" async></script>    
+		<script src="<?php echo $page->rel_depth() . 'js/vendor/picturefill.min.js'?>" async></script>
+		<!-- include fonts --> 
 	</head>
 	<?php
 		$body_class = $page->name;
