@@ -487,7 +487,7 @@ header.main-header{
 	stroke-opacity: 1;
 	fill-opacity: 1;
 	stroke-width : 2px;
-	stroke-dasharray : 0;
+	//stroke-dasharray : 0;
 	stroke: white;
 	fill: white;
 	width: 100%;
@@ -1782,7 +1782,7 @@ section.cycle figcaption span.cycle-pager-text{
 
 span.cycle-pager-text {
   font-size: 0.8em;
-  margin-top: -0.1em;
+  margin-top: 0em;
 }
 
 //section.cycle:hover figcaption.cycle-pager-active span.cycle-pager-text{
@@ -2432,7 +2432,6 @@ img{
 	
 	span.cycle-pager-text {
 	  font-size: 1em;
-	  margin-top: 0.2em;
 	}
 	
 	
