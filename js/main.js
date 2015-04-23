@@ -83,14 +83,12 @@ $(document).ready(function(e){
 						'stroke-dasharray' : l,
 					    'stroke-dashoffset': l,
 						'fill-opacity' : '0',
-						//'opacity': '0',
 						'transition' : 'none',
 						'-webkit-transition' : 'none'
 					},
 					'66.67%' : {
 						'stroke-opacity' : '0.66',
 						'stroke-width' : '2px',
-						//'opacity' : '1',
 						'stroke-dasharray' : l,
 					    'stroke-dashoffset': 0,
 						'fill-opacity' : '0'
