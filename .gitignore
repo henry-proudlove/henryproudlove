@@ -46,15 +46,4 @@ Thumbs.db
 # Media and data #
 ######################
 
-data.php
-
-*.jpg
-!img/*.jpg
-*.png
-!img/*.jpg
-*.svg
-*!img/*.svg
-*.webp
-!img/*.webp
-
 .htpasswd
