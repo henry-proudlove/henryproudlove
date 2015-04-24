@@ -521,6 +521,7 @@ $(document).ready(function(e){
 			$(slideshowHTML).attr('id' , slideshowID).prependTo('body').append(slidesobj).cycle({
 				slides : 'figure',
 				startingSlide : 0,
+				swipe  : true,
 				log    : false,
 				next   : '.slideshow-paging .next-button',
 				prev   : '.slideshow-paging .back-button',
