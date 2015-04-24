@@ -2732,10 +2732,20 @@ img{
 .lvmh.project .images > figure .pad{
 	background: #efefef;
 }
+.fridr.project .images > figure .pad{
+	background: #2f3433;
+}
+.exercism.project .images > figure .pad{
+	background: #f7f7f8;
+}
+
 
 @media only screen and (max-width: 840px) {
 	.amv.project .images > figure img,
-	.lvmh.project .images > figure img{
+	.lvmh.project .images > figure img,
+	.jordans.project .images > figure img,
+	.fridr.project .images > figure img,
+	.exercism.project .images > figure img{
 		top: 60%;
 	}
 }
