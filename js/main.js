@@ -882,13 +882,14 @@ $(document).ready(function(e){
 		go : true,
 		init: function(){
 			if($('article.project').length > 0 ){
+				this.wh = $(window).height();
 				this.header = $('section.text header');
 				this.client = this.header.find('h1');
 				this.title  = this.header.find('h2');
 				this.o = 60;
-				this.s = this.header.offset().top - $(window).height();
-				this.e = $(document).height() - $(window).height() - this.s;
-				//this.client.add(this.title).css('transform', 'translate3d(0, 0, 0)');
+				this.s = this.header.offset().top - this.wh;
+				var d = Math.min($(document).height() - this.wh, $('section.text').offset().top);
+				this.e = d - this.s;			
 				this.ok = true;
 				style = {
 					'transform': 'translate3d(0,' + (this.o) + 'px,0)',
@@ -980,6 +981,7 @@ $(document).ready(function(e){
 				csHeadAnim = requestAnimationFrame(csHeadAnimStop);
 			}
 			if(scrolled > csText.s){
+				console.log(scrolled, csText.e);
 		    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
 			}else if(csText.go && csText.ok){
 				csTextAnim = requestAnimationFrame(csTextAnimStop);
