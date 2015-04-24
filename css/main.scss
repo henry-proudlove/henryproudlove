@@ -203,8 +203,15 @@ article .text{
 	position: relative;
 }
 
+
+
 article .text .wrapper{
 	margin: 0 3em;
+}
+
+.about article .text .wrapper,
+.contact article .text .wrapper{
+	margin: 0;
 }
 
 .project article .text .wrapper{
@@ -2362,6 +2369,10 @@ img{
 	article .text{
 		padding: 8.33% 1/12 * 100%;
 	}
+	.about article .text .wrapper,
+	.contact article .text .wrapper{
+		margin: 0 3em;
+	}
 	.pair.width1{
 		width: 100%
 	}
@@ -2508,11 +2519,6 @@ img{
 		padding-top: 12.75%;
 	}
 	
-	.about article .text,
-	.contact article .text{
-		padding-top: 12em;
-	}
-	
 	.about article .description,
 	.contact article .description{
 		margin: 12.75% 0 10%;
@@ -2522,7 +2528,11 @@ img{
 	.about #container.active:not(.transition) .menu-container:not(.active) .menu-wrapper,
 	.contact #container.active:not(.transition) .menu-container:not(.active) .menu-wrapper{
 		top: 12em;
-	}	
+	}
+	
+	.about article .text, .contact article .text {
+	  padding: 18.67% 0;
+	}
 	
 	/* ---- .site-title hover line origin centered  ---- */
 	
@@ -2547,6 +2557,7 @@ img{
 	article .text{
 		//padding: 8.33% 0;
 	}
+	
 	.contact article span{
 		font-size: 0.9em;
 	  	line-height: 0.9em;
@@ -2577,6 +2588,11 @@ img{
 	article .description{
 		font-size: 2em;
 	}
+	
+	.about article .text,
+	.contact article .text{
+		padding: 12em 0;
+	}
 }
 
 @media only screen and (min-width: 960px) {
@@ -2596,7 +2612,6 @@ img{
 	article .text{
 		padding: 8.33% 1/12 * 100%;
 	}
-	
 	.about .description > p{
 		width: 100%;
 		float: none;
@@ -2607,6 +2622,16 @@ img{
 		width: 100%;
 		display: block;
 		float: none;
+	}
+	
+	.about article .text .wrapper,
+	.contact article .text .wrapper{
+		margin: 0 3em;
+	}
+	
+	.about article .text,
+	.contact article .text{
+		padding: 12em 8.33%;
 	}
 }
 
@@ -2686,6 +2711,11 @@ img{
 		float: none;
 	}
 	
+	.about article .text,
+	.contact article .text{
+		padding: 12em 16.67%;
+	}
+	
 }
 
 /* ==========================================================================
@@ -2695,7 +2725,6 @@ img{
 .amv.project .images > figure .pad{
 	background: #323232;
 }
-
 .lvmh.project .images > figure .pad{
 	background: #efefef;
 }
