@@ -13,7 +13,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title><?php echo get_title(); ?></title>
         <meta name="description" content="<?php echo get_description(); ?>">
-        <meta name="viewport" content="width=device-width">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="icon" type="image/png" href="<?php echo $page->rel_depth() . 'img/favicon/favicon-32x32.png'; ?>" sizes="32x32" />
 		<link rel="icon" type="image/png" href="<?php echo $page->rel_depth() . 'img/favicon/favicon-16x16.png'; ?>" sizes="16x16" />
