@@ -154,7 +154,7 @@ html {
 }
 
 body {
-	font-family:'AvenirNext-UltraLi' , helvetica, sans-serif;
+	font-family:'AvenirNextLTW01-UltraLi' , helvetica, sans-serif;
 }
 
 #container {
@@ -176,9 +176,9 @@ article h1, article h2{
 //}
 
 article h1{
-	font-family: 'AvenirNext-Medium', helvetica, sans-serif;
+	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
+	font-weight: normal;
 	margin-right: 0.3em;
-	font-weight: bold;
 }
 
 article.project header.main{
@@ -240,7 +240,8 @@ article aside{
 }
 
 article aside ul {
-	font-family: 'AvenirNext-Medium', helvetica, sans-serif;
+	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
+	font-weight: normal;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -2173,8 +2174,8 @@ figcaption h3, figcaption h4{
 }
 
 figcaption h3{
-	font-family: 'AvenirNext-Medium', helvetica, sans-serif;
-	font-weight: bold;
+	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
+	font-weight: normal;
 }
 
 figcaption span{
