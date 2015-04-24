@@ -496,210 +496,208 @@ $(document).ready(function(e){
 	var slideshows = {};
 					
 	function projectSlideshow(){
-		if($(window).width() > 550){
-			var slideshowID = $('article.content').data('name') + '-slideshow';
-			// Waits for a video to appear in the vid object tells it to play/stop given certain conditions
-			function videoController(slide, cmd){
-				console.log(slide);
-				var vpfx = 'slide-video-';
-				var x = (cmd == 'play' ? true : false);
-				thisVideo = $(slide).attr('id').substr(vpfx.length);
-				//console.log(thisVideo);
-				if(video.hasOwnProperty(thisVideo)){
-					video[thisVideo].api(cmd);
-				}
+		var slideshowID = $('article.content').data('name') + '-slideshow';
+		// Waits for a video to appear in the vid object tells it to play/stop given certain conditions
+		function videoController(slide, cmd){
+			console.log(slide);
+			var vpfx = 'slide-video-';
+			var x = (cmd == 'play' ? true : false);
+			thisVideo = $(slide).attr('id').substr(vpfx.length);
+			//console.log(thisVideo);
+			if(video.hasOwnProperty(thisVideo)){
+				video[thisVideo].api(cmd);
 			}
+		}
 
-			var slidesobj = [];
-			$.each($('.grid figure'), function(i){
-				$(this).data('slideindex', i);
-				//console.log(i);
-				$(this).hasClass('video') ? slide = videoSlide($(this), i) : slide = imageSlide($(this) , i);
-				slidesobj[i] = slide;
+		var slidesobj = [];
+		$.each($('.grid figure'), function(i){
+			$(this).data('slideindex', i);
+			//console.log(i);
+			$(this).hasClass('video') ? slide = videoSlide($(this), i) : slide = imageSlide($(this) , i);
+			slidesobj[i] = slide;
+		});
+
+		if(!slideshows.hasOwnProperty(slideshowID)){
+			$(slideshowHTML).attr('id' , slideshowID).prependTo('body').append(slidesobj).cycle({
+				slides : 'figure',
+				startingSlide : 0,
+				log    : false,
+				next   : '.slideshow-paging .next-button',
+				prev   : '.slideshow-paging .back-button',
+				paused : true,
+				manualSpeed : 200	
 			});
-		
-			if(!slideshows.hasOwnProperty(slideshowID)){
-				$(slideshowHTML).attr('id' , slideshowID).prependTo('body').append(slidesobj).cycle({
-					slides : 'figure',
-					startingSlide : 0,
-					log    : false,
-					next   : '.slideshow-paging .next-button',
-					prev   : '.slideshow-paging .back-button',
-					paused : true,
-					manualSpeed : 200	
+		}
+
+		var $slideshowID = $('#' + slideshowID);
+		slideshows[slideshowID] = $('#' + slideshowID);
+
+		$('article.project .grid').on('click' , 'figure', function(e){
+			var cycleopts = $slideshowID.data('cycle.opts');
+			var clicked = $(e.currentTarget).data('slideindex');
+			if(clicked != cycleopts.currSlide){				
+				$slideshowID.cycle('goto', clicked).on('cycle-after', function(){
+					$(this).addClass('active');
 				});
+			}else{
+				$slideshowID.trigger('cycle-show' , [ cycleopts, null,cycleopts.slides[cycleopts.currSlide]]).addClass('active');
 			}
-		
-			var $slideshowID = $('#' + slideshowID);
-			slideshows[slideshowID] = $('#' + slideshowID);
-		
-			$('article.project .grid').on('click' , 'figure', function(e){
-				var cycleopts = $slideshowID.data('cycle.opts');
-				var clicked = $(e.currentTarget).data('slideindex');
-				if(clicked != cycleopts.currSlide){				
-					$slideshowID.cycle('goto', clicked).on('cycle-after', function(){
-						$(this).addClass('active');
-					});
-				}else{
-					$slideshowID.trigger('cycle-show' , [ cycleopts, null,cycleopts.slides[cycleopts.currSlide]]).addClass('active');
-				}
-				$('body').addClass('slideshow');
-			});
-		
-			// Prepare slides and add them to slideshow container
-			function videoSlide(slide, index){
-				// Get the video	
-				var videoPath = slide.find('img').data('video');
-				var videoId = slideshowID + '-video-' + index;
-				//var videoId = id.replace(/-|–|slideshow/g, '');
-				//var videoId = id; 
-				var $vidcont = $('<figure id="slide-video-' + videoId + '" class="video">' + videoSpinner + '</figure>');
-				//var $vidcont = $('<figure id="slide-video-' + videoId + '" class="video"></figure>');
-				$.ajax({
-					url : 'https://vimeo.com/api/oembed.json?url=' + videoPath + '&api=true&player_id=' + videoId + '&title=false&portrait=false&byline=false',
-					success : function(data){
-						//$(var	vidcont  = $('.slideshow-wrapper').find('#slide-video-' + index);
-						function appendVideo(){
-							if($vidcont.length > 0){
-								clearInterval(vidinterval);
-								var iframe = $(data.html)
-									.wrap('<div class="lazyload center"></div>')
-									.parent()
-									.fitVids()
-									.appendTo($vidcont)
-									.addClass('active')
-									.find('iframe')
-									.attr('id' , videoId)[0];
-								var player = $f(iframe);
-							    player.addEvent('ready', function() {
-									video[videoId] = player;
-	   								$vidcont.find('.video-spinner').attr('class', 'video-spinner').on(transitionEnd, function(){
-	    									$(this).remove();
-	    								});
-								});
-							}
+			$('body').addClass('slideshow');
+		});
+
+		// Prepare slides and add them to slideshow container
+		function videoSlide(slide, index){
+			// Get the video	
+			var videoPath = slide.find('img').data('video');
+			var videoId = slideshowID + '-video-' + index;
+			//var videoId = id.replace(/-|–|slideshow/g, '');
+			//var videoId = id; 
+			var $vidcont = $('<figure id="slide-video-' + videoId + '" class="video">' + videoSpinner + '</figure>');
+			//var $vidcont = $('<figure id="slide-video-' + videoId + '" class="video"></figure>');
+			$.ajax({
+				url : 'https://vimeo.com/api/oembed.json?url=' + videoPath + '&api=true&player_id=' + videoId + '&title=false&portrait=false&byline=false',
+				success : function(data){
+					//$(var	vidcont  = $('.slideshow-wrapper').find('#slide-video-' + index);
+					function appendVideo(){
+						if($vidcont.length > 0){
+							clearInterval(vidinterval);
+							var iframe = $(data.html)
+								.wrap('<div class="lazyload center"></div>')
+								.parent()
+								.fitVids()
+								.appendTo($vidcont)
+								.addClass('active')
+								.find('iframe')
+								.attr('id' , videoId)[0];
+							var player = $f(iframe);
+						    player.addEvent('ready', function() {
+								video[videoId] = player;
+								$vidcont.find('.video-spinner').attr('class', 'video-spinner').on(transitionEnd, function(){
+										$(this).remove();
+									});
+							});
 						}
-						var vidinterval = setInterval(appendVideo, 500);
+					}
+					var vidinterval = setInterval(appendVideo, 500);
+				}
+			});
+			// Add a placeholder contianer for video
+			return $vidcont;
+		}
+		function imageSlide(slide, index){
+			imgClasses = slide.attr('class').split(/\s+/);
+			slidefig = '<figure id="slide-image-' + index + '" class="image"><div class="vertical-center"></div></figure>';
+			slide = slide
+				.clone()
+				.off('click')
+				.find('img')
+				.data('classes', imgClasses)
+				.removeAttr('srcset')
+				.attr('sizes' , '100vw')
+				.removeClass().addClass('lazyload');
+
+			return $(slidefig).find('div').append(slide).parent();
+		}
+
+		$slideshowID.on('cycle-after cycle-show' , function(e, opts, outgoing, incoming){
+			//console.log($slideshow)
+			var is = e.type;
+			//var incoming = (is == 'cycle-after' ? incoming);
+			if(is == "cycle-after" && $(outgoing).hasClass('image')){
+				$(window).off('mousemove');
+				$(outgoing).off('hoverspeed').find('img').css({
+					'top' : '0',
+					'-webkit-transition-duration' : '0',
+					        'transition-duration' : '0',
+					'cursor' : 'auto'
+				});
+			}else if(is == "cycle-after" && $(outgoing).hasClass('video')){
+				videoController(outgoing, 'pause');
+			}
+	
+			if($(incoming).hasClass('image')){
+				var $img      = $(incoming).find('img');
+				var height    = 0;
+				var imgHeight = 0;
+				var offset    = 0;
+				var speed     = 0;
+				var steps     = 3;
+				var time      = 0.67;
+				var duration = 0;
+				$img.css({
+					'transition-duration':'0.33s'
+				});
+				// Update height based on resize 
+				height = $(window).height();
+				imgHeight = $img.height();
+				offset = imgHeight - height;
+				$(window).on('mousemove', function(e){
+					if(imgHeight > height){
+						var pos = e.clientY;
+						var center = height / 2;
+						var xspeed = Math.round((pos - center)/center * steps) / steps;
+						if(xspeed != speed){
+							speed = xspeed;
+							$(incoming).trigger('hoverspeed' , [speed]);
+						}
+					}else{
+						$img.removeAttr('style');
+					}
+				}).trigger('mousemove');
+				// Update img css based on speed
+				$(incoming).on('hoverspeed', function(e, speed){
+					switch(true){
+						case (speed < 0):
+							duration = time / Math.sin(speed * -1);
+							$img.css({
+								'transform' : 'translate3d(0,' + offset/2 + 'px,0)',
+								'transition-duration': duration + 's',
+							})
+							$('.slideshow-wrapper').addClass('cursor-move-up').removeClass('cursor-move-down cursor-move');
+							break;
+						case (speed > 0):
+							duration = time / Math.sin(speed);
+							$img.css({
+						    	'transform' : 'translate3d(0,' + offset/2 * -1 + 'px,0)',
+						        'transition-duration' : duration + 's',
+							})
+							$('.slideshow-wrapper').addClass('cursor-move-down').removeClass('cursor-move-up cursor-move');
+							break;
+						default:
+							$img.css({
+						    	'transform' : $img.css('transform'),
+						        'transition-duration' : '0',
+							})
+							$('.slideshow-wrapper').addClass('cursor-move').removeClass('cursor-move-up cursor-move-down');
 					}
 				});
-				// Add a placeholder contianer for video
-				return $vidcont;
+			}else{
+				videoController(incoming, 'play');
 			}
-			function imageSlide(slide, index){
-				imgClasses = slide.attr('class').split(/\s+/);
-				slidefig = '<figure id="slide-image-' + index + '" class="image"><div class="vertical-center"></div></figure>';
-				slide = slide
-					.clone()
-					.off('click')
-					.find('img')
-					.data('classes', imgClasses)
-					.removeAttr('srcset')
-					.attr('sizes' , '100vw')
-					.removeClass().addClass('lazyload');
+		});
+
+		$(document).on('click' , '.slideshow-close a' , function(e){
+			closeSlideshow();
+			e.preventDefault();
 	
-				return $(slidefig).find('div').append(slide).parent();
+		});
+		$(document).keyup(function(e){
+			if (e.keyCode == 27) {
+			  closeSlideshow();
 			}
+		});
 
-			$slideshowID.on('cycle-after cycle-show' , function(e, opts, outgoing, incoming){
-				//console.log($slideshow)
-				var is = e.type;
-				//var incoming = (is == 'cycle-after' ? incoming);
-				if(is == "cycle-after" && $(outgoing).hasClass('image')){
-					$(window).off('mousemove');
-					$(outgoing).off('hoverspeed').find('img').css({
-						'top' : '0',
-						'-webkit-transition-duration' : '0',
-						        'transition-duration' : '0',
-						'cursor' : 'auto'
-					});
-				}else if(is == "cycle-after" && $(outgoing).hasClass('video')){
-					videoController(outgoing, 'pause');
-				}
-			
-				if($(incoming).hasClass('image')){
-					var $img      = $(incoming).find('img');
-					var height    = 0;
-					var imgHeight = 0;
-					var offset    = 0;
-					var speed     = 0;
-					var steps     = 3;
-					var time      = 0.67;
-					var duration = 0;
-					$img.css({
-						'transition-duration':'0.33s'
-					});
-					// Update height based on resize 
-					height = $(window).height();
-					imgHeight = $img.height();
-					offset = imgHeight - height;
-					$(window).on('mousemove', function(e){
-						if(imgHeight > height){
-							var pos = e.clientY;
-							var center = height / 2;
-							var xspeed = Math.round((pos - center)/center * steps) / steps;
-							if(xspeed != speed){
-								speed = xspeed;
-								$(incoming).trigger('hoverspeed' , [speed]);
-							}
-						}else{
-							$img.removeAttr('style');
-						}
-					}).trigger('mousemove');
-					// Update img css based on speed
-					$(incoming).on('hoverspeed', function(e, speed){
-						switch(true){
-							case (speed < 0):
-								duration = time / Math.sin(speed * -1);
-								$img.css({
-									'transform' : 'translate3d(0,' + offset/2 + 'px,0)',
-									'transition-duration': duration + 's',
-								})
-								$('.slideshow-wrapper').addClass('cursor-move-up').removeClass('cursor-move-down cursor-move');
-								break;
-							case (speed > 0):
-								duration = time / Math.sin(speed);
-								$img.css({
-							    	'transform' : 'translate3d(0,' + offset/2 * -1 + 'px,0)',
-							        'transition-duration' : duration + 's',
-								})
-								$('.slideshow-wrapper').addClass('cursor-move-down').removeClass('cursor-move-up cursor-move');
-								break;
-							default:
-								$img.css({
-							    	'transform' : $img.css('transform'),
-							        'transition-duration' : '0',
-								})
-								$('.slideshow-wrapper').addClass('cursor-move').removeClass('cursor-move-up cursor-move-down');
-						}
-					});
-				}else{
-					videoController(incoming, 'play');
-				}
-			});
-
-			$(document).on('click' , '.slideshow-close a' , function(e){
-				closeSlideshow();
-				e.preventDefault();
-			
-			});
-			$(document).keyup(function(e){
-				if (e.keyCode == 27) {
-				  closeSlideshow();
-				}
-			});
-		
-			function closeSlideshow(){
-				$slideshowID.removeClass('active');
-				if($('.cycle-slide-active.video').length > 0){
-					videoController($('.cycle-slide-active')[0], 'pause');
-				}
-				$('.slidesshow-wrapper').removeClass('cursor-move cursor-move-down cursor-move-up')
-				var $img = $slideshowID.find('.cycle-slide-active img');
-				var style = $img.css('transform');
-				$img.attr('style', style);
-				$(window).trigger('debouncedresize');
+		function closeSlideshow(){
+			$slideshowID.removeClass('active');
+			if($('.cycle-slide-active.video').length > 0){
+				videoController($('.cycle-slide-active')[0], 'pause');
 			}
-		}		
+			$('.slidesshow-wrapper').removeClass('cursor-move cursor-move-down cursor-move-up')
+			var $img = $slideshowID.find('.cycle-slide-active img');
+			var style = $img.css('transform');
+			$img.attr('style', style);
+			$(window).trigger('debouncedresize');
+		}
 	}
 	
 	function slideshowKill(){
