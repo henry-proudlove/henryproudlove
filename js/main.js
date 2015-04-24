@@ -914,7 +914,7 @@ $(document).ready(function(e){
 			'opacity': Math.min(1, x * 1.5)
 		});
 		csText.title.css({
-			'transform': 'translate3d(0,' + Math.min(offset * 1.5, 0) + 'px,0)',
+			'transform': 'translate3d(0,' + Math.min(offset * 1.33, 0) + 'px,0)',
 			'opacity': Math.min(1, x)
 		});
 		
