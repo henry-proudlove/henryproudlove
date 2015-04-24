@@ -193,6 +193,10 @@ article.project header.main{
 article.project header.main h1, 
 article.project header.main h2{
 	font-size: 1.6em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100%;
+	overflow: hidden;
 }
 
 article .text{
