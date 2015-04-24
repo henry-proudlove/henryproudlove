@@ -797,7 +797,7 @@ nav.site-links a, .contact article li {
 	z-index: inherit;
 	background-clip: content-box;
 }
-.menu-button a, .next-button, .slideshow-close a{
+.menu-button a, .slideshow-close a{
 	width: 100%;
 	height: 100%;
 }
@@ -1012,10 +1012,12 @@ nav.site-links a, .contact article li {
 {
 	width: 100%;
 	opacity: 0;
-	background: white !important;
 	top: 50%;
 	left: 50%;
 	@include transform(translate(-50%, -50%) rotate(0));
+}
+.menu-button a .close .bar{
+	background: white !important;
 }
 
 .menu-button a.active .close .bar{
