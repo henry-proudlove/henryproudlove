@@ -1001,8 +1001,9 @@ $(document).ready(function(e){
 					//acHead.header.removeClass('hide');
 					if (showHide){
 						acHead.header.addClass('show').removeClass('hide');
+						showHide = false;
 					}
-				}else{
+				}else if(!showHide){
 					showHide = true;
 					acHead.header.addClass('touchanim hide').removeClass('show');
 				}
