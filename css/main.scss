@@ -325,15 +325,6 @@ nav li{
 			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
 				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
 		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
-	//transition: all 0.67s cubic-bezier(0.645, 0.045, 0.355, 1);
-	/*transition: stroke 0.34s ease 0.34s,
-				fill 0.34s ease 0.34s,
-				opacity 0.34s ease 0,
-				padding-bottom 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
-				-webkit-transform 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
-					-ms-transform 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
-						transform 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
-				top 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0;*/
 }
 
 .menu-continer.active .menu-wrapper{
@@ -353,10 +344,9 @@ nav li{
 }
 
 .menu-wrapper.hide{
-//	@include transform(translateY(-70px));
-	-webkit-transform: translateY(-70px) !important;
-		-ms-transform: translateY(-70px) !important;
-			transform: translateY(-70px) !important;
+	-webkit-transform: translateY(-50px) !important;
+		-ms-transform: translateY(-50px) !important;
+			transform: translateY(-50px) !important;
 	opacity: 0;
 }
 
@@ -364,40 +354,6 @@ nav li{
 	@include transform(translateY(0));
 	transition-timing-function: ease-out;
 }
-//.menu-wrapper.hide{
-//	-webkit-animation-name: titlehideshow;
-//			animation-name: titlehideshow;
-//	-webkit-animation-duration: 0.34s;
-//			animation-duration: 0.34s;
-//	-webkit-animation-fill-mode: forwards;
-//			animation-fill-mode: forwards;
-//	-webkit-animation-direction: normal;
-//			animation-direction: normal;
-//	-webkit-animation-timing-function: ease-in;
-//			animation-timing-function: ease-in;
-//	-webkit-animation-play-state: running;
-//			animation-play-state: running;
-//
-//}
-//
-//.menu-wrapper.show{
-//	-webkit-animation-name: titlehideshow;
-//			animation-name: titlehideshow;
-//	-webkit-animation-duration: 0.34s;
-//			animation-duration: 0.34s;
-//	-webkit-animation-fill-mode: forwards;
-//			animation-fill-mode: forwards;
-//	-webkit-animation-direction: reverse;
-//			animation-direction: reverse;
-//	-webkit-animation-timing-function: ease-out;
-//			animation-timing-function: ease-out;
-//	-webkit-animation-play-state: running;
-//			animation-play-state: running;
-//}
-//.menu-wrapper.show{
-//	-webkit-animation-direction: reverse;
-//			animation-direction: reverse;
-//}
 
 @keyframes titlehideshow{
 	from{
