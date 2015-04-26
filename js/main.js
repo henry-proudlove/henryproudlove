@@ -24,7 +24,7 @@ $(document).ready(function(e){
 		if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
 			var inline  = '.header-inline';
 			var stacked = '.header-stacked';
-			var m = $(window).width() < 768;
+			var m = $(window).width() < 769;
 			// Load appropriate header based on screen widths
 			if (m && $(stacked).length < 1){
 				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
@@ -49,7 +49,7 @@ $(document).ready(function(e){
 	
 	function introAnim(svg){
 		$svg = $(svg);
-		var delayStart = 1;
+		var delayStart = 1.5;
 		var paths = $svg.find('.fill > path');
 		$svg.parent().css('opacity' , '1');
 		$svg.find('.mask').css({
@@ -68,8 +68,8 @@ $(document).ready(function(e){
 			$(this).attr('class' , 'animation');
 				//var $path = $(this);
 				var offset = Math.abs(1/2 - i/n);
-				var duration = 0.5 + (i/20);
-				var delay = i/50;
+				var duration = 1;
+				var delay = 0;
 				if(i==n){
 					totalDuration = duration + delay;
 				}
@@ -78,20 +78,17 @@ $(document).ready(function(e){
 				var animName = id + '-anim';
 				var animSeq = {
 					'0%': {
-						'stroke-opacity' : '0',
-						'stroke-width' : '2px',
+						'stroke-opacity' : '0.4',
+						'stroke-width' : '1px',
 						'stroke-dasharray' : l,
 					    'stroke-dashoffset': l,
 						'fill-opacity' : '0',
-						'transition' : 'none',
-						'-webkit-transition' : 'none'
 					},
-					'66.67%' : {
-						'stroke-opacity' : '0.66',
-						'stroke-width' : '2px',
+					'50%' : {
+						'stroke-opacity' : '0.4',
 						'stroke-dasharray' : l,
 					    'stroke-dashoffset': 0,
-						'fill-opacity' : '0'
+						'fill-opacity' : '0',
 					},
 					'100%' : {
 						'stroke-opacity' : '1',
@@ -105,7 +102,7 @@ $(document).ready(function(e){
 					'name' : animName,
 				    'duration': duration + 's',
 				    'delay': delay + 's',
-				    'timing-function': 'ease-in',
+				    'timing-function': 'ease-out',
 					'play-state' : 'paused',
 				    'fill-mode': 'backwards'
 				}

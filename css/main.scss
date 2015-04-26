@@ -1683,6 +1683,7 @@ section.cycle img{
 	section.cycle img{
 		height: 100%;
 		width: auto;
+		top: auto;
 		left: 50%;
 		@include transform(translateX(-50%));
 	}
@@ -1694,6 +1695,7 @@ section.cycle img{
 		width: 100%;
 		height: auto;
 		top: 50%;
+		left: auto;
 		@include transform(translateY(-50%));
 	}
 }
@@ -1703,6 +1705,7 @@ section.cycle img{
 		height: 100%;
 		width: auto;
 		left: 50%;
+		top: auto;
 		@include transform(translateX(-50%));
 	}
 }
@@ -1711,6 +1714,7 @@ section.cycle img{
 		width: 100%;
 		height: auto;
 		top: 50%;
+		left: auto;
 		@include transform(translateY(-50%));
 	}
 	
