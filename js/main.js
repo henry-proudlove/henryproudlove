@@ -1137,10 +1137,8 @@ $(document).ready(function(e){
 		// Scroll to the section scrollbar
 		scrollto = opts.currSlide * cyc.h;
 		window.scrollTo(0, scrollto);
-		
 		// Advance slides on scrolll
 		cycleScroll();
-		
 		//Switch to auto transition after timeout
 		cycleScrolledTimeout(opts);
 	}
@@ -1225,38 +1223,45 @@ $(document).ready(function(e){
 		}
 		//cycleInterval = setInterval(advanceSlide, 6000);
 		function advanceSlide(callBack){
+			// Tell the container that we're about to kick off a transition
 			$('#container').addClass('cycle-auto-transition');
-			//clearTimeout(cycleInterval);
-			$(next).find('figure').css('transform', 'translate3d(0,75%,0)').transition({
-				transform : 'translate3d(0,50%,0))' 
-			}, 667, 'easeInQuart');
-			//
-			$('.fade').css('opacity', 1).transition({
-				opacity : 0 
-			}, 667, 'easeInQuart');
-			//
-			$(curr).find('figure').css('transform' , 'translate3d(0,0,0)').transition({
-				transform : 'translate3d(0,-50%,0)'
-			}, 667, 'easeInQuart', function(){
+			// Flag that we're abut to move the slides and bring up the fade
+			//$(next).add(curr).find('figure').css('will-change', 'transform, -webkit-transform, -ms-transform');
+			//$('.fade').css('will-change', 'opacity');
+			//window.setTimeout(function(){
+				$(next).find('figure').css('transform', 'translate3d(0,75%,0)').transition({
+					transform : 'translate3d(0,50%,0))' 
+				}, 667, 'easeInQuart');
 				//
-				cyc.a = -1;
-				$cycle.cycle('goto', nextSec);
+				$('.fade').css('opacity', 1).transition({
+					opacity : 0 
+				}, 667, 'easeInQuart');
 				//
-				$(next).find('figure').css('transform' , 'translate3d(0,50%,0)').transition({
-					transform : 'translate3d(0,0,0))' 
-				}, 667, 'easeOutQuart');
-				//
-				$('.fade').css('opacity' , 0).transition({
-					opacity : 1 
-				}, 667, 'easeOutQuart');
-				//
-				$(curr).find('figure').css('transform' , 'translate3d(0,-50%,0)').transition({
-					transform : 'translate3d(0,-75%,0)' 
-				}, 667, 'easeOutQuart', function(){
-					$('#container').removeClass('cycle-auto-transition').trigger('cycle-auto-transition-end');
-					
+				$(curr).find('figure').css('transform' , 'translate3d(0,0,0)').transition({
+					transform : 'translate3d(0,-50%,0)'
+				}, 667, 'easeInQuart', function(){
+					//
+					cyc.a = -1;
+					$cycle.cycle('goto', nextSec);
+					//
+					$(next).find('figure').css('transform' , 'translate3d(0,50%,0)').transition({
+						transform : 'translate3d(0,0,0))' 
+					}, 667, 'easeOutQuart');
+					//
+					$('.fade').css('opacity' , 0).transition({
+						opacity : 1 
+					}, 667, 'easeOutQuart');
+					//
+					$(curr).find('figure').css('transform' , 'translate3d(0,-50%,0)').transition({
+						transform : 'translate3d(0,-75%,0)' 
+					}, 667, 'easeOutQuart', function(){
+						$('#container').removeClass('cycle-auto-transition').trigger('cycle-auto-transition-end');
+						// remove will change hint
+						$(curr).add(next).find('figure').add('.fade').removeAttr('style');
+						
+					});
 				});
-			});
+				//}, 10);
 			if(i < cycleSlides.length - 1){ i++; } else { i=0; }
 			callBack = callBack || noop;
 			callBack();
