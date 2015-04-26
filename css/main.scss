@@ -1544,7 +1544,7 @@ section.cycle{
 
 .home .cycle-scroll .site-title{
 	opacity: 0.167;
-	//transition: opacity 0.67s ease 0s;
+	transition: opacity 0.67s ease 0s;
 }
 
 .home .cycle-scroll.timeout .site-title{
@@ -1813,9 +1813,16 @@ span.cycle-pager-text {
 
 /* Pager */ 
 
-.cycle-pager{
-	@include allTrans(0.33s, ease-out);
-}
+//.cycle-pager{
+//	@include allTrans(0.33s, ease-out);
+//}
+//
+//.cycle-pager figcaption{
+//}
+//
+//.cycle-pager .indicator
+
+$cycleptrans: 0.33s ease-out;
 
 .cycle-pager .indicator{
 	position: absolute;
@@ -1826,7 +1833,9 @@ span.cycle-pager-text {
 	left: 2em;
 	top: 0;
 	display:block;
-	transition: inherit;
+	transition:	-webkit-transform $cycleptrans,
+					-ms-transform $cycleptrans,
+						transform $cycleptrans;
 }
 
 .cycle-pager figcaption{
@@ -1836,10 +1845,16 @@ span.cycle-pager-text {
 	box-sizing: border-box;
 	background: transparent;
 	pointer-events: none;
+	transition: height $cycleptrans;
+	
 } 
 
 .cycle-pager span{
 	display: inline-block;
+}
+
+.cycle-pager .cycle-pager-text{
+	transition: opacity $cycleptrans;
 }
 
 .cycle-pager h3, .cycle-pager h4{
