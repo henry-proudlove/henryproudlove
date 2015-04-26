@@ -1724,10 +1724,8 @@ section.cycle figcaption span{
 }
 
 section.cycle figcaption{
-	opacity: 0.33;
-	height: 0.25em;
-	margin-bottom: 0.5em;
-	transition: inherit;
+
+	//transition: inherit;
 }
 
 section.cycle figcaption.cycle-pager-active{
@@ -1822,7 +1820,7 @@ span.cycle-pager-text {
 //
 //.cycle-pager .indicator
 
-$cycleptrans: 0.33s ease-out;
+$cycleptrans: 0.33s ease;
 
 .cycle-pager .indicator{
 	position: absolute;
@@ -1832,7 +1830,7 @@ $cycleptrans: 0.33s ease-out;
 	@include transformOrigin(0, 0); 
 	left: 2em;
 	top: 0;
-	display:block;
+	display: block;
 	transition:	-webkit-transform $cycleptrans,
 					-ms-transform $cycleptrans,
 						transform $cycleptrans;
@@ -1845,7 +1843,11 @@ $cycleptrans: 0.33s ease-out;
 	box-sizing: border-box;
 	background: transparent;
 	pointer-events: none;
-	transition: height $cycleptrans;
+	opacity: 0.33;
+	height: 0.25em;
+	margin-bottom: 0.5em;
+	transition: height $cycleptrans,
+				opacity $cycleptrans;
 	
 } 
 
