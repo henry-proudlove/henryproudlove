@@ -967,6 +967,7 @@ $(document).ready(function(e){
 	
 	function csHeadAnimate(){
 		scrolled = $(this).scrollTop();
+		console.log(Modernizr);
     	csHeadAnim = requestAnimationFrame(csHeadAnimPlay);
     	csTextAnim = requestAnimationFrame(csTextAnimPlay);
 		$(window).on('scroll', function(e){
@@ -985,15 +986,29 @@ $(document).ready(function(e){
 		});
 	}
 	function acHeadAnimate(){
-		acHead.init();	
+		acHead.init();
+		var showHide = false;
 		$(window).on('scroll', function(e){
 			scrolled = $(this).scrollTop();
-			if(scrolled <= acHead.e && acHead.ok){
-		    	acHeadAnim = requestAnimationFrame(acHeadAnimPlay);
-			}else/* if(acHead.go && acHead.ok)*/{
-				acHeadAnim = requestAnimationFrame(acHeadAnimStop);
+			if(!Modernizr.touchevents){
+				if(scrolled <= acHead.e && acHead.ok){
+					acHeadAnim = requestAnimationFrame(acHeadAnimPlay);
+				}else/* if(acHead.go && acHead.ok)*/{
+					acHeadAnim = requestAnimationFrame(acHeadAnimStop);
+				}
+			}else{
+				if(scrolled == 0){
+					//acHead.header.removeClass('hide');
+					if (showHide){
+						acHead.header.addClass('show').removeClass('hide');
+					}
+				}else{
+					showHide = true;
+					acHead.header.addClass('touchanim hide').removeClass('show');
+				}
 			}
 		});
+		
 	}
 	function csHeadAnimateKill(callBack){
 		$(window).off('scroll scrollstart');
@@ -1004,6 +1019,7 @@ $(document).ready(function(e){
 	}
 	function acHeadAnimateKill(){
 		$(window).off('scroll');
+		acHead.header.removeClass('show hide touchanim');
 		acHeadAnim = null;
 		acHead = clone(acHeadObj);
 	}	

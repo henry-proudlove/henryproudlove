@@ -321,7 +321,9 @@ nav li{
 
 .menu-wrapper{
 	transition:
-		transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+		-webkit-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
 		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 	//transition: all 0.67s cubic-bezier(0.645, 0.045, 0.355, 1);
 	/*transition: stroke 0.34s ease 0.34s,
@@ -336,9 +338,88 @@ nav li{
 
 .menu-continer.active .menu-wrapper{
 	transition:
-		transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+		-webkit-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
 		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
-} 
+}
+
+.menu-wrapper.touchanim{
+	transition:
+		-webkit-transform 0.34s ease-in,
+			-ms-transform 0.34s ease-in,
+				transform 0.34s ease-in,
+		opacity 0.34s ease-in;
+}
+
+.menu-wrapper.hide{
+//	@include transform(translateY(-70px));
+	-webkit-transform: translateY(-70px) !important;
+		-ms-transform: translateY(-70px) !important;
+			transform: translateY(-70px) !important;
+	opacity: 0;
+}
+
+.menu-wrapper.show{
+	@include transform(translateY(0));
+	transition-timing-function: ease-out;
+}
+//.menu-wrapper.hide{
+//	-webkit-animation-name: titlehideshow;
+//			animation-name: titlehideshow;
+//	-webkit-animation-duration: 0.34s;
+//			animation-duration: 0.34s;
+//	-webkit-animation-fill-mode: forwards;
+//			animation-fill-mode: forwards;
+//	-webkit-animation-direction: normal;
+//			animation-direction: normal;
+//	-webkit-animation-timing-function: ease-in;
+//			animation-timing-function: ease-in;
+//	-webkit-animation-play-state: running;
+//			animation-play-state: running;
+//
+//}
+//
+//.menu-wrapper.show{
+//	-webkit-animation-name: titlehideshow;
+//			animation-name: titlehideshow;
+//	-webkit-animation-duration: 0.34s;
+//			animation-duration: 0.34s;
+//	-webkit-animation-fill-mode: forwards;
+//			animation-fill-mode: forwards;
+//	-webkit-animation-direction: reverse;
+//			animation-direction: reverse;
+//	-webkit-animation-timing-function: ease-out;
+//			animation-timing-function: ease-out;
+//	-webkit-animation-play-state: running;
+//			animation-play-state: running;
+//}
+//.menu-wrapper.show{
+//	-webkit-animation-direction: reverse;
+//			animation-direction: reverse;
+//}
+
+@keyframes titlehideshow{
+	from{
+		opacity: 1;
+		@include transform(translateY(0));
+	}
+	to{
+		opacity: 0;
+		@include transform(translateY(-70px));
+	}
+}
+
+@-webkit-keyframes titlehideshow{
+	from{
+		opacity: 1;
+		@include transform(translateY(0));
+	}
+	to{
+		opacity: 0;
+		@include transform(translateY(-70px));
+	}
+}
 
 .about .active:not(.transition) .menu-container:not(.active) .menu-wrapper,
 .contact #container.active:not(.transition) .menu-container:not(.active) .menu-wrapper{
