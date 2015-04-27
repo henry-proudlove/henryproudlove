@@ -819,12 +819,12 @@ $(document).ready(function(e){
 				this.header = $('article.project > header');
 				this.client = this.header.find('h1');
 				this.title  = this.header.find('h2');
-				//hello = this.title.add(this.client).add(this.img).addClass('changing-transform-opacity');
-				//console.log(hello);
 				this.d = this.img.height();
 				this.o = this.client.height();
 				this.e = this.img.height();
-				this.client.add($title).add(this.title).css('transform', 'translate3d(0, 0, 0)');
+				if(!Modernizr.touchevents){
+					this.client.add($title).add(this.title).css('transform', 'translate3d(0, 0, 0)');
+				}
 				this.img.css('background-color', '#222');
 				this.ok = true;
 			}
@@ -887,12 +887,14 @@ $(document).ready(function(e){
 				var d = Math.min($(document).height() - this.wh, $('section.text').offset().top);
 				this.e = d - this.s;			
 				this.ok = true;
-				style = {
-					'transform': 'translate3d(0,' + (this.o) + 'px,0)',
-					'opacity' : 0
+				if(!Modernizr.touchevents){
+					style = {
+						'transform': 'translate3d(0,' + (this.o) + 'px,0)',
+						'opacity' : 0
+					}
+					this.client.css(style);
+					this.title.css(style);
 				}
-				this.client.css(style);
-				this.title.css(style);
 			}
 		}
 	}
@@ -967,42 +969,57 @@ $(document).ready(function(e){
 	
 	function csHeadAnimate(){
 		scrolled = $(this).scrollTop();
-		console.log(Modernizr);
-    	csHeadAnim = requestAnimationFrame(csHeadAnimPlay);
-    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
-		$(window).on('scroll', function(e){
-			scrolled = $(this).scrollTop();
-			if(scrolled <= csHead.e){
-		    	csHeadAnim = requestAnimationFrame(csHeadAnimPlay);
-			}else if(csHead.go){
-				csHeadAnim = requestAnimationFrame(csHeadAnimStop);
-			}
-			if(scrolled > csText.s){
-				console.log(scrolled, csText.e);
-		    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
-			}else if(csText.go && csText.ok){
-				csTextAnim = requestAnimationFrame(csTextAnimStop);
-			}
-		});
+		if(!Modernizr.touchevents){
+	    	csHeadAnim = requestAnimationFrame(csHeadAnimPlay);
+	    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
+			$(window).on('scroll', function(e){
+				scrolled = $(this).scrollTop();
+				if(scrolled <= csHead.e){
+			    	csHeadAnim = requestAnimationFrame(csHeadAnimPlay);
+				}else if(csHead.go){
+					csHeadAnim = requestAnimationFrame(csHeadAnimStop);
+				}
+				if(scrolled > csText.s){
+					console.log(scrolled, csText.e);
+			    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
+				}else if(csText.go && csText.ok){
+					csTextAnim = requestAnimationFrame(csTextAnimStop);
+				}
+			});
+		}else{
+			csHead.init();
+			var showHide = false;
+			var pscroll = 0;
+			var header = csHead.client.add(csHead.title).add(csHead.img);
+			var imgh = csHead.img.height();
+			$(window).on('scroll', function(e){
+				scrolled = $(this).scrollTop();
+				console.log(scrolled);
+				showHide = scrolled - pscroll < 0 && scrolled < imgh ? true : false; 
+				if(scrolled > 100 && !showHide){
+					header.addClass('touchanim hide').removeClass('show');
+				}else if(showHide){
+					header.addClass('show').removeClass('hide');
+				}
+				pscroll = scrolled;
+			});
+		}
 	}
 	function acHeadAnimate(){
 		acHead.init();
-		var showHide = false;
+		var showHide = false;		
 		$(window).on('scroll', function(e){
 			scrolled = $(this).scrollTop();
 			if(!Modernizr.touchevents){
 				if(scrolled <= acHead.e && acHead.ok){
 					acHeadAnim = requestAnimationFrame(acHeadAnimPlay);
-				}else/* if(acHead.go && acHead.ok)*/{
+				}else{
 					acHeadAnim = requestAnimationFrame(acHeadAnimStop);
 				}
 			}else{
-				if(scrolled == 0){
-					//acHead.header.removeClass('hide');
-					if (showHide){
-						acHead.header.addClass('show').removeClass('hide');
-						showHide = false;
-					}
+				if(scrolled == 0 && showHide){
+					acHead.header.addClass('show').removeClass('hide');
+					showHide = false;
 				}else if(!showHide){
 					showHide = true;
 					acHead.header.addClass('touchanim hide').removeClass('show');
@@ -1163,14 +1180,14 @@ $(document).ready(function(e){
 		$(window).one('mousemove scrollstart', function(e){
 			idle = false;
 		});
-		cycleTimer = window.setTimeout(function(){
-			if(idle && !$('body').hasClass('menu')){
-				$('#container').addClass('timeout');
-				cycleClearScrollAuto(opts);
-			}else{
-				cycleScrolledTimeout(opts);
-			}
-		}, 3000);
+		// cycleTimer = window.setTimeout(function(){
+	// 		if(idle && !$('body').hasClass('menu')){
+	// 			$('#container').addClass('timeout');
+	// 			cycleClearScrollAuto(opts);
+	// 		}else{
+	// 			cycleScrolledTimeout(opts);
+	// 		}
+	// 	}, 3000);
 	}
 	
 	function cycleClearScrollAuto(opts, delay){
