@@ -1836,6 +1836,7 @@ section.cycle figcaption span.cycle-pager-text{
 span.cycle-pager-text {
   font-size: 0.8em;
   margin-top: 0em;
+  display: none !important;
 }
 
 //section.cycle:hover figcaption.cycle-pager-active span.cycle-pager-text{
@@ -1926,7 +1927,7 @@ $cycleptrans: 0.33s ease;
 .cycle-pager figcaption{
 	box-sizing: border-box;
 	width: auto;
-	height: auto;
+	//height: auto;
 }
 
 
@@ -2516,6 +2517,7 @@ img{
 	
 	span.cycle-pager-text {
 	  font-size: 1em;
+	  display: block !important;
 	}
 	
 	
