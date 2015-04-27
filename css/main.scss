@@ -1588,10 +1588,6 @@ section.cycle{
 	transition: opacity 1.67s ease 0s;
 }
 
-//.home:hover .cycle-active .site-title{
-//	transition: opacity 0.67s ease 0s;
-//}
-
 section.cycle:after{
 	content: ' ';
 	display: block;
@@ -1606,6 +1602,10 @@ section.cycle:after{
 		radial-gradient(ellipse at center, rgba(178, 182, 184, 0.25) 0%, rgba(178, 182, 184, 0.25) 100%),
 		radial-gradient(ellipse at center, rgba(69, 82, 91, 0) 0%, rgba(69, 82, 91, 0.33) 100%);
 	transition: opacity 0.67s ease 0s, z-index 0s linear 0.67s;
+}
+
+.cssfilters section.cycle:after{
+	background:	transparent;
 }
 
 .cycle-active section.cycle:after{
@@ -1757,19 +1757,19 @@ section.cycle img{
 	
 }
 
-section.cycle figcaption span{
+.cycle-pager figcaption span{
 	@include transform(none);
 	position: absolute;
 	top: 0;
 	width: 60%;
 }
 
-section.cycle figcaption{
+.cycle-pager figcaption{
 
 	//transition: inherit;
 }
 
-section.cycle figcaption.cycle-pager-active{
+.cycle-pager figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 0.8em;
 }
@@ -1806,11 +1806,11 @@ section.intro.cycle .fade {
 }
 
 
-section.cycle figcaption.cycle-pager-active .indicator{
+.cycle-pager figcaption.cycle-pager-active .indicator{
 	@include transform(scaleY(100%));
 }
 
-section.cycle figcaption span.cycle-pager-text{
+.cycle-pager figcaption span.cycle-pager-text{
 	opacity: 0;
 	transition: inherit;
 }
@@ -1828,12 +1828,12 @@ section.cycle figcaption span.cycle-pager-text{
 //	height: 1.34em;
 //}
 
-.cycle-scroll section.cycle figcaption.cycle-pager-active{
+.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 1.33em;
 }
 
-span.cycle-pager-text {
+.cycle-pager-text {
   font-size: 0.8em;
   margin-top: 0em;
   display: none !important;
@@ -1843,7 +1843,7 @@ span.cycle-pager-text {
 //	opacity: 1;
 //}
 
-.cycle-scroll section.cycle figcaption.cycle-pager-active span.cycle-pager-text{
+.cycle-scroll .cycle-pager figcaption.cycle-pager-active span.cycle-pager-text{
 	opacity: 1;
 }
 
@@ -1917,7 +1917,7 @@ $cycleptrans: 0.33s ease;
 
 .cycle-pager{
 	z-index: 200;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	margin: 2em 0;
@@ -2484,18 +2484,17 @@ img{
 
 	/* ---- cycle figcaption large version  ---- */
 
-	section.cycle figcaption{
+	.cycle-pager figcaption{
 		height: 0.34em;
 		margin-bottom: 0.67em;
 	}
 
-	section.cycle figcaption.cycle-pager-active{
+	.cycle-pager figcaption.cycle-pager-active{
 		height: 1em;
 	}
 	
 	.cycle-pager{
 		margin: 3em 0;
-		//text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.66);
 	}
 	
 	.cycle-pager .indicator{
@@ -2507,15 +2506,11 @@ img{
 		padding: 0 0 0 6.67em;
 	}
 	
-	//section.cycle:hover figcaption.cycle-pager-active{
-//		height: 2em;
-//	}
-	
-	.cycle-scroll section.cycle figcaption.cycle-pager-active{
+	.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
 		height: 2em;
 	}
 	
-	span.cycle-pager-text {
+	.cycle-pager-text {
 	  font-size: 1em;
 	  display: block !important;
 	}

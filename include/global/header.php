@@ -48,6 +48,17 @@
 			$body_data = false;
 		}
 	?>
+	<style>
+		.cssfilters .cycle-active section.cycle{
+			-webkit-filter: url(#grad);
+					filter: url(#grad);
+			
+		}
+		.cssfilters .cycle-active.cycle-scroll section.cycle{
+			-webkit-filter: none;
+					filter: none;
+		}
+	</style>
     <body class="<?php echo $body_class . '"';  
 		if($body_data){
 			echo 'data-uri-stem="' . $body_data . '"';
