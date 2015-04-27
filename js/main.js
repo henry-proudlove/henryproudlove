@@ -1180,14 +1180,14 @@ $(document).ready(function(e){
 		$(window).one('mousemove scrollstart', function(e){
 			idle = false;
 		});
-		// cycleTimer = window.setTimeout(function(){
-	// 		if(idle && !$('body').hasClass('menu')){
-	// 			$('#container').addClass('timeout');
-	// 			cycleClearScrollAuto(opts);
-	// 		}else{
-	// 			cycleScrolledTimeout(opts);
-	// 		}
-	// 	}, 3000);
+		cycleTimer = window.setTimeout(function(){
+			if(idle && !$('body').hasClass('menu')){
+				$('#container').addClass('timeout');
+				cycleClearScrollAuto(opts);
+			}else{
+				cycleScrolledTimeout(opts);
+			}
+		}, 3000);
 	}
 	
 	function cycleClearScrollAuto(opts, delay){
