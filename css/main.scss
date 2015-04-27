@@ -1565,27 +1565,6 @@ section.cycle{
 	background: transparent;
 }
 
-.cssfilters .cycle-active section.cycle,
-{
-	//-webkit-filter: url(#grad);
-//			filter: url(#grad);
-	-webkit-filter: grayscale(1);
-			filter: grayscale(1);
-	transition:
-		-webkit-filter 1.67s ease,
-				filter 1.67s ease;
-
-}
-
-.cssfilters .content,
-.cssfilters .cycle-active.cycle-scroll section.cycle{
-	-webkit-filter: none;
-			filter: none;
-	transition:
-		-webkit-filter 0.67s ease,
-				filter 0.67s ease;
-}
-
 .home .menu-container.active .site-title,
 .home #container.transition .site-title,
 .home #container:not(.active) .site-title{
@@ -1601,13 +1580,17 @@ section.cycle{
 }
 
 .home .cycle-scroll .site-title{
-	opacity: 0.5;
+	opacity: 0.167;
 	transition: opacity 0.67s ease 0s;
 }
 
 .home .cycle-scroll.timeout .site-title{
 	transition: opacity 1.67s ease 0s;
 }
+
+//.home:hover .cycle-active .site-title{
+//	transition: opacity 0.67s ease 0s;
+//}
 
 section.cycle:after{
 	content: ' ';
@@ -1623,12 +1606,6 @@ section.cycle:after{
 		radial-gradient(ellipse at center, rgba(178, 182, 184, 0.25) 0%, rgba(178, 182, 184, 0.25) 100%),
 		radial-gradient(ellipse at center, rgba(69, 82, 91, 0) 0%, rgba(69, 82, 91, 0.33) 100%);
 	transition: opacity 0.67s ease 0s, z-index 0s linear 0.67s;
-}
-
-.cssfilters .cycle-active section.cycle:after{
-	background:	transparent;
-	opacity: 0;
-	display: none;
 }
 
 .cycle-active section.cycle:after{
@@ -1780,19 +1757,19 @@ section.cycle img{
 	
 }
 
-.cycle-pager figcaption span{
+section.cycle figcaption span{
 	@include transform(none);
 	position: absolute;
 	top: 0;
 	width: 60%;
 }
 
-.cycle-pager figcaption{
+section.cycle figcaption{
 
 	//transition: inherit;
 }
 
-.cycle-pager figcaption.cycle-pager-active{
+section.cycle figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 0.8em;
 }
@@ -1829,11 +1806,11 @@ section.intro.cycle .fade {
 }
 
 
-.cycle-pager figcaption.cycle-pager-active .indicator{
+section.cycle figcaption.cycle-pager-active .indicator{
 	@include transform(scaleY(100%));
 }
 
-.cycle-pager figcaption span.cycle-pager-text{
+section.cycle figcaption span.cycle-pager-text{
 	opacity: 0;
 	transition: inherit;
 }
@@ -1851,12 +1828,12 @@ section.intro.cycle .fade {
 //	height: 1.34em;
 //}
 
-.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
+.cycle-scroll section.cycle figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 1.33em;
 }
 
-.cycle-pager-text {
+span.cycle-pager-text {
   font-size: 0.8em;
   margin-top: 0em;
   display: none !important;
@@ -1866,7 +1843,7 @@ section.intro.cycle .fade {
 //	opacity: 1;
 //}
 
-.cycle-scroll .cycle-pager figcaption.cycle-pager-active span.cycle-pager-text{
+.cycle-scroll section.cycle figcaption.cycle-pager-active span.cycle-pager-text{
 	opacity: 1;
 }
 
@@ -1940,7 +1917,7 @@ $cycleptrans: 0.33s ease;
 
 .cycle-pager{
 	z-index: 200;
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	width: 100%;
 	margin: 2em 0;
@@ -2507,17 +2484,18 @@ img{
 
 	/* ---- cycle figcaption large version  ---- */
 
-	.cycle-pager figcaption{
+	section.cycle figcaption{
 		height: 0.34em;
 		margin-bottom: 0.67em;
 	}
 
-	.cycle-pager figcaption.cycle-pager-active{
+	section.cycle figcaption.cycle-pager-active{
 		height: 1em;
 	}
 	
 	.cycle-pager{
 		margin: 3em 0;
+		//text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.66);
 	}
 	
 	.cycle-pager .indicator{
@@ -2529,11 +2507,15 @@ img{
 		padding: 0 0 0 6.67em;
 	}
 	
-	.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
+	//section.cycle:hover figcaption.cycle-pager-active{
+//		height: 2em;
+//	}
+	
+	.cycle-scroll section.cycle figcaption.cycle-pager-active{
 		height: 2em;
 	}
 	
-	.cycle-pager-text {
+	span.cycle-pager-text {
 	  font-size: 1em;
 	  display: block !important;
 	}

@@ -4,7 +4,7 @@
 ?>
 	<div class="content-wrapper">
 		<article class="content home" data-name="home">
-			<section class="intro cycle" data-cycle-pager=".cycle-pager">
+			<section class="intro cycle" data-cycle-easing="easeInOutExpo">
 				<?php
 					include_once(DIR_PROJECT . 'map.php');
 					$projects = get_the_projects($lead_map);
@@ -16,10 +16,10 @@
 							echo $prj->the_lead_image();
 						echo '</a>';
 					}
-				?>				
+				?>
+				<nav class="cycle-pager"></nav>
+				
 			</section><!-- .intro .cycle -->
-			<nav class="cycle-pager"></nav>
-			<!-- #grad filter -->		
 		</article><!-- .content .home -->
 	</div><!-- .content-wrapper -->
 	  
