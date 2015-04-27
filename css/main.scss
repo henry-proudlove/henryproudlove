@@ -47,8 +47,6 @@ $greytrans: rgba(34,34,34,0.96);
 	        transform: translate($left * -1, -50%) rotate(0deg);
 }
 
-
-
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
@@ -171,10 +169,6 @@ article h1, article h2{
 	font-weight: normal;
 }
 
-//.project.content header.main h2{
-//	display: none;
-//}
-
 article h1{
 	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
 	font-weight: normal;
@@ -197,6 +191,30 @@ article.project header.main h2{
 	text-overflow: ellipsis;
 	max-width: 100%;
 	overflow: hidden;
+}
+
+article.project header.main h1.touchanim,  
+article.project header.main h2.touchanim{
+	transition: all 0.34s ease;
+}
+
+article.project header.main h1.hide,  
+article.project header.main h2.hide{
+	opacity: 0;
+}
+
+article.project header.main h1.hide{  
+	@include transform(translateY(-60px));
+}
+
+article.project header.main h2.hide{
+	@include transform(translateY(-90px));
+}
+
+article.project header.main h1.show,  
+article.project header.main h2.show{
+	opacity: 1;
+	@include transform(translateY(0px));
 }
 
 article .text{
@@ -320,39 +338,27 @@ nav li{
 }
 
 .menu-wrapper{
-	transition:
-		-webkit-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+	transition: all 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 }
 
 .menu-continer.active .menu-wrapper{
-	transition:
-		-webkit-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+	transition: all 0.34s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 }
 
 .menu-wrapper.touchanim{
-	transition:
-		-webkit-transform 0.34s ease-in,
-			-ms-transform 0.34s ease-in,
-				transform 0.34s ease-in,
-		opacity 0.34s ease-in;
 }
 
 .menu-wrapper.hide{
 	-webkit-transform: translateY(-50px) !important;
 		-ms-transform: translateY(-50px) !important;
 			transform: translateY(-50px) !important;
+	
 	opacity: 0;
 }
 
 .menu-wrapper.show{
 	@include transform(translateY(0));
-	transition-timing-function: ease-out;
+	transition: all 0.67s ease-out;
 }
 
 @keyframes titlehideshow{
@@ -563,14 +569,6 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 .contact .site-title{
 	opacity: 1;
 }
-
-/*.home .cycle-active .site-title{
-	opacity: 1;
-}
-
-.home:hover .cycle-active .site-title{
-	opacity: 0.167s;
-}*/
 
 .site-title{
 	opacity: 0;
@@ -2073,6 +2071,28 @@ body {
 section.images > figure{
 	position: fixed;
     //@include transform(translate3d(0,0,0));
+}
+
+section.images > figure.touchanim,
+section.images > figure.touchanim .pad{
+	transition: all 0.67s ease;
+	background: #222;
+}
+
+section.images > figure.hide{
+	@include transform(translateY(-100px));
+}
+
+section.images > figure.hide .pad{
+	opacity: 0.25;
+}
+
+section.images > figure.show{
+	@include transform(translateY(0));
+}
+
+section.image > figure.show .pad{
+	opacity: 1;
 }
 
 section.images > figure figcaption{
