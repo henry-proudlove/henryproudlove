@@ -1565,6 +1565,27 @@ section.cycle{
 	background: transparent;
 }
 
+.cssfilters .cycle-active section.cycle,
+{
+	//-webkit-filter: url(#grad);
+//			filter: url(#grad);
+	-webkit-filter: grayscale(1);
+			filter: grayscale(1);
+	transition:
+		-webkit-filter 1.67s ease,
+				filter 1.67s ease;
+
+}
+
+.cssfilters .content,
+.cssfilters .cycle-active.cycle-scroll section.cycle{
+	-webkit-filter: none;
+			filter: none;
+	transition:
+		-webkit-filter 0.67s ease,
+				filter 0.67s ease;
+}
+
 .home .menu-container.active .site-title,
 .home #container.transition .site-title,
 .home #container:not(.active) .site-title{
@@ -1580,7 +1601,7 @@ section.cycle{
 }
 
 .home .cycle-scroll .site-title{
-	opacity: 0.167;
+	opacity: 0.5;
 	transition: opacity 0.67s ease 0s;
 }
 
@@ -1604,8 +1625,10 @@ section.cycle:after{
 	transition: opacity 0.67s ease 0s, z-index 0s linear 0.67s;
 }
 
-.cssfilters section.cycle:after{
+.cssfilters .cycle-active section.cycle:after{
 	background:	transparent;
+	opacity: 0;
+	display: none;
 }
 
 .cycle-active section.cycle:after{

@@ -48,13 +48,14 @@
 			$body_data = false;
 		}
 	?>
-	<style>
-		.cssfilters .cycle-active section.cycle{
+	<style type="text/css">
+		.cssfilters.no-touchevents .cycle-active section.cycle,
+		.cssfilters.no-touchevents .idle .content{
 			-webkit-filter: url(#grad);
 					filter: url(#grad);
-			
 		}
-		.cssfilters .cycle-active.cycle-scroll section.cycle{
+		.cssfilters.no-touchevents .cycle-active.cycle-scroll section.cycle,
+		.cssfilters .content{
 			-webkit-filter: none;
 					filter: none;
 		}
