@@ -157,6 +157,11 @@ body {
 
 #container {
 	position: relative;
+	pointer-events: none;
+}
+
+#container.active{
+	pointer-events: auto;
 }
 
 /* === ARTICLE TEXT === */
@@ -511,7 +516,7 @@ header.main-header{
 	transition:
 		opacity 0.167s cubic-bezier(0.165, 0.840, 0.440, 1.000) 0.33s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
-		fill-opacity 0.67s ease,
+		fill-opacity 0.67s ease;
 }
 
 .home .menu-container.active .site-title{
@@ -1564,6 +1569,28 @@ section.cycle{
 	position: fixed;
 }
 
+#cycle-scroll-holder{
+	z-index: 1;
+	opacity: 0;
+	transition: none;
+}
+
+.cycle-active #cycle-scroll-holder{
+	transition: opacity 1.67s ease
+}
+
+.cycle-scroll #cycle-scroll-holder{
+	opacity: 1;
+}
+
+.cycle-active.cycle-scroll #cycle-scroll-holder{
+	transition: opacity 0.67s ease;
+}
+
+#cycle-auto-holder{
+	z-index: 0;
+}
+
 //.cssfilters .cycle-active section.cycle,
 //{
 //	-webkit-filter: grayscale(1);
@@ -1590,7 +1617,7 @@ section.cycle{
 	transition: opacity 1.67s ease 0s;
 }
 
-.home .cycle-scroll .site-title{
+.home .cycle-active.cycle-scroll .site-title{
 	opacity: 0.5;
 	transition: opacity 0.67s ease 0s;
 }
@@ -1771,14 +1798,18 @@ section.cycle img{
 
 .cycle-pager figcaption span{
 	@include transform(none);
-	position: absolute;
+	//position: absolute;
 	top: 0;
-	width: 60%;
+//	width: 60%;
 }
 
 .cycle-pager figcaption{
 
 	//transition: inherit;
+}
+
+#container:not(.cycle-active) .cycle-pager *{
+	transition: none;
 }
 
 .cycle-pager figcaption.cycle-pager-active{
@@ -1832,7 +1863,7 @@ section.intro.cycle .fade {
 //}
 
 .cycle-scroll .cycle-pager{
-	@include allTrans(0.167s, ease-out);
+	@include allTrans(0.34s, ease-out);
 }
 
 //section.cycle:hover figcaption.cycle-pager-active{
@@ -1931,7 +1962,7 @@ $cycleptrans: 0.33s ease;
 	z-index: 200;
 	position: fixed;
 	bottom: 0;
-	width: 100%;
+	//width: 100%;
 	margin: 2em 0;
 	//text-shadow: 0px 0px 1px rgba(0,0,0,0.88);
 }
