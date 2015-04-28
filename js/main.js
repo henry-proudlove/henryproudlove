@@ -208,6 +208,7 @@ $(document).ready(function(e){
 		},
 		exit : function(callBack){
 			window.clearTimeout(cycleTimer);
+			window.clearTimeout(idleTimer);
 			cycleTimer = null;
 			$('.menu-wrapper').removeAttr('style');
 			var id = this.sectionID;
@@ -243,6 +244,7 @@ $(document).ready(function(e){
 			}
 			$(window).trigger('debouncedresize');
 			backBtn.up();
+			idleTimeout();
 		}
 	}
 	/* 
@@ -1329,24 +1331,62 @@ $(document).ready(function(e){
 	
 	/* 
 	==============================================
-	Filters
+	Filters on Page idle
 	============================================== */
 
-	function createFilter(){
-		var string = "<style type='text/css'>\n\t";
-		var trans = Modernizr.prefixed('transform');
-		if(trans == 'WebkitTransform'){
-			string += ".filter{\n\t\tfilter: grayscale(1);\n\t\t-webkit-filter: grayscale(1);\n\t}\n\t";
-			string += "#cycle-auto-holder:after{\n\t\tdisplay:block;\n\t}"
-		}else{
-			string += "\t\tfilter: url('#grad');\n\t\t-webkit-filter: url('#grad');\n\t}";
-			console.log('fuck');
+	// Append filter stylet to head
+	var string = "<style type='text/css'>\n\t";
+	var trans = Modernizr.prefixed('transform');
+	if(trans == 'WebkitTransform'){
+		string += ".filter{\n\t\tfilter: grayscale(1);\n\t\t-webkit-filter: grayscale(1);\n\t}\n\t";
+		string += "#cycle-auto-holder:after{\n\t\tdisplay:block;\n\t}"
+	}else{
+		string += ".filter{\t\tfilter: url('#grad');\n\t\t-webkit-filter: url('#grad');\n\t}";
+		console.log('fuck');
+	}
+	string += "\n</style>";
+	$('head').append(string);
+	
+	var idleTimer;
+	// After a period of inactivty turn the page red
+	function idleTimeout(){
+		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
+			console.log('poooooo pooooooo');
+			var idle = true;
+			$(window).on('mousemove scrollstart', function(e){
+				$(window).off('mousemove scrollstart');
+				idle = false;
+			});
+			idleTimer = window.setTimeout(function(){
+				if(idle && $('body.slideshow').length < 1){
+					applyFilter();
+				}else{
+					idleTimeout();
+				}
+			}, 6666);
 		}
-		string += "\n</style>";
-		$('head').append(string);
 	}
 	
-	createFilter();
+	function applyFilter(){
+		window.clearTimeout(idleTimer);
+		var $container = $('#container');
+		var $filtered = $container.clone().addClass('filtered');
+		$filtered.find('.content-wrapper').add($filtered.find('.main-header nav')).addClass('filter');
+		if($container.length < 2){
+			$filtered.insertAfter($container);
+			console.log($filtered);
+			$container.addClass('unfiltered fade');
+			$(window).one('mousemove scroll', function(e){
+				$(window).off('mousemove scrollstart');
+				console.log('\'m removing the filtered #container');
+				$container.removeClass('fade').one(transitionEnd, function(){
+					$(this).removeClass('unfiltered');
+					$('.filtered').remove();
+					idleTimeout();
+				});
+			});
+		}
+	}	
 	
 	/* 
 	==============================================

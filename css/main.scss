@@ -164,6 +164,43 @@ body {
 	pointer-events: auto;
 }
 
+#container.unfiltered{
+	opacity: 1;
+	z-index: 2;
+	transition: opacity 0.67s ease;
+}
+
+#container.unfiltered.fade{
+	opacity: 0;
+	z-index: 2;
+	transition: opacity 1.67ss ease;
+}
+
+#container.filtered{
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+#container.filtered .menu-container .site-title{
+	opacity: 1 !important;
+	//transition: opacity 1s ease 2s;
+}
+
+#container.filtered .header-svg{
+	fill: white !important;
+	stroke: white !important;
+}
+
+#container.filtered .site-title *{
+	-webkit-animation: none 0 !important;
+			animation: none 0 !important;
+}
+
+
 /* === ARTICLE TEXT === */
 
 article h1, article h2{
@@ -1576,7 +1613,7 @@ section.cycle{
 }
 
 .cycle-active #cycle-scroll-holder{
-	transition: opacity 1.67s ease
+	transition: opacity 1s ease
 }
 
 .cycle-scroll #cycle-scroll-holder{
@@ -1614,7 +1651,7 @@ section.cycle{
 }
 
 .home .cycle-active .site-title{
-	transition: opacity 1.67s ease 0s;
+	transition: opacity 1s ease 0s;
 }
 
 .home .cycle-active.cycle-scroll .site-title{
@@ -1623,7 +1660,7 @@ section.cycle{
 }
 
 .home .cycle-scroll.timeout .site-title{
-	transition: opacity 1.67s ease 0s;
+	transition: opacity 1s ease 0s;
 }
 
 section.cycle:after{
@@ -1649,7 +1686,7 @@ section.cycle:after{
 .cycle-active section.cycle:after{
 	z-index: 199;
 	opacity: 1;
-	transition: opacity 1.67s ease 0s, z-index 0s linear 0s;
+	transition: opacity 1s ease 0s, z-index 0s linear 0s;
 }
 
 .cycle-active.cycle-scroll section.cycle:after{
@@ -1660,7 +1697,7 @@ section.cycle:after{
 
 
 .cycle-scroll.timeout section.cycle:after{
-	transition: opacity 1.67s ease 0s, z-index 0s linear 0s;
+	transition: opacity 1s ease 0s, z-index 0s linear 0s;
 }
 
 section.cycle.cycle.active{
