@@ -47,8 +47,6 @@ $greytrans: rgba(34,34,34,0.96);
 	        transform: translate($left * -1, -50%) rotate(0deg);
 }
 
-
-
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
@@ -171,10 +169,6 @@ article h1, article h2{
 	font-weight: normal;
 }
 
-//.project.content header.main h2{
-//	display: none;
-//}
-
 article h1{
 	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
 	font-weight: normal;
@@ -197,6 +191,30 @@ article.project header.main h2{
 	text-overflow: ellipsis;
 	max-width: 100%;
 	overflow: hidden;
+}
+
+article.project header.main h1.touchanim,  
+article.project header.main h2.touchanim{
+	transition: all 0.34s ease;
+}
+
+article.project header.main h1.hide,  
+article.project header.main h2.hide{
+	opacity: 0;
+}
+
+article.project header.main h1.hide{  
+	@include transform(translateY(-60px));
+}
+
+article.project header.main h2.hide{
+	@include transform(translateY(-90px));
+}
+
+article.project header.main h1.show,  
+article.project header.main h2.show{
+	opacity: 1;
+	@include transform(translateY(0px));
 }
 
 article .text{
@@ -320,39 +338,27 @@ nav li{
 }
 
 .menu-wrapper{
-	transition:
-		-webkit-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+	transition: all 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 }
 
 .menu-continer.active .menu-wrapper{
-	transition:
-		-webkit-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-			-ms-transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-				transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
-		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+	transition: all 0.34s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 }
 
 .menu-wrapper.touchanim{
-	transition:
-		-webkit-transform 0.34s ease-in,
-			-ms-transform 0.34s ease-in,
-				transform 0.34s ease-in,
-		opacity 0.34s ease-in;
 }
 
 .menu-wrapper.hide{
 	-webkit-transform: translateY(-50px) !important;
 		-ms-transform: translateY(-50px) !important;
 			transform: translateY(-50px) !important;
+	
 	opacity: 0;
 }
 
 .menu-wrapper.show{
 	@include transform(translateY(0));
-	transition-timing-function: ease-out;
+	transition: all 0.67s ease-out;
 }
 
 @keyframes titlehideshow{
@@ -563,14 +569,6 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 .contact .site-title{
 	opacity: 1;
 }
-
-/*.home .cycle-active .site-title{
-	opacity: 1;
-}
-
-.home:hover .cycle-active .site-title{
-	opacity: 0.167s;
-}*/
 
 .site-title{
 	opacity: 0;
@@ -1563,7 +1561,20 @@ section.cycle{
 	overflow: hidden;
 	background-color: #818181;
 	background: transparent;
+	position: fixed;
 }
+
+//.cssfilters .cycle-active section.cycle,
+//{
+//	-webkit-filter: grayscale(1);
+//			filter: grayscale(1);
+//}
+
+//.cssfilters .content,
+//.cssfilters .cycle-active.cycle-scroll section.cycle{
+//	-webkit-filter: none;
+//			filter: none;
+//}
 
 .home .menu-container.active .site-title,
 .home #container.transition .site-title,
@@ -1580,17 +1591,13 @@ section.cycle{
 }
 
 .home .cycle-scroll .site-title{
-	opacity: 0.167;
+	opacity: 0.5;
 	transition: opacity 0.67s ease 0s;
 }
 
 .home .cycle-scroll.timeout .site-title{
 	transition: opacity 1.67s ease 0s;
 }
-
-//.home:hover .cycle-active .site-title{
-//	transition: opacity 0.67s ease 0s;
-//}
 
 section.cycle:after{
 	content: ' ';
@@ -1606,6 +1613,10 @@ section.cycle:after{
 		radial-gradient(ellipse at center, rgba(178, 182, 184, 0.25) 0%, rgba(178, 182, 184, 0.25) 100%),
 		radial-gradient(ellipse at center, rgba(69, 82, 91, 0) 0%, rgba(69, 82, 91, 0.33) 100%);
 	transition: opacity 0.67s ease 0s, z-index 0s linear 0.67s;
+}
+
+.cssfilters section.cycle:after{
+	display: none;
 }
 
 .cycle-active section.cycle:after{
@@ -1632,6 +1643,7 @@ section.cycle.cycle.active{
 
 section.cycle.too-fast{
 	opacity: 0;
+	transition: opacity 1.33s ease;
 	@include transDelay(1.33s);
 }
 
@@ -1757,19 +1769,19 @@ section.cycle img{
 	
 }
 
-section.cycle figcaption span{
+.cycle-pager figcaption span{
 	@include transform(none);
 	position: absolute;
 	top: 0;
 	width: 60%;
 }
 
-section.cycle figcaption{
+.cycle-pager figcaption{
 
 	//transition: inherit;
 }
 
-section.cycle figcaption.cycle-pager-active{
+.cycle-pager figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 0.8em;
 }
@@ -1806,11 +1818,11 @@ section.intro.cycle .fade {
 }
 
 
-section.cycle figcaption.cycle-pager-active .indicator{
+.cycle-pager figcaption.cycle-pager-active .indicator{
 	@include transform(scaleY(100%));
 }
 
-section.cycle figcaption span.cycle-pager-text{
+.cycle-pager figcaption span.cycle-pager-text{
 	opacity: 0;
 	transition: inherit;
 }
@@ -1828,12 +1840,12 @@ section.cycle figcaption span.cycle-pager-text{
 //	height: 1.34em;
 //}
 
-.cycle-scroll section.cycle figcaption.cycle-pager-active{
+.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 1.33em;
 }
 
-span.cycle-pager-text {
+.cycle-pager-text {
   font-size: 0.8em;
   margin-top: 0em;
   display: none !important;
@@ -1843,7 +1855,7 @@ span.cycle-pager-text {
 //	opacity: 1;
 //}
 
-.cycle-scroll section.cycle figcaption.cycle-pager-active span.cycle-pager-text{
+.cycle-scroll .cycle-pager figcaption.cycle-pager-active span.cycle-pager-text{
 	opacity: 1;
 }
 
@@ -1917,7 +1929,7 @@ $cycleptrans: 0.33s ease;
 
 .cycle-pager{
 	z-index: 200;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	margin: 2em 0;
@@ -2073,6 +2085,28 @@ body {
 section.images > figure{
 	position: fixed;
     //@include transform(translate3d(0,0,0));
+}
+
+section.images > figure.touchanim,
+section.images > figure.touchanim .pad{
+	transition: all 0.67s ease;
+	background: #222;
+}
+
+section.images > figure.hide{
+	@include transform(translateY(-100px));
+}
+
+section.images > figure.hide .pad{
+	opacity: 0.25;
+}
+
+section.images > figure.show{
+	@include transform(translateY(0));
+}
+
+section.image > figure.show .pad{
+	opacity: 1;
 }
 
 section.images > figure figcaption{
@@ -2484,18 +2518,17 @@ img{
 
 	/* ---- cycle figcaption large version  ---- */
 
-	section.cycle figcaption{
+	.cycle-pager figcaption{
 		height: 0.34em;
 		margin-bottom: 0.67em;
 	}
 
-	section.cycle figcaption.cycle-pager-active{
+	.cycle-pager figcaption.cycle-pager-active{
 		height: 1em;
 	}
 	
 	.cycle-pager{
 		margin: 3em 0;
-		//text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.66);
 	}
 	
 	.cycle-pager .indicator{
@@ -2507,15 +2540,11 @@ img{
 		padding: 0 0 0 6.67em;
 	}
 	
-	//section.cycle:hover figcaption.cycle-pager-active{
-//		height: 2em;
-//	}
-	
-	.cycle-scroll section.cycle figcaption.cycle-pager-active{
+	.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
 		height: 2em;
 	}
 	
-	span.cycle-pager-text {
+	.cycle-pager-text {
 	  font-size: 1em;
 	  display: block !important;
 	}
