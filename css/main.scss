@@ -1561,28 +1561,20 @@ section.cycle{
 	overflow: hidden;
 	background-color: #818181;
 	background: transparent;
+	position: fixed;
 }
 
-.cssfilters .cycle-active section.cycle,
-{
-	//-webkit-filter: url(#grad);
-//			filter: url(#grad);
-	-webkit-filter: grayscale(1);
-			filter: grayscale(1);
-	transition:
-		-webkit-filter 1.67s ease,
-				filter 1.67s ease;
+//.cssfilters .cycle-active section.cycle,
+//{
+//	-webkit-filter: grayscale(1);
+//			filter: grayscale(1);
+//}
 
-}
-
-.cssfilters .content,
-.cssfilters .cycle-active.cycle-scroll section.cycle{
-	-webkit-filter: none;
-			filter: none;
-	transition:
-		-webkit-filter 0.67s ease,
-				filter 0.67s ease;
-}
+//.cssfilters .content,
+//.cssfilters .cycle-active.cycle-scroll section.cycle{
+//	-webkit-filter: none;
+//			filter: none;
+//}
 
 .home .menu-container.active .site-title,
 .home #container.transition .site-title,
@@ -1623,9 +1615,7 @@ section.cycle:after{
 	transition: opacity 0.67s ease 0s, z-index 0s linear 0.67s;
 }
 
-.cssfilters .cycle-active section.cycle:after{
-	background:	transparent;
-	opacity: 0;
+.cssfilters section.cycle:after{
 	display: none;
 }
 
@@ -1653,6 +1643,7 @@ section.cycle.cycle.active{
 
 section.cycle.too-fast{
 	opacity: 0;
+	transition: opacity 1.33s ease;
 	@include transDelay(1.33s);
 }
 
