@@ -1333,14 +1333,16 @@ $(document).ready(function(e){
 	============================================== */
 
 	function createFilter(){
-		var string = "<style type='text/css'>\n\t.filter{\n";
+		var string = "<style type='text/css'>\n\t";
 		var trans = Modernizr.prefixed('transform');
 		if(trans == 'WebkitTransform'){
-			string += "\t\tfilter: grayscale(1);\n\t\t-webkit-filter: grayscale(1);\n\t}\n</style>";
+			string += ".filter{\n\t\tfilter: grayscale(1);\n\t\t-webkit-filter: grayscale(1);\n\t}\n\t";
+			string += "#cycle-auto-holder:after{\n\t\tdisplay:block;\n\t}"
 		}else{
-			string += "\t\tfilter: url('#grad');\n\t\t-webkit-filter: url('#grad');\n\t}\n</style>";
+			string += "\t\tfilter: url('#grad');\n\t\t-webkit-filter: url('#grad');\n\t}";
 			console.log('fuck');
 		}
+		string += "\n</style>";
 		$('head').append(string);
 	}
 	
