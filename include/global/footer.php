@@ -1,5 +1,15 @@
 <div class="loader stop"></div>
-</div><!--.container-->        
+</div><!--.container-->
+			<svg width="0" height="0">
+			    <filter id="grad">
+			        <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0 0.2126 0.7152 0.0722 0 0 0.2126 0.7152 0.0722 0 0 0 0 0 1 0"></feColorMatrix>
+			      <feComponentTransfer>
+			        <feFuncR id="funcR" type="table" tableValues="0.0784313725490196 0.7803921568627451"></feFuncR>
+			        <feFuncG id="funcG" type="table" tableValues="0.07450980392156863 0.11764705882352941"></feFuncG>
+			        <feFuncB id="funcB" type="table" tableValues="0.10588235294117647 0.08235294117647059"></feFuncB>
+			      </feComponentTransfer>
+			  </filter>
+			</svg>
 <!--[if lt IE 9]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
