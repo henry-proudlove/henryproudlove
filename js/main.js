@@ -496,7 +496,7 @@ $(document).ready(function(e){
 		var slideshowID = $('article.content').data('name') + '-slideshow';
 		// Waits for a video to appear in the vid object tells it to play/stop given certain conditions
 		function videoController(slide, cmd){
-			console.log(slide);
+			//console.log(slide);
 			var vpfx = 'slide-video-';
 			var x = (cmd == 'play' ? true : false);
 			thisVideo = $(slide).attr('id').substr(vpfx.length);
@@ -859,14 +859,14 @@ $(document).ready(function(e){
 			csHead.client.css({
 				'transform': 'translate3d(0,' + (csHead.o * -1) + 'px,0)',
 				'opacity': 0
-			});//.removeClass('changing-transform-opacity');
+			});
 			csHead.title.css({
 				'transform': 'translate3d(0,' + (csHead.o * -1) * 1.5 + 'px,0)',
 				'opacity': 0
-			});//.removeClass('changing-transform-opacity');
+			});
 			csHead.img.css({
 				'transform': 'translate3d(0, -100px, 0)'
-			});//.removeClass('changing-transform-opacity');
+			});
 			csHead.img.find('.pad').css('opacity', 0.25 );
 	     	cancelAnimationFrame(csHeadAnim);
 			$('section.images .grid').addClass('hover-fade');
@@ -901,9 +901,6 @@ $(document).ready(function(e){
 	var csText = clone(csTextObj);
 	
 	function csTextAnimPlay(){
-		// if(!csText.go){
-// 			$('section.images .grid').removeClass('hover-fade');
-// 		}
 		csText.go = true;
 		var x = (scrolled - csText.s) / csText.e;
 		var offset = (csText.o * -1) + (csText.o * x);
@@ -936,7 +933,6 @@ $(document).ready(function(e){
 	$(window).on('debouncedresize', function(e){
 		acHead.init();
 		csHead.init();
-		//console.log(csHead);
 		csText.init();
 	});
 	
@@ -950,11 +946,9 @@ $(document).ready(function(e){
 		$('.menu-wrapper').children().on(transitionEnd, function(e){
 			e.stopPropagation();
 		}).parent().on(transitionEnd, function(e){
-			//console.log(e);
+			console.log(e);
 			var prop = e.originalEvent.propertyName;
 			if(prop == 'transform' || prop == '-webkit-transform' || prop == '-ms-transform'){
-				//console.log('gogogogogogog');
-				//scrollAnimate();
 				acHeadAnimate();
 				$(this).off(transitionEnd);
 			}
@@ -980,7 +974,7 @@ $(document).ready(function(e){
 					csHeadAnim = requestAnimationFrame(csHeadAnimStop);
 				}
 				if(scrolled > csText.s){
-					console.log(scrolled, csText.e);
+					//console.log(scrolled, csText.e);
 			    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
 				}else if(csText.go && csText.ok){
 					csTextAnim = requestAnimationFrame(csTextAnimStop);
@@ -989,19 +983,21 @@ $(document).ready(function(e){
 		}else{
 			csHead.init();
 			var showHide = false;
-			var pscroll = 0;
+			//var pShowHide = false;
+			//var pscroll = 0;
 			var header = csHead.client.add(csHead.title).add(csHead.img);
 			var imgh = csHead.img.height();
 			$(window).on('scroll', function(e){
 				scrolled = $(this).scrollTop();
-				console.log(scrolled);
-				showHide = scrolled - pscroll < 0 && scrolled < imgh ? true : false; 
-				if(scrolled > 100 && !showHide){
-					header.addClass('touchanim hide').removeClass('show');
-				}else if(showHide){
-					header.addClass('show').removeClass('hide');
-				}
-				pscroll = scrolled;
+					if(scrolled > imgh/2 && !showHide){
+						console.log('hide');
+						header.addClass('touchanim hide').removeClass('show');
+						showHide = true;
+					}else if(scrolled <= imgh/2 && showHide){
+						console.log('show');
+						header.addClass('show').removeClass('hide');
+						showHide = false;
+					}
 			});
 		}
 	}
@@ -1010,20 +1006,10 @@ $(document).ready(function(e){
 		var showHide = false;		
 		$(window).on('scroll', function(e){
 			scrolled = $(this).scrollTop();
-			if(!Modernizr.touchevents){
-				if(scrolled <= acHead.e && acHead.ok){
-					acHeadAnim = requestAnimationFrame(acHeadAnimPlay);
-				}else{
-					acHeadAnim = requestAnimationFrame(acHeadAnimStop);
-				}
+			if(scrolled > 0 && scrolled <= acHead.e && acHead.ok){
+				acHeadAnim = requestAnimationFrame(acHeadAnimPlay);
 			}else{
-				if(scrolled == 0 && showHide){
-					acHead.header.addClass('show').removeClass('hide');
-					showHide = false;
-				}else if(!showHide){
-					showHide = true;
-					acHead.header.addClass('touchanim hide').removeClass('show');
-				}
+				acHeadAnim = requestAnimationFrame(acHeadAnimStop);
 			}
 		});
 		
@@ -1037,7 +1023,7 @@ $(document).ready(function(e){
 	}
 	function acHeadAnimateKill(){
 		$(window).off('scroll');
-		acHead.header.removeClass('show hide touchanim');
+		//acHead.header.removeClass('show hide touchanim');
 		acHeadAnim = null;
 		acHead = clone(acHeadObj);
 	}	
