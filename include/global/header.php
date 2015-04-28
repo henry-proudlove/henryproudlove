@@ -49,19 +49,16 @@
 		}
 	?>
 	<style type="text/css">
-		/*.cssfilters section.cycle{
-			/*-webkit-transform: translate3d(0,0,0);*/
-		}
-		/*.cssfilters .cycle-active section.cycle,
-		.cssfilters .idle .content{
+		.cssfilters.no-touchevents .cycle-active section.cycle,
+		.cssfilters.no-touchevents .idle .content{
 			-webkit-filter: url(#grad);
 					filter: url(#grad);
-		}*/
-		/*.cssfilters .cycle-active.cycle-scroll section.cycle,
+		}
+		.cssfilters.no-touchevents .cycle-active.cycle-scroll section.cycle,
 		.cssfilters .content{
 			-webkit-filter: none;
 					filter: none;
-		}*/
+		}
 	</style>
     <body class="<?php echo $body_class . '"';  
 		if($body_data){
