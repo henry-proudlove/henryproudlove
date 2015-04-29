@@ -32,7 +32,19 @@
 		<?php include(DIR_MARKUP . 'fonts.php');?>
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/normalize.css'; ?>">
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/main.css'; ?>">
-        <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/dynamic.php'; ?>">
+		<?php
+			// Dynamic css
+			$projects = get_the_projects();
+			echo '<style type="text/css" id="case-study-styles">' . PHP_EOL;
+				echo '/* Casestudy specific */' . PHP_EOL;
+				project_classes($projects);
+				echo '/* spinners */' . PHP_EOL;
+				buildSpinner($projects);
+				unset($projects);
+				echo '/* cursors */' . PHP_EOL;
+				cursor_classes();
+			echo '</style>' . PHP_EOL;
+		?>
         <script src="<?php echo $page->rel_depth() . 'js/vendor/modernizr.js'; ?>"></script>
 		<script src="<?php echo $page->rel_depth() . 'js/vendor/picturefill.min.js'?>" async></script>
 		<!-- include fonts --> 
@@ -46,21 +58,6 @@
 			$body_data = false;
 		}
 	?>
-	<style type="text/css">
-		/*.cssfilters section.cycle{
-			/*-webkit-transform: translate3d(0,0,0);*/
-		}
-		/*.cssfilters .cycle-active section.cycle,
-		.cssfilters .idle .content{
-			-webkit-filter: url(#grad);
-					filter: url(#grad);
-		}*/
-		/*.cssfilters .cycle-active.cycle-scroll section.cycle,
-		.cssfilters .content{
-			-webkit-filter: none;
-					filter: none;
-		}*/
-	</style>
     <body class="<?php echo $body_class . '"';  
 		if($body_data){
 			echo 'data-uri-stem="' . $body_data . '"';
