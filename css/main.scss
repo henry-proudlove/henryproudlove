@@ -1972,6 +1972,10 @@ $cycleptrans: 0.33s ease;
 	transition: opacity $cycleptrans;
 }
 
+.cycle-pager .cycle-pager-active .cycle-pager-text{
+	transition: opacity 0.67s ease 0.33s;
+}
+
 .cycle-pager h3, .cycle-pager h4{
 	display: inline-block;
 	color: white;
@@ -2078,7 +2082,7 @@ body {
 	height: 5em;
 	opacity: 0;
 	position: absolute;
-	display: none;
+	//display: none;
 	overflow: visible !important;
 	@include allTrans(0.33s, ease);
 	@include vertHorzCenter(50%);
