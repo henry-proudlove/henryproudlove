@@ -1377,6 +1377,11 @@ $(document).ready(function(e){
 
 	window.viewportUnitsBuggyfill.init();
 	
+	$(document).on('lazybeforeunveil', function(e){
+		console.log();
+		$(e.target).parents('figure').removeClass('loading');
+	});
+	
 	/* 
 	==============================================
 	Do scripts
