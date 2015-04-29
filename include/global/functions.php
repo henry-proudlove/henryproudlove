@@ -179,7 +179,9 @@
 		global $page;
 		if($page->is_casestudy()){
 			global $cs;
-			$description = implode($cs->role, ' • ') . ' // ' . substr(preg_replace('/([^?!.]*.).*/', '\\1', strip_tags($cs->text)), 0 , -1);
+			$roles = implode($cs->role, ' • ');
+			$text  = preg_match('/^[^.?!]+/', strip_tags($cs->text), $text_match);
+			$description = $roles . '// ' . $text_match[0];
 		}else{
 			include_once(DIR_MARKUP . 'desc.php');
 			if(array_key_exists($page->name, $desc_arr)){
@@ -188,7 +190,7 @@
 				$description = $desc_default;
 			}
 		}
-		return $description;
+		return trim($description);
 	}
 	
 	
