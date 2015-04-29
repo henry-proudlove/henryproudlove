@@ -1933,15 +1933,6 @@ section.intro.cycle .fade {
 
 /* Pager */ 
 
-//.cycle-pager{
-//	@include allTrans(0.33s, ease-out);
-//}
-//
-//.cycle-pager figcaption{
-//}
-//
-//.cycle-pager .indicator
-
 $cycleptrans: 0.33s ease;
 
 .cycle-pager .indicator{
