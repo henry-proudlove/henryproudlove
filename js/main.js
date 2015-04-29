@@ -50,7 +50,7 @@ $(document).ready(function(e){
 	function introAnim(svg){
 		$svg = $(svg);
 		if($('img').length < 1 || firstimg == true){
-			console.log('this fjfjfjklsd');
+			//console.log('this fjfjfjklsd');
 			hideLoader();
 		}else{
 			hideLoader();
@@ -1056,7 +1056,7 @@ $(document).ready(function(e){
 	function clearCycleAuto(){
 		$(window).on('mousemove scrollstart', function(e){
 			$(this).off('mousemove scrollstart');
-			console.log(e);
+			//console.log(e);
 			$autoCycle.cycle('pause');
 			var currSection = $autoCycle.data('cycle.opts').currSlide;
 			cyc.section = currSection;
@@ -1309,7 +1309,7 @@ $(document).ready(function(e){
 			firstimg = true;
 		}
 		$(e.target).parents('figure').removeClass('loading');
-		console.log('loader removed')
+		//console.log('loader removed')
 	});
 	
 	/* 
