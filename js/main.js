@@ -796,7 +796,6 @@ $(document).ready(function(e){
 		 	acHead.go = false;
 			acHead.header.css({
 				'transform': 'translate3d(' + acHead.o + 'px)',
-				//'opacity': 0
 			});
 	     	cancelAnimationFrame(acHeadAnim);
 		}
@@ -907,7 +906,6 @@ $(document).ready(function(e){
 		
 	}
 	function csTextAnimStop(){
-		//$('section.images .grid').addClass('hover-fade');
 		if(csText.go){
 		 	csText.go = false;
 			csText.client.css({
@@ -938,7 +936,6 @@ $(document).ready(function(e){
 		$('.menu-wrapper').children().on(transitionEnd, function(e){
 			e.stopPropagation();
 		}).parent().on(transitionEnd, function(e){
-			console.log(e);
 			var prop = e.originalEvent.propertyName;
 			if(prop == 'transform' || prop == '-webkit-transform' || prop == '-ms-transform'){
 				acHeadAnimate();
@@ -966,7 +963,6 @@ $(document).ready(function(e){
 					csHeadAnim = requestAnimationFrame(csHeadAnimStop);
 				}
 				if(scrolled > csText.s){
-					//console.log(scrolled, csText.e);
 			    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
 				}else if(csText.go && csText.ok){
 					csTextAnim = requestAnimationFrame(csTextAnimStop);
@@ -975,18 +971,15 @@ $(document).ready(function(e){
 		}else{
 			csHead.init();
 			var showHide = false;
-			//var pShowHide = false;
-			//var pscroll = 0;
 			var header = csHead.client.add(csHead.title).add(csHead.img);
 			var imgh = csHead.img.height();
 			$(window).on('scroll', function(e){
 				scrolled = $(this).scrollTop();
 					if(scrolled > imgh/2 && !showHide){
-						console.log('hide');
 						header.addClass('touchanim hide').removeClass('show');
 						showHide = true;
 					}else if(scrolled <= imgh/2 && showHide){
-						console.log('show');
+						//console.log('show');
 						header.addClass('show').removeClass('hide');
 						showHide = false;
 					}
@@ -1332,7 +1325,6 @@ $(document).ready(function(e){
 		string += "#cycle-auto-holder:after{\n\t\tdisplay:block;\n\t}"
 	}else{
 		string += ".filter{\t\tfilter: url('#grad');\n\t\t-webkit-filter: url('#grad');\n\t}";
-		console.log('fuck');
 	}
 	string += "\n</style>";
 	$('head').append(string);
@@ -1341,7 +1333,6 @@ $(document).ready(function(e){
 	// After a period of inactivty turn the page red
 	function idleTimeout(){
 		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
-			console.log('poooooo pooooooo');
 			var idle = true;
 			$(window).on('mousemove scrollstart', function(e){
 				$(window).off('mousemove scrollstart');
@@ -1353,22 +1344,23 @@ $(document).ready(function(e){
 				}else{
 					idleTimeout();
 				}
-			}, 6666);
+			}, 5000);
 		}
 	}
 	
 	function applyFilter(){
 		window.clearTimeout(idleTimer);
+		//
 		var $container = $('#container');
 		var $filtered = $container.clone().addClass('filtered');
-		$filtered.find('.content-wrapper').add($filtered.find('.main-header nav')).addClass('filter');
+		$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
+		//
 		if($container.length < 2){
 			$filtered.insertAfter($container);
-			console.log($filtered);
 			$container.addClass('unfiltered fade');
+			// Clear the filter if the user interacts
 			$(window).one('mousemove scroll', function(e){
 				$(window).off('mousemove scrollstart');
-				console.log('\'m removing the filtered #container');
 				$container.removeClass('fade').one(transitionEnd, function(){
 					$(this).removeClass('unfiltered');
 					$('.filtered').remove();
