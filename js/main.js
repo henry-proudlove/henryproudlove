@@ -427,7 +427,7 @@ $(document).ready(function(e){
 			$('.site-title').on(transitionEnd, function(e){
 				if(e.originalEvent.propertyName == 'padding-bottom'){
 					$('#container').addClass('cycle-active');
-					$(this).off(transitionEnd).trigger('cycle-act');
+					$(this).off(transitionEnd).trigger('cycle-activate');
 				}
 			});
 		}
@@ -1055,7 +1055,6 @@ $(document).ready(function(e){
 	function cycleInit(){
 		$cycle = $('section.cycle');;
 		cycleSlides = $cycle.find('> a').each(function(i){
-			console.log('hita');
 			$(this).data('slideindex', i);
 		});
 		$autoCycle = $cycle.clone().attr('id', 'cycle-auto-holder').addClass('filter').appendTo('.content').cycle(cycleOpts);
@@ -1086,7 +1085,7 @@ $(document).ready(function(e){
 		shift : this.w / 2, // Amount slide is transformed by before vis jump
 		pager : $('.cycle-pager'),
 		wsize : function(slides){ // Refreshes viewport dependent props
-				console.log(slides);
+				//console.log(slides);
 				this.w = $(window).height();
 				this.h = this.w /4;
 				this.shift = this.w/2;
@@ -1143,7 +1142,7 @@ $(document).ready(function(e){
 		});
 		cycleTimer = window.setTimeout(function(){
 			if(idle && !$('body').hasClass('menu')){
-				$('#container').addClass('timeout');
+				//$('#container').addClass('timeout');
 				cycleAuto();
 			}else{
 				cycleScrolledTimeout();
@@ -1262,6 +1261,7 @@ $(document).ready(function(e){
 			cycleClear();
 			// Empty all vars
 			$autoCycle.cycle('destroy');
+			$('#container').removeClass('cycle-active cycle-scroll cycle-auto-transition');
 			$autoCycle = null;
 			$cycle = null;
 			cycleSlides = null;
@@ -1272,17 +1272,17 @@ $(document).ready(function(e){
 	}
 	
 	function cycleClear(){
+		$autoCycle.cycle('pause');
+		$('#container').removeClass('cycle-active');
+		window.clearTimeout(cycleTimer);
 		$(window).off('scroll scrollstop scrollstart mousemove');
 		window.clearTimeout(cycleTimer);
 		cycleTimer = null;
-		$('#container').removeClass('cycle-active cycle-scroll cycle-auto-transition timeout');
 	}
 	
 	function cyclePause(){
-		if($autoCycle != null ){
-			$autoCycle.cycle('pause');
-			$('#container').removeClass('cycle-active');
-			window.clearTimeout(cycleTimer);
+		if($autoCycle != null && $cycle != null){
+			cycleClear();
 		}
 	}
 	
