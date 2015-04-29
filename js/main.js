@@ -1232,10 +1232,22 @@ $(document).ready(function(e){
 	var string = "<style type='text/css'>\n\t";
 	var trans = Modernizr.prefixed('transform');
 	if(trans == 'WebkitTransform'){
-		string += ".filter{\n\t\tfilter: grayscale(1);\n\t\t-webkit-filter: grayscale(1);\n\t}\n\t";
-		string += "#cycle-auto-holder:after{\n\t\tdisplay:block;\n\t}"
+		string += "\
+			.filter{\n\t\t\
+				filter: grayscale(1);\n\t\t\
+				-webkit-filter: grayscale(1);\n\t\t\
+				background-color: rgba(178,182,184,0.33);\n\t\t\
+				opacity: 0.66;\n\t\
+			}\n\t\
+			.filter:after{\n\t\t\
+				display:block !important;\n\t\
+			}";
 	}else{
-		string += ".filter{\t\tfilter: url('#grad');\n\t\t-webkit-filter: url('#grad');\n\t}";
+		string += "\
+			.filter{\t\t\
+				filter: url('#grad');\n\t\t\
+				-webkit-filter: url('#grad');\n\t\
+			}";
 	}
 	string += "\n</style>";
 	$('head').append(string);
@@ -1265,7 +1277,7 @@ $(document).ready(function(e){
 		//
 		var $container = $('#container');
 		var $filtered = $container.clone().addClass('filtered');
-		$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
+		$filtered.find('.content-wrapper').add($filtered.find('.main-header nav')).addClass('filter');
 		//
 		if($container.length < 2){
 			$filtered.insertAfter($container);

@@ -1704,7 +1704,7 @@ section.cycle{
 //	transition: opacity 1s ease 0s;
 //}
 
-section.cycle:after{
+section.cycle:after, .filter:after{
 	content: ' ';
 	display: block;
 	position: absolute;
