@@ -474,23 +474,19 @@ $(document).ready(function(e){
 							</nav>\
 						</section>';
 						
-	var videoSpinner = '<svg version="1.1" class="video-spinner active fg-color trans" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1054.6 58.3 107.8 107.8" enable-background="new 1054.6 58.3 107.8 107.8" xml:space="preserve">\
-							<g class="fill">\
-								<path id="o-spinner" class="animated" d="M1108.5,65.4c25.8,0,46.7,20.9,46.7,46.7s-20.9,46.7-46.7,46.7s-46.7-20.9-46.7-46.7\
-								S1082.7,65.4,1108.5,65.4 M1108.5,58.3c-29.8,0-53.9,24.1-53.9,53.9s24.1,53.9,53.9,53.9c29.8,0,53.9-24.1,53.9-53.9\
-								S1138.3,58.3,1108.5,58.3L1108.5,58.3z"/>\
-							</g>\
-							<g id="spinner">\
-								<g id="spinner-left">\
-									<path d="M1108.5,65.4v-7.2c-29.8,0-53.9,24.1-53.9,53.9h7.2C1061.8,86.4,1082.7,65.4,1108.5,65.4z"/>\
-									<rect x="1054.6" y="58.3" fill="none" stroke="none" width="107.8" height="107.8"/>\
-								</g>\
-								<g id="spinner-right">\
-									<path d="M1162.4,112.2h-7.2c0,25.8-20.9,46.7-46.7,46.7v7.2C1138.3,166.1,1162.4,141.9,1162.4,112.2z"/>\
-									<rect x="1054.6" y="58.3" fill="none" stroke="none" width="107.8" height="107.8"/>\
-								</g>\
-							</g>\
-						</svg>';
+	var videoSpinner = '<svg version="1.1" class="video-spinner fg-color active trans" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\
+		 viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">\
+		 <g id="spinner-holder" transform="translate(20,20)">\
+			<g id="spinner">\
+				<g id="spinner-left">\
+					<path d="M0-17.3V-20c-11.1,0-20,8.9-20,20h2.7C-17.3-9.5-9.6-17.3,0-17.3z"/>\
+				</g>\
+				<g id="spinner-right">\
+					<path d="M20,0h-2.7c0,9.6-7.8,17.3-17.3,17.3V20C11.1,20,20,11,20,0z"/>\
+				</g>\
+			</g>\
+		</g>\
+	</svg>';
 	
 	var slideshows = {};
 					
@@ -557,28 +553,22 @@ $(document).ready(function(e){
 			$.ajax({
 				url : 'https://vimeo.com/api/oembed.json?url=' + videoPath + '&api=true&player_id=' + videoId + '&title=false&portrait=false&byline=false',
 				success : function(data){
-					//$(var	vidcont  = $('.slideshow-wrapper').find('#slide-video-' + index);
-					function appendVideo(){
-						if($vidcont.length > 0){
-							clearInterval(vidinterval);
-							var iframe = $(data.html)
-								.wrap('<div class="lazyload center"></div>')
-								.parent()
-								.fitVids()
-								.appendTo($vidcont)
-								.addClass('active')
-								.find('iframe')
-								.attr('id' , videoId)[0];
-							var player = $f(iframe);
-						    player.addEvent('ready', function() {
-								video[videoId] = player;
-								$vidcont.find('.video-spinner').attr('class', 'video-spinner').on(transitionEnd, function(){
-										$(this).remove();
-									});
+					var	vidcont  = $('.slideshow-wrapper').find('#slide-video-' + index);
+					var iframe = $(data.html)
+						.wrap('<div class="lazyload center"></div>')
+						.parent()
+						.fitVids()
+						.appendTo($vidcont)
+						.addClass('active')
+						.find('iframe')
+						.attr('id' , videoId)[0];
+					var player = $f(iframe);
+				    player.addEvent('ready', function() {
+						video[videoId] = player;
+						$vidcont.find('.video-spinner').attr('class', 'video-spinner').on(transitionEnd, function(){
+								$(this).remove();
 							});
-						}
-					}
-					var vidinterval = setInterval(appendVideo, 500);
+					});
 				}
 			});
 			// Add a placeholder contianer for video
