@@ -166,13 +166,13 @@ body {
 
 #container.unfiltered{
 	opacity: 1;
-	z-index: 2;
+	z-index: 3;
 	transition: opacity 0.67s ease;
 }
 
 #container.unfiltered.fade{
 	opacity: 0;
-	z-index: 2;
+	z-index: 3;
 	transition: opacity 1.67s ease;
 }
 
@@ -1722,6 +1722,11 @@ section.cycle:after, .filter:after{
 
 .cssfilters section.cycle:after{
 	display: none;
+}
+
+.filtered .main-header .fg-color{
+	background: white;
+	color: white;
 }
 
 .cycle-active section.cycle:after{

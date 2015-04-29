@@ -1237,11 +1237,14 @@ $(document).ready(function(e){
 				filter: grayscale(1);\n\t\t\
 				-webkit-filter: grayscale(1);\n\t\t\
 				background-color: rgba(178,182,184,0.33);\n\t\t\
-				opacity: 0.66;\n\t\
+				opacity: 0.66;\n\t\t\
+				-webkit-transform: translate3d(0,0,0);\n\t\
 			}\n\t\
 			.filter:after{\n\t\t\
-				display:block !important;\n\t\
-			}";
+				display:block !important;\n\t\t\
+				z-index: 2;\n\t\t\
+				opacity: 1;\n\t\
+			}\n";
 	}else{
 		string += "\
 			.filter{\t\t\
@@ -1277,7 +1280,7 @@ $(document).ready(function(e){
 		//
 		var $container = $('#container');
 		var $filtered = $container.clone().addClass('filtered');
-		$filtered.find('.content-wrapper').add($filtered.find('.main-header nav')).addClass('filter');
+		$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
 		//
 		if($container.length < 2){
 			$filtered.insertAfter($container);
