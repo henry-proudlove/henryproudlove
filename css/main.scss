@@ -587,7 +587,48 @@ header.main-header{
 	//stroke-dasharray : 0;
 	stroke: white;
 	fill: white;
+}
+
+.header-svg .fill{
+	//fill-opacity: 1;
+	stroke-width : 2px;
+	fill-opacity: 0.1;
+	stroke-opacity: 0.3;
+	//stroke-dasharray : 0;
 	width: 100%;
+	-webkit-animation: introanim 1s ease;
+			animation: introanim 1s ease;
+}
+
+#container.active .header-svg .fill{
+	fill-opacity: 1;
+	stroke-opacity: 1;
+}
+
+#container:not(.active) .menu-container .site-title a .mask{
+	@include transform(scaleX(0));
+}
+
+@keyframes introanim{
+	0%{
+		fill-opacity: 0;
+		stroke-opacity: 0.33;
+		opacity: 0;
+	}
+	80%{
+		stroke-opacity: 0.33;
+		fill-opacity: 0;
+		opacity: 1;
+	}
+	100%{
+		stroke-opacity: 0.33;
+		fill-opacity: 0.2;
+	}
+}
+
+@-webkit-keyframes introanim{
+	from{ opacity: 0;}
+	to{ opacity: 1;}
 }
 
 body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #container.active .header-svg{
@@ -2097,8 +2138,8 @@ body {
 }
 
 
-#container.transition .fill, .video-spinner .fill{
-	fill-opacity: 0.2;
+#container.active.transition .fill, .video-spinner .fill{
+	fill-opacity: 0.1;
 	stroke-opacity: 0.33;
 	@include transDelay(0s);
 }
@@ -2112,7 +2153,8 @@ body {
 			opacity: 0;
 }
 
-#container.transition #spinner > *,
+#container:not(.active) #spinner > *,
+#container.active.transition #spinner > *,
 .cycle-slide-active #spinner > *  {
 	-webkit-animation-play-state: running;
 	        animation-play-state: running;
@@ -2402,8 +2444,9 @@ figure.loading{
     background-position: center center;
 }
 
-img{
-	opacity: 0;
+.lazyload,
+.lazyloading {
+    opacity: 0;
 }
 
 .lazyloaded{

@@ -38,7 +38,7 @@ $(document).ready(function(e){
 		}else{
 			$title.addClass('header-png');
 			setTimeout(function(){
-				$(document).trigger('showpage');
+				//$(document).trigger('showpage');
 			}, 1000);
 		}
 	}
@@ -49,107 +49,19 @@ $(document).ready(function(e){
 	
 	function introAnim(svg){
 		$svg = $(svg);
-		var delayStart = 1.5;
-		var paths = $svg.find('.fill > path');
-		$svg.parent().css('opacity' , '1');
-		$svg.find('.mask').css({
-			'transform' : 'scaleX(0)',
-			'-webkit-transform' : 'scaleX(0)'
-		}).addBack().find('.stroke').css({
-			'stroke-opacity' : '0.1',
-			'stroke-width' : '2px',
-			'opacity' : '0',
-			'transition-delay' : '0'
-		});
-		var n = paths.length -1;
-		var totalDuration = 0;
-		$('head').append('<style type="text/css" id="intro-anim-styles"></style>');
-		$.each(paths, function(i){
-			$(this).attr('class' , 'animation');
-				//var $path = $(this);
-				var offset = Math.abs(1/2 - i/n);
-				var duration = 1;
-				var delay = 0;
-				if(i==n){
-					totalDuration = duration + delay;
-				}
-				l = $(this)[0].getTotalLength();
-				id = $(this).attr('id');
-				var animName = id + '-anim';
-				var animSeq = {
-					'0%': {
-						'stroke-opacity' : '0.4',
-						'stroke-width' : '1px',
-						'stroke-dasharray' : l,
-					    'stroke-dashoffset': l,
-						'fill-opacity' : '0',
-					},
-					'50%' : {
-						'stroke-opacity' : '0.4',
-						'stroke-dasharray' : l,
-					    'stroke-dashoffset': 0,
-						'fill-opacity' : '0',
-					},
-					'100%' : {
-						'stroke-opacity' : '1',
-						'stroke-width' : '2px',
-						'stroke-dasharray' : l,
-					    'stroke-dashoffset': 0,
-						'fill-opacity' : '1'
-					}
-				}
-				controller = {
-					'name' : animName,
-				    'duration': duration + 's',
-				    'delay': delay + 's',
-				    'timing-function': 'ease-out',
-					'play-state' : 'paused',
-				    'fill-mode': 'backwards'
-				}
-				prefix = ['-webkit-', ''];
-				$('#intro-anim-styles').append(function(){
-					style = ".header-svg path#" + id + ".animation{\n";
-					$.each(prefix, function(i){
-						$.each(controller, function(k , v){
-								style += "\t" + prefix[i] + "animation-" + k + " : " + v + ";\n";
-						});
-					});
-					style += "}\n";
-					$.each(prefix, function(i){
-						style += "@" + prefix[i] + "keyframes " + animName + " {\n";
-							$.each(animSeq, function(k , v){
-								style +=  "\t" + k + "{\n";
-	 							$.each(v , function(k, v){
-	 								style += "\t\t" + k + " : " + v + ";\n"
-	 							});
-								style += "\t}\n";
-							});
-						  	style += "}\n";
-					});
-					return style;
-				});
-		});
-		setTimeout(function(){
-			var done = 0;
-			var n = paths.length;
-			$.each(paths, function(i){
-				$(this).attr('class' , 'animation animating').on(animationEnd, function(e){
-					done ++;
-					
-					if(done == n){
-						$(document).trigger('showpage');
-						$svg
-							.find('.mask')
-							.removeAttr('style')
-							.attr('class', 'mask animated')
-							.addBack().find('.stroke')
-							.removeAttr('style')
-							.attr('class' ,  'stroke animated');
-					}	
-				});						
-			});
-		}, delayStart * 1000);
+		if($('img').length < 1 || firstimg == true){
+			console.log('this fjfjfjklsd');
+			hideLoader();
+		}else{
+			hideLoader();
+		}
+		function hideLoader(){
+			window.setTimeout(function(){
+				$(document).trigger('showpage');
+			}, 2000);
+		}
 	}
+	
 	$(document).on('showpage', function(e){
 		$('#container').addClass('active');
 		$(window).trigger('cycle-activate');
@@ -174,7 +86,6 @@ $(document).ready(function(e){
 			this.page = url;
 			this.caller = caller;
 			this.getSection(url);
-			//console.log(this);
 			//return this.page;
 			callBack = callBack || noop;
 			callBack();
@@ -1330,6 +1241,7 @@ $(document).ready(function(e){
 	$('head').append(string);
 	
 	var idleTimer;
+	
 	// After a period of inactivty turn the page red
 	function idleTimeout(){
 		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
@@ -1344,7 +1256,7 @@ $(document).ready(function(e){
 				}else{
 					idleTimeout();
 				}
-			}, 5000);
+			}, 6000);
 		}
 	}
 	
@@ -1374,12 +1286,15 @@ $(document).ready(function(e){
 	==============================================
 	Viewport Units
 	============================================== */
-
+	var firstimg = false;
 	window.viewportUnitsBuggyfill.init();
-	
 	$(document).on('lazybeforeunveil', function(e){
-		console.log();
+		if(!firstimg){
+			$(this).trigger('firstimg');
+			firstimg = true;
+		}
 		$(e.target).parents('figure').removeClass('loading');
+		console.log('loader removed')
 	});
 	
 	/* 

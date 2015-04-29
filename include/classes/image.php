@@ -71,6 +71,7 @@
 		public function get_the_img()
 		{
 			$img = '<img ' . $this->create_src_str() . $this->create_sizes() . $this->get_the_video() . ' class="lazyload"/><div class="spinner"></div>';
+			$img = '<img ' . $this->create_src_str() . $this->get_the_video() . ' data-sizes="auto" class="lazyload"/><div class="spinner"></div>';
 			return $img;
 		}
 		
@@ -144,7 +145,8 @@
 			$src = '<source ';
 			if($this->ratio == 'landscape'){	
 				$src .='media="(min-aspect-ratio: 4/4)" ';
-				$src .= 'sizes="100vw" ';
+				//$src .= 'sizes="100vw" ';
+				$src .= 'data-sizes="auto" ';
 				$src .= 'data-srcset="';
 				foreach($this->files as $size => $img){					
 					$src .= $img . ' ' . $size . 'w';
