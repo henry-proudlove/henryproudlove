@@ -2400,9 +2400,15 @@ a:hover figcaption h4{
 
 /* ==== LAZYSIZES ==== */
 
+figure.loading{
+	background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 2em 2em;
+    background-position: center center;
+}
+
 img{
 	opacity: 0;
-	@include allTrans(0.67s, ease);
 }
 
 .lazyloaded{
