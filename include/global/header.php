@@ -37,8 +37,6 @@
 		<meta name="application-name" content="Henry Proudlove // Independent Creative"/>
 		<meta name="msapplication-TileColor" content="#E55242" />
 		<meta name="msapplication-TileImage" content="<?php echo $page->rel_depth() . 'img/thumbs/mstile-144x144.png';?>" />
-		<!-- Fonts -->
-		<?php include(DIR_MARKUP . 'fonts.php');?>
 		<!-- Main Styles -->
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/normalize.css'; ?>">
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/main.css'; ?>">
@@ -55,10 +53,11 @@
 				cursor_classes();
 			echo '</style>' . PHP_EOL;
 		?>
-		<!-- Helper Scripts -->
+		<!-- Fonts -->
+		<?php include(DIR_MARKUP . 'fonts.php');?>
+		<!-- Scripts -->
         <script src="<?php echo $page->rel_depth() . 'js/vendor/modernizr.js'; ?>"></script>
 		<script src="<?php echo $page->rel_depth() . 'js/vendor/picturefill.min.js'?>" async></script>
-		<!-- include fonts --> 
 	</head>
 	<?php
 		$body_class = $page->name;
