@@ -155,7 +155,7 @@ body {
 	font-family:'AvenirNextLTW01-UltraLi' , helvetica, sans-serif;
 }
 
-#container {
+#container{
 	position: relative;
 	pointer-events: none;
 }
@@ -525,7 +525,7 @@ header.main-header{
 	padding-bottom: 0;
 	margin: 0;
 	transition: 
-		opacity 0.34s ease 0.34s,
+		opacity 0.33s ease 0.34s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
 		fill-opacity 0.67s ease,
 }
@@ -533,7 +533,7 @@ header.main-header{
 .menu-container.active .site-title{
 	padding-bottom: 35vw;
 	transition:
-		opacity 0.34s ease 0s,
+		opacity 0.33s ease 0s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0s,
 		fill-opacity 0.67s ease 0.67s;
 }
@@ -543,7 +543,7 @@ header.main-header{
 	padding-bottom: 0;
 	margin: 0;
 	transition: 
-		opacity 0.34s ease 0s,
+		opacity 0.33s ease 0s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
 		fill-opacity 0.67s ease,
 }
