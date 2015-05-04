@@ -614,35 +614,16 @@ header.main-header{
 //			animation: introanim 1s ease;
 }
 
+.header-inline{
+	display:none;
+}
+.header-stacked{
+	display:block;
+}
+
 #container.active .header-svg .fill{
 	fill-opacity: 1;
 	stroke-opacity: 1;
-}
-
-#container:not(.active) .menu-container .site-title a .mask{
-	@include transform(scaleX(0));
-}
-
-@keyframes introanim{
-	0%{
-		fill-opacity: 0;
-		stroke-opacity: 0.33;
-		opacity: 0;
-	}
-	80%{
-		stroke-opacity: 0.33;
-		fill-opacity: 0;
-		opacity: 1;
-	}
-	100%{
-		stroke-opacity: 0.33;
-		fill-opacity: 0.2;
-	}
-}
-
-@-webkit-keyframes introanim{
-	from{ opacity: 0;}
-	to{ opacity: 1;}
 }
 
 body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #container.active .header-svg{
@@ -681,9 +662,11 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 
 /* Hover state for .site-title */
 
-.site-title a .mask{
+.site-title .mask{
 	@include transform(scaleX(0));
-	transition: transform 0.33s ease;
+	transition:	-webkit-transform 0.33s ease,
+					-ms-transform 0.33s ease,
+						transform 0.33s ease;
 }
 
 .menu-container.active .site-title:hover a .stroke,
@@ -691,18 +674,18 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 	stroke: white !important;
 }
 
-.menu-container .site-title a:hover .mask,
-.menu-container .site-title a.active .mask,
-.about:not(.menu) .menu-container .site-title a .mask,
-.contact:not(.menu) .menu-container .site-title a .mask,
-.home .menu-container .site-title a .mask{
+.home #container.active .site-title .mask,
+.about #container.active .site-title .mask,
+.contact #container.active .site-title .mask,
+.menu-container.active .site-title:hover .mask{
 	@include transform(scaleX(1));
-	//@include allTrans(0.34s, ease);
 }
 
-/* Viewport dependant */
-.site-title a .mask{
-	@include transformOrigin(0, 0);
+.about #container.active.transition .site-title .mask,
+.contact #container.active.transition .site-title .mask,
+.menu.about #container.active .site-title .mask,
+.menu.contact #container.active .site-title .mask{
+	@include transform(scaleX(0));
 }
 
 /* ---- .site-links ---- */
@@ -783,11 +766,6 @@ nav.site-links {
 .site-links a:hover span:after, .site-links a.active span:after, .contact-links a:hover span:after{
 	@include transform(scaleX(1));
 	@include allTrans(0.33s, ease);
-}
-
-/* Viewport dependant */
-.site-title a .mask{
-	@include transformOrigin(0, 0);
 }
 
 /* Viewport dependant */
@@ -2164,20 +2142,23 @@ body {
 }
 
 #spinner-left, #spinner-right{
-	-webkit-animation: spin 1.33s infinite;
-			animation: spin 1.33s infinite;
-	-webkit-animation-play-state: paused;
-	        animation-play-state: paused;
+	-webkit-animation: spin 1.33s;
+			animation: spin 1.33s;
+	-webkit-animation-iteration-count: 1;
+			animation-iteration-count: 1;
+	//-webkit-animation-play-state: paused;
+//	        animation-play-state: paused;
 			stroke-width: 2px;
-			opacity: 0;
+			visibility: hidden;
 }
 
 #container:not(.active) #spinner > *,
 #container.active.transition #spinner > *,
 .cycle-slide-active #spinner > *  {
-	-webkit-animation-play-state: running;
-	        animation-play-state: running;
-			opacity: 1;
+	//-webkit-animation-play-state: running;
+//	        animation-play-state: running;
+	-webkit-animation-iteration-count: infinite;
+			animation-iteration-count: infinite;
 }
 
 
@@ -2188,15 +2169,25 @@ body {
 
 @-webkit-keyframes spin {
   from {
-    @include transform(rotate(720deg));
+    @include transform(rotate(-720deg));
+	visibility: visible;
 	//@include transformOrigin(center,center);	
+  }
+  to{
+    @include transform(rotate(0));
+	visibility: visible;
   }
 }
 
 @keyframes spin {
   from {
-    @include transform(rotate(720deg));
+    @include transform(rotate(-720deg));
+	visibility: visible;
 	//@include transformOrigin(center,center);
+  }
+  to{
+    @include transform(rotate(0));
+	visibility: visible;
   }
 }
 
@@ -2740,7 +2731,11 @@ figure.loading{
 		display:none;
 	}
 	
-	.site-title a.header-png {
+	.site-title .mask{
+		@include transformOrigin(50%, 50%);
+	}
+	
+	.site-title .header-png {
 		background-image: url('../img/header-png/HenryProudlove-inline.png');
 		padding-top: 12.75%;
 	}
@@ -2762,9 +2757,9 @@ figure.loading{
 	
 	/* ---- .site-title hover line origin centered  ---- */
 	
-	.site-title a .mask{
-		@include transformOrigin(50%, 50%);
-	}
+	//.site-title a .mask{
+//		@include transformOrigin(50%, 50%);
+//	}
 	
 	/* ---- .site-title covers 5 columns ---- */
 	

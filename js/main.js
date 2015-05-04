@@ -20,39 +20,38 @@ $(document).ready(function(e){
 	Intro Anim
 	============================================== */
 	
-	function getHeader(event){
-		if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
-			var inline  = '.header-inline';
-			var stacked = '.header-stacked';
-			var m = $(window).width() < 769;
-			// Load appropriate header based on screen widths
-			if (m && $(stacked).length < 1){
-				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
-					introAnim(stacked);
-				});	
-			}else if(!m && $(inline).length < 1){
-				$title.load(uriStem + 'img//header-svg/HenryProudlove-inline.svg', function(){
-					introAnim(inline);
-				});
-			}
-		}else{
-			$title.addClass('header-png');
-			setTimeout(function(){
-				//$(document).trigger('showpage');
-			}, 1000);
-		}
-	}
+	// function getHeader(event){
+// 		// if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
+// // 			var inline  = '.header-inline';
+// // 			var stacked = '.header-stacked';
+// // 			var m = $(window).width() < 769;
+// // 			// Load appropriate header based on screen widths
+// // 			if (m && $(stacked).length < 1){
+// // 				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
+// // 					introAnim(stacked);
+// // 				});
+// // 			}else if(!m && $(inline).length < 1){
+// // 				$title.load(uriStem + 'img//header-svg/HenryProudlove-inline.svg', function(){
+// // 					introAnim(inline);
+// // 				});
+// // 			}
+// // 		}else{
+// // 			$title.addClass('header-png');
+// // 			setTimeout(function(){
+// // 				$(document).trigger('showpage');
+// // 			}, 1000);
+// // 		}
+// 	}
 		
-	$(window).on('debouncedresize', function(e){
-		getHeader();
-	});
+	// $(window).on('debouncedresize', function(e){
+// 		getHeader();
+// 	});
 	
-	function introAnim(svg){
-		$svg = $(svg);
-		if($('img').length < 1 || firstimg == true){
+	
+	function introAnim(firstimg){
+		//$svg = $(svg);
+		if($('img').length < 1 || firstimg){
 			//console.log('this fjfjfjklsd');
-			hideLoader();
-		}else{
 			hideLoader();
 		}
 		function hideLoader(){
@@ -61,6 +60,7 @@ $(document).ready(function(e){
 			}, 2000);
 		}
 	}
+	introAnim()
 	
 	$(document).on('showpage', function(e){
 		$('#container').addClass('active');
@@ -146,6 +146,7 @@ $(document).ready(function(e){
 					acScrollTop();
 				}else if(id == null){
 					cycleInit();
+					titleStrokeIn();		
 				}
 				backBtn.down();
 			}else{
@@ -1222,6 +1223,41 @@ $(document).ready(function(e){
 	window.lazySizesConfig = {
 		addClasses: true
 	};
+	var firstimg = false;
+	$(document).on('lazybeforeunveil', function(e){
+		if(!firstimg){
+			//$(this).trigger('firstimg');
+			firstimg = true;
+			introAnim(firstimg)
+		}
+		$(e.target).parents('figure').removeClass('loading');
+		//console.log('loader removed')
+	});
+	
+	// /*
+// 	==============================================
+// 	Title Underline
+// 	============================================== */
+//
+// 	var titleState = false;
+// 	function titleStrokeIn(){
+// 		if(titleState || !$(container).hasClass('.active')){
+// 			return;
+// 		}else{
+// 			var animation = $(':visible #line-mask-in');
+// 			animation.beginElement();
+// 			titleState = true;
+// 		}
+// 	}
+// 	function titleStrokeOut(){
+// 		if(!titleState){
+// 			return;
+// 		}else{
+// 			var animation = $(':visible #line-mask-out');
+// 			animation.beginElement();
+// 			titleState = false;
+// 		}
+// 	}
 	
 	/* 
 	==============================================
@@ -1261,8 +1297,9 @@ $(document).ready(function(e){
 	function idleTimeout(){
 		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
 			var idle = true;
-			$(window).on('mousemove scrollstart', function(e){
-				$(window).off('mousemove scrollstart');
+			$(window).on('mousemove scrollstart click', function(e){
+				console.log(e)
+				$(window).off('mousemove scrollstart click');
 				idle = false;
 			});
 			idleTimer = window.setTimeout(function(){
@@ -1286,8 +1323,8 @@ $(document).ready(function(e){
 			$filtered.insertAfter($container);
 			$container.addClass('unfiltered fade');
 			// Clear the filter if the user interacts
-			$(window).one('mousemove scroll', function(e){
-				$(window).off('mousemove scrollstart');
+			$(window).one('mousemove scroll click', function(e){
+				$(window).off('mousemove scrollstart click');
 				$container.removeClass('fade').one(transitionEnd, function(){
 					$(this).removeClass('unfiltered');
 					$('.filtered').remove();
@@ -1301,16 +1338,7 @@ $(document).ready(function(e){
 	==============================================
 	Viewport Units
 	============================================== */
-	var firstimg = false;
 	window.viewportUnitsBuggyfill.init();
-	$(document).on('lazybeforeunveil', function(e){
-		if(!firstimg){
-			$(this).trigger('firstimg');
-			firstimg = true;
-		}
-		$(e.target).parents('figure').removeClass('loading');
-		//console.log('loader removed')
-	});
 	
 	/* 
 	==============================================

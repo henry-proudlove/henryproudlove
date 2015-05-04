@@ -79,7 +79,9 @@
 					<div class="menu-wrapper">
 						<h1 class="site-title">
 							<a href="<?php echo $page->rel_depth(); ?>" class="clearfix active">
-								Henry Proudlove						
+								<span class="header-png">Henry Proudlove</span>	
+								<?php include(DIR_BASE . 'img/header-svg/HenryProudlove-inline.svg');?>
+								<?php include(DIR_BASE . 'img/header-svg/HenryProudlove-stacked.svg');?>				
 							</a>
 						</h1>
 						<nav class="site-links">
