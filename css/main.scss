@@ -571,14 +571,28 @@ header.main-header{
 
 /* Site title SVG styling: menu closed */
 
-.site-title a.header-png {
+.site-title .header-png {
 	background-image: url('../img/header-png/HenryProudlove-stacked.png');
 	background-size: 100%, 100%;
 	overflow: hidden;
 	padding-top: 45.5%;
 	height: 0;
 	text-indent: -9000px;
+	display: block;
 }
+
+.inlinesvg.cssanimations.svgclippaths .site-title .header-png{
+	display: none;
+}
+
+.header-svg{
+	display: none;
+}
+
+:not(.inlinesvg.cssanimations.svgclippaths) .site-title .header-svg{
+	display: block;
+}
+
 
 .header-svg{
 	stroke-opacity: 1;
@@ -596,8 +610,8 @@ header.main-header{
 	stroke-opacity: 0.3;
 	//stroke-dasharray : 0;
 	width: 100%;
-	-webkit-animation: introanim 1s ease;
-			animation: introanim 1s ease;
+	//-webkit-animation: introanim 1s ease;
+//			animation: introanim 1s ease;
 }
 
 #container.active .header-svg .fill{
