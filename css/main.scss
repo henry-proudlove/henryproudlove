@@ -551,7 +551,7 @@ header.main-header{
 // Home page needs a different opacity transition
 .home .site-title{
 	transition:
-		opacity 0.167s cubic-bezier(0.165, 0.840, 0.440, 1.000) 0.33s,
+		opacity 0.33s cubic-bezier(0.165, 0.840, 0.440, 1.000) 0.33s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
 		fill-opacity 0.67s ease;
 }
@@ -636,14 +636,14 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 	fill: $red;
 }
 
-#container.active .header-svg{
+#container.active .header-svg .fill,
+#container.active .header-svg .stroke{
 	transition:
-		fill 0.33s ease 0.33s, stroke 0.33s ease 0.33s;
-}
-
-#container.active .menu-container.active .header-svg{
-	transition:
-		fill 0.33s ease 0.33s, stroke 0.33s ease 0.33s;
+		fill 0.33s ease 0.33s,
+		stroke 0.33s ease 0.33s,
+		fill-opacity 0.67s ease,
+		stroke-opacity 0.67s ease;
+		//all 0.33s ease;
 }
 
 /* Site title SVG styling: menu open */
