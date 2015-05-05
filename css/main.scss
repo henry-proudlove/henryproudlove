@@ -1641,24 +1641,53 @@ section.cycle{
 
 #cycle-scroll-holder{
 	z-index: 1;
-	opacity: 0;
-	transition: none;
+	//transition: none;
 }
 
 .cycle-active #cycle-scroll-holder{
-	transition: opacity 1s ease
+	display: none;
 }
 
-.cycle-scroll #cycle-scroll-holder{
-	opacity: 1;
+.cycle-active.cycle-scroll #cycle-scroll-holder{
+	display: block;
+	-webkit-animation: cyclescrollin 0.34s;
+			animation: cyclescrollin 0.34s;
 }
+
+@keyframes cyclescrollin{
+	from{ opacity: 0; }
+	to{ opacity: 1; }
+}
+
+@-webkit-keyframes cyclescrollin{
+	from{ opacity: 0; }
+	to{ opacity: 1; }
+}
+
+.cycle-active.cycle-scroll #cycle-scroll-holder.out{
+	display: block;
+	-webkit-animation: cyclescrollout 0.34s;
+			animation: cyclescrollout 0.34s;
+}
+
+@keyframes cyclescrollout{
+	from{ opacity: 1; }
+	to{ opacity: 0; }
+}
+
+@-webkit-keyframes cyclescrollout{
+	from{ opacity: 1; }
+	to{ opacity: 0; }
+}
+
 
 .cycle-active.cycle-scroll #cycle-scroll-holder{
 	transition: opacity 0.67s ease;
 }
 
-#cycle-auto-holder{
+.cycle-scroll #cycle-auto-holder{
 	z-index: 0;
+	//display: none;
 }
 
 //.cssfilters .cycle-active section.cycle,
@@ -1683,11 +1712,11 @@ section.cycle{
 	opacity: 1;
 }
 
-.home .cycle-active .site-title{
+.home .cycle-active:not(.menu-open) .site-title{
 	transition: opacity 1s ease 0s;
 }
 
-.home .cycle-active.cycle-scroll .site-title{
+.home .cycle-scroll:not(.menu-open) .site-title{
 	opacity: 0.33;
 	transition: opacity 0.67s ease 0s;
 }
@@ -1873,9 +1902,7 @@ section.cycle img{
 
 .cycle-pager figcaption span{
 	@include transform(none);
-	//position: absolute;
 	top: 0;
-//	width: 60%;
 }
 
 .cycle-pager figcaption{
@@ -1938,7 +1965,12 @@ section.intro.cycle .fade {
 //}
 
 .cycle-scroll .cycle-pager{
-	@include allTrans(0.34s, ease-out);
+	@include allTrans(0.33s, ease-out);
+	transition-delay: 0.33s;
+}
+
+.cycle-scroll .cycle-pager.notrans{
+	transition: none;
 }
 
 //section.cycle:hover figcaption.cycle-pager-active{
@@ -1987,6 +2019,14 @@ $cycleptrans: 0.33s ease;
 						transform $cycleptrans;
 }
 
+.cycle-scroll .cycle-pager .indicator{
+	transition-delay: 0.33s;
+}
+
+.cycle-pager.notrans .indicator{
+	transition: none;
+}
+
 .cycle-pager figcaption{
 	position: relative;
 	display: block;
@@ -1999,8 +2039,15 @@ $cycleptrans: 0.33s ease;
 	margin-bottom: 0.5em;
 	transition: height $cycleptrans,
 				opacity $cycleptrans;
-	
-} 
+}
+
+.cycle-scroll .cycle-pager figcaption{
+	transition-delay: 0.33s;
+}
+
+.cycle-pager.notrans figcaption{
+	transition: none;
+}
 
 .cycle-pager span{
 	display: inline-block;
@@ -2010,8 +2057,20 @@ $cycleptrans: 0.33s ease;
 	transition: opacity $cycleptrans;
 }
 
-.cycle-pager .cycle-pager-active .cycle-pager-text{
-	transition: opacity 0.67s ease 0.33s;
+.cycle-scroll .cycle-pager .cycle-pager-text{
+	transition-delay: 0.33s;
+}
+
+.cycle-pager.notrans .cycle-pager-text{
+	transition: none;
+}
+
+.cycle-scroll .cycle-pager .cycle-pager-active .cycle-pager-text{
+	transition: opacity 0.67s ease 0.67s;
+}
+
+.cycle-pager.notrans .cycle-pager-active .cycle-pager-text{
+	transition: none;
 }
 
 .cycle-pager h3, .cycle-pager h4{
@@ -2034,6 +2093,7 @@ $cycleptrans: 0.33s ease;
 	bottom: 0;
 	//width: 100%;
 	margin: 2em 0;
+	@include transform(translate3d(0,0,0));
 	//text-shadow: 0px 0px 1px rgba(0,0,0,0.88);
 }
 

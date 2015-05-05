@@ -64,7 +64,9 @@ $(document).ready(function(e){
 	
 	$(document).on('showpage', function(e){
 		$('#container').addClass('active');
-		$(window).trigger('cycle-activate');
+		if(activePage.sectionID == null){
+			$(window).trigger('cycle-activate');
+		}
 		//$('.header-svg').find('.fill > path').removeAttr('class');
 		$('.site-title a').removeAttr('style');
 	});
@@ -121,6 +123,7 @@ $(document).ready(function(e){
 			window.clearTimeout(cycleTimer);
 			window.clearTimeout(idleTimer);
 			cycleTimer = null;
+			idleTimer = null;
 			$('.menu-wrapper').removeAttr('style');
 			var id = this.sectionID;
 			var cs = this.isCaseStudy();
@@ -137,7 +140,7 @@ $(document).ready(function(e){
 			callBack = callBack || noop;
 			callBack();
 		},
-		enter: function(){
+		enter: function(initial){
 			//updateLocation(url);
 			var id = this.sectionID;
 			var cs = this.isCaseStudy();
@@ -145,8 +148,8 @@ $(document).ready(function(e){
 				if(id == 'about' || id == 'contact'){
 					acScrollTop();
 				}else if(id == null){
-					cycleInit();
-					titleStrokeIn();		
+					initial = initial || false;
+					cycleInit(initial);
 				}
 				backBtn.down();
 			}else{
@@ -236,10 +239,13 @@ $(document).ready(function(e){
 								$('.outgoing').remove();
 								window.scrollTo(0,0);
 								$('#container').removeClass('transition');
-								$content.removeClass('incoming').one(transitionEnd, function(){
-									$(window).trigger('cycle-activate');
-								});
+								// $(window).trigger('cycle-activate');
 								activePage.enter();
+								$content.removeClass('incoming');// .one(transitionEnd, function(){
+// 									if(activePage.sectionID == null){
+// 										$(window).trigger('cycle-activate');
+// 									}
+// 								});
 							});
   						});
  					});
@@ -325,10 +331,11 @@ $(document).ready(function(e){
 	
 	function menuOpen(){
 		$('.site-title').off(transitionEnd);
+		$('#container').addClass('menu-open')
 		cyclePause();
 		$('.menu-wrapper').removeAttr('style');
 		if(activePage.sectionID == 'about' || activePage.sectionID == 'contact'){
-			acHeadAnimateKill();
+			acHeadAnimateKill()
 		}
 		$menCnt.addClass('active');
 		$('body').addClass('menu');
@@ -339,6 +346,7 @@ $(document).ready(function(e){
 			$('.site-title').on(transitionEnd, function(e){
 				if(e.originalEvent.propertyName == 'padding-bottom'){
 					$('#container').addClass('cycle-active');
+					$('#container').removeClass('menu-open')
 					$(this).off(transitionEnd).trigger('cycle-activate');
 				}
 			});
@@ -856,7 +864,6 @@ $(document).ready(function(e){
 		});
 	}
 	
-	
 	/* 
 	==============================================
 	Scroll Animation Bindings
@@ -947,10 +954,11 @@ $(document).ready(function(e){
 	// Holder for filtered slideshow instance
 	var $autoCycle = null;
 	
-	function cycleInit(){
-		$cycle = $('section.cycle');;
+	function cycleInit(onReady){
+		//console.log('cycleInit')
+		$cycle = $('section.cycle')
 		cycleSlides = $cycle.find('> a').each(function(i){
-			$(this).data('slideindex', i);
+			$(this).data('slideindex', i)
 		});
 		$autoCycle = $cycle.clone().attr('id', 'cycle-auto-holder').addClass('filter').appendTo('.content').cycle(cycleOpts);
 		var fade = $('<div class="fade"/>').appendTo('#cycle-scroll-holder');		
@@ -961,16 +969,21 @@ $(document).ready(function(e){
 		//
 		window.scrollTo(0, 0);
 		//
-		var firstRun = true;
+		$('.cycle-pager').addClass('notrans');
 		$(window).on('cycle-activate', function(e){
-			if($('html:hover').length > 0){
-				cycleScrollInit();
-			}else{
-				cycleAuto();
-			}
 			$('#container').addClass('cycle-active');
-			firstRun = false;
+			if($('html:hover').length > 0){
+				cycleScrollInit(true);
+				$autoCycle.addClass('hidden')
+			}else{
+				cycleAuto(true);
+				$cycle.addClass('hidden')
+			}
+			onReady = false;
 		});
+		if(!onReady){
+			$(window).trigger('cycle-activate');
+		}
 	}
 	
 	// Properties for cyclescroll anim
@@ -1017,27 +1030,47 @@ $(document).ready(function(e){
 		if($('#cycle-scroll-holder section.cycle').length > 0){
 			cyc.wsize(cycleSlides.length);	
 		}
-	});
+	})
 	
-	function cycleScrollInit(){
+	function cycleScrollInit(firstRun){
+		//console.log('cycleScrollInit')
 		if($cycle != null){
-			cycleSwitchVisibility(cycleSlides[cyc.section], true);
-			$('#container').addClass('cycle-scroll');
-			cycleScroll();
-			//Switch to auto transition after timeout
-			cycleScrolledTimeout();
+			cycleSwitchVisibility(cycleSlides[cyc.section], true)
+			firstRun = firstRun || false
+			if(!firstRun){
+				$('#cycle-scroll-holder').removeClass('hidden')
+				$('#container').addClass('cycle-scroll').one(animationEnd, function(e){
+					//console.log(e)
+					$('#cycle-auto-holder').addClass('hidden')
+					cycleScroll()
+					cycleScrolledTimeout(firstRun)
+				});
+			}else{
+				$('.cycle-pager').addClass('notrans')
+				$('#container').addClass('cycle-scroll')
+				cycleScroll()
+				cycleScrolledTimeout(true)
+			}
 		}
 	}
 	
-	function cycleScrolledTimeout(){
-		//console.log(opts);
+	function cycleScrolledTimeout(firstRun){
+		//console.log('cycleScrollTimeout')
 		var idle = true;
-		$(window).one('mousemove scrollstart', function(e){
+		firstRun = firstRun || false
+		$(window).on('mousemove scrollstart touchstart click', function(e){
+			if(firstRun){
+				$('.cycle-pager').removeClass('notrans');
+			}
+			$(this).off('mousemove scrollstart touchstart click');
 			idle = false;
 		});
 		cycleTimer = window.setTimeout(function(){
 			if(idle && !$('body').hasClass('menu')){
-				//$('#container').addClass('timeout');
+				if(firstRun){
+					$('.cycle-pager').removeClass('notrans');
+				}
+				//console.log('cycleScrolledTimeout : ' + cycleTimer);
 				cycleAuto();
 			}else{
 				cycleScrolledTimeout();
@@ -1045,25 +1078,45 @@ $(document).ready(function(e){
 		}, 4000);
 	}
 	
-	function cycleAuto(){
-		$(window).off('scroll scrollstop scrollstart mousemove');
-		$autoCycle.cycle('goto', cyc.section);
-		$('#container').removeClass('cycle-scroll');
-		cycleSlides.removeClass('cycle-slide-hidden cycle-slide-visible');
-		$autoCycle.cycle('resume');
-		clearCycleAuto();
+	function cycleAuto(firstRun){
+		$(this).off('mousemove scrollstart touchstart click')
+		$autoCycle.cycle('goto', cyc.section)
+		cycleSlides.removeClass('cycle-slide-hidden cycle-slide-visible')
+		firstRun = firstRun || false
+		if(!firstRun){
+			$('#cycle-auto-holder').removeClass('hidden')
+			$(window).off('scroll scrollstop scrollstart mousemove')
+			$('#cycle-scroll-holder').addClass('out').one(animationEnd, function(e){
+				//console.log(e)
+				$(this).removeClass('out').find('figure').removeAttr('style')
+				$('#container').removeClass('cycle-scroll')
+				$autoCycle.cycle('resume')
+				clearCycleAuto()
+			});
+		}else{
+			$('.cycle-pager').removeClass('notrans')
+			$autoCycle.cycle('resume')
+			clearCycleAuto()
+		}
 	}
 	
 	function clearCycleAuto(){
-		$(window).on('mousemove scrollstart', function(e){
-			$(this).off('mousemove scrollstart');
-			//console.log(e);
-			$autoCycle.cycle('pause');
-			var currSection = $autoCycle.data('cycle.opts').currSlide;
-			cyc.section = currSection;
-			scrollto = cyc.section * cyc.h;
-			window.scrollTo(0, scrollto);
-			cycleScrollInit();
+		//console.log('clearCycleAuto')
+		var counter = 0;
+		$(window).on('mousemove scrollstart click touchstart', function(e){
+			if(!e.type == 'mousemove' || counter > 0){
+				//console.log(e)
+				$(this).off('mousemove scrollstart click touchstart')
+				$autoCycle.cycle('pause')
+				var currSection = $autoCycle.data('cycle.opts').currSlide
+				cyc.section = currSection
+				scrollto = cyc.section * cyc.h
+				window.scrollTo(0, scrollto)
+				cycleScrollInit()
+			}else{
+				counter ++;
+			}
+		
 		});
 	}
 		
@@ -1072,28 +1125,27 @@ $(document).ready(function(e){
 		cyc.frame(scrolled);
 		var n;
 			if(cyc.o > 0){
-				n = 1;
-				moveSlide(-1);
-				cycleFadeUp();
-				moveNextBackSlide(1, 'bottom');
-				//console.log('next slide visible');
+				n = 1
+				moveSlide(-1)
+				cycleFadeUp()
+				moveNextBackSlide(1, 'bottom')
 				if(cyc.pa != cyc.a){
-					cycleSwitchVisibility(cycleSlides[cyc.section], true);
+					cycleSwitchVisibility(cycleSlides[cyc.section], true)
 				}
 			}else{
-				n = -1;
-				moveSlide(1);
-				cycleFadeUp();
-				moveNextBackSlide(-1, 'top');
+				n = -1
+				moveSlide(1)
+				cycleFadeUp()
+				moveNextBackSlide(-1, 'top')
 				if(cyc.pa != cyc.a){
-					cycleSwitchVisibility(cycleSlides[cyc.section], false);
+					cycleSwitchVisibility(cycleSlides[cyc.section], false)
 				}
 			}
 			if(cyc.section != cyc.psection){
-				cyc.psection = cyc.section;
+				cyc.psection = cyc.section
 			}
-		cyc.pscroll = scrolled;
-		cyc.pa = cyc.a;
+		cyc.pscroll = scrolled
+		cyc.pa = cyc.a
 	}
 	function moveSlide(d){
 		var move = cyc.c * 50 * d;
@@ -1153,65 +1205,62 @@ $(document).ready(function(e){
 	function cycleKill(){
 		if($cycle != null && $autoCycle != null){
 			// Clear any possible running timeouts
-			cycleClear();
+			cycleClear()
 			// Empty all vars
-			$autoCycle.cycle('destroy');
-			$('#container').removeClass('cycle-active cycle-scroll cycle-auto-transition');
-			$autoCycle = null;
-			$cycle = null;
-			cycleSlides = null;
-			cycleAnim = null;
+			$('#container').removeClass('cycle-active')
+			$autoCycle.cycle('destroy')
+			$('#container').removeClass('cycle-active cycle-scroll cycle-auto-transition')
+			$autoCycle = null
+			$cycle = null
+			cycleSlides = null
+			cycleAnim = null
 			// reset the cyc anim object to its default values
-			cyc.reset();
+			cyc.reset()
 		}
 	}
 	
 	function cycleClear(){
-		$autoCycle.cycle('pause');
-		$('#container').removeClass('cycle-active');
-		window.clearTimeout(cycleTimer);
-		$(window).off('scroll scrollstop scrollstart mousemove');
-		window.clearTimeout(cycleTimer);
-		cycleTimer = null;
+		window.clearTimeout(cycleTimer)
+		$(window).off('scroll scrollstop scrollstart mousemove click touchstart')
+		$autoCycle.cycle('pause')
+		cycleTimer = null
 	}
 	
 	function cyclePause(){
 		if($autoCycle != null && $cycle != null){
-			cycleClear();
+			cycleClear()
 		}
 	}
-	
-	//var pstep = 0;
-	//$('section.cycle a').addClass('cursor-move-up');
-	
+		
 	function cycleScroll(){
-		var $pager = $('.cycle-pager').children();
-		//$('.fade').addClass('changing-opacity');
-		$(window).on('scroll', function(e){
-			scrolled = $(this).scrollTop();
+		//console.log('cycleScroll')
+		var $pager = $('.cycle-pager')
+		$(window).on('scrollstart', function(e){
+			$pager.addClass('notrans')
+		}).on('scroll', function(e){
+			scrolled = $(this).scrollTop()
 			if($cycle != null){
-				cycleAnim = requestAnimationFrame(cycleScrollAnimPlay);
+				cycleAnim = requestAnimationFrame(cycleScrollAnimPlay)
 			}
 		}).trigger('scroll').on('scrollstop', {latency: 333}, function(e){
-			cycleSnap();
+			cycleSnap()
 		});
 		
 		function cycleSnap(){
-			$(window).off('scrollstop');
-			//if($cycle != null){
+			$(window).off('scrollstop')
 			$bodyHTML.stop().animate({
 				scrollTop: (cyc.h * cyc.section)
 			}, 333, function(){
-				$pagerActive = $($pager[cyc.section]);
-				//console.log($('.cycle-pager').children(), $pager);
+				$pager.removeClass('notrans')
+				$pagerActive = $($pager.find('figcaption:nth-child(' + (cyc.section + 1) + ')'))
+				//console.log($pagerActive)
 				if(!$pagerActive.hasClass('cycle-pager-active')){
-					$pagerActive.addClass('cycle-pager-active').siblings().removeClass('cycle-pager-active');
+					$pagerActive.addClass('cycle-pager-active').siblings().removeClass('cycle-pager-active')
 				}
 				$(window).on('scrollstop', {latency: 333}, function(e){
-					cycleSnap();
-				});
-			});
-				//}
+					cycleSnap()
+				})
+			})
 		}
 	}
 	
@@ -1298,7 +1347,7 @@ $(document).ready(function(e){
 		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
 			var idle = true;
 			$(window).on('mousemove scrollstart click', function(e){
-				console.log(e)
+				//console.log(e)
 				$(window).off('mousemove scrollstart click');
 				idle = false;
 			});
@@ -1346,6 +1395,6 @@ $(document).ready(function(e){
 	============================================== */
 	
 	activePage.locate(window.location.pathname, null);
-	activePage.enter();
+	activePage.enter(true);
 	
 });
