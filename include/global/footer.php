@@ -23,6 +23,7 @@
         </script>-->
 =======
         <script src="<?php echo $page->rel_depth() . 'js/scripts.min.js';?>"></script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             // var _gaq=[['_setAccount','UA-33045219-1'],['_trackPageview']];
 //             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];

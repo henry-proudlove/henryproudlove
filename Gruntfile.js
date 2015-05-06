@@ -1,15 +1,9 @@
 module.exports = function(grunt) {
-	jsSrc = ['js/vendor/froogaloop.min.js',
-			'js/vendor/viewport-units-buggyfill.js',
-       	 	'js/vendor/jquery.cycle2.js',
-        	'js/vendor/jquery.cycle2.swipe.min.js',
-        	'js/author/plugins.js',
-        	'js/author/main.js']
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		concat: {
 		    dist: {
-		      src: jsSrc,
+		      src: ['js/vendor/*.js', 'js/*.js'],
 		      dest: 'js/author/scripts.js',
 		    },
 		  },
