@@ -26,4 +26,4 @@
 		
     </body>
 </html>
-<?php include(DIR_INCLUDE . 'cache/bottom-cache.php'); ?>
+<?php //include(DIR_INCLUDE . 'cache/bottom-cache.php'); ?>

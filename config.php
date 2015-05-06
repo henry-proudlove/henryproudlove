@@ -1,6 +1,6 @@
 <?php
 	// Global consants
-	define('SERVER_FLAG',	TRUE);
+	define('SERVER_FLAG',	FALSE);
 	define('DIR_ROOT',      dirname( dirname( __FILE__ ) ));
 	define('SUB_DOM',       '/henryproudlove/');
 	define('DIR_BASE',      DIR_ROOT    . SUB_DOM);
@@ -14,5 +14,5 @@
 	define('VIEW_FUNCTIONS',DIR_GLOBAL  . 'functions.php');
 	define('VIEW_FOOTER',   DIR_GLOBAL  . 'footer.php');
 	// Cache
-	include(DIR_INCLUDE . 'cache/top-cache.php');
+	//include(DIR_INCLUDE . 'cache/top-cache.php');
 ?>
