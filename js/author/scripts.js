@@ -3941,4 +3941,5 @@ $(document).ready(function(e){
 	
 	activePage.locate(window.location.pathname, null);
 	activePage.enter(true);
+	
 });
