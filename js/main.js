@@ -20,7 +20,6 @@ $(document).ready(function(e){
 	Intro Anim
 	============================================== */
 	
-<<<<<<< HEAD:js/main.js
 	function getHeader(event){
 		if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
 			var inline  = '.header-inline';
@@ -39,58 +38,14 @@ $(document).ready(function(e){
 		}else{
 			$title.addClass('header-png');
 			setTimeout(function(){
-=======
-	// function getHeader(event){
-// 		// if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
-// // 			var inline  = '.header-inline';
-// // 			var stacked = '.header-stacked';
-// // 			var m = $(window).width() < 769;
-// // 			// Load appropriate header based on screen widths
-// // 			if (m && $(stacked).length < 1){
-// // 				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
-// // 					introAnim(stacked);
-// // 				});
-// // 			}else if(!m && $(inline).length < 1){
-// // 				$title.load(uriStem + 'img//header-svg/HenryProudlove-inline.svg', function(){
-// // 					introAnim(inline);
-// // 				});
-// // 			}
-// // 		}else{
-// // 			$title.addClass('header-png');
-// // 			setTimeout(function(){
-// // 				$(document).trigger('showpage');
-// // 			}, 1000);
-// // 		}
-// 	}
-		
-	// $(window).on('debouncedresize', function(e){
-// 		getHeader();
-// 	});
-
-	$('.header-svg, .header-svg #spinner').addClass('animating').on(animationEnd, function(){
-		introAnim();
-	});
-	
-	function introAnim(firstimg){
-		//$svg = $(svg);
-		if($('img').length < 1 || firstimg){
-			//console.log('this fjfjfjklsd');
-			hideLoader();
-		}
-		function hideLoader(){
-			window.setTimeout(function(){
->>>>>>> svg-trigger-anim:js/author/main.js
 				$(document).trigger('showpage');
 			}, 1000);
 		}
 	}
-<<<<<<< HEAD:js/main.js
 		
 	$(window).on('debouncedresize', function(e){
 		getHeader();
 	});
-=======
->>>>>>> svg-trigger-anim:js/author/main.js
 	
 	function introAnim(svg){
 		$svg = $(svg);

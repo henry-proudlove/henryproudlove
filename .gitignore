@@ -32,10 +32,6 @@ css/.sass-cache
 css/compressssed
 css/main.css.map
 
-# GRUNT # 
-######################
-node_modules/
-
 # OS generated files #
 ######################
 .DS_Store
