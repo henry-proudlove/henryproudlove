@@ -1,7 +1,0 @@
-<svg version="1.1" class="video-play fg-color trans oow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 302 302" enable-background="new 0 0 302 302" xml:space="preserve">
-	<circle opacity="0.2" fill="#222222" cx="151" cy="151" r="94"/>
-	<circle class="color" cx="151" cy="151" r="94"/>
-	<path fill="#FFFFFF" d="M151,1C68.2,1,1,68.2,1,151s67.2,150,150,150c82.8,0,150-67.2,150-150S233.8,1,151,1z M130.6,214.4l-5.8-5.9
-		l58.6-58.5l-58.8-58.5l5.8-5.9l64.6,64.4L130.6,214.4z"/>
-</svg>
-

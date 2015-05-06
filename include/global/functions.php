@@ -4,6 +4,7 @@
 	include_once(DIR_CLASSES . 'image.php');
 	include_once(DIR_CLASSES . 'image-color.php');
 	
+	
 	// Return an array of all casestudy objects 
 	function get_the_projects($filter = null, $sort = true){
 		
@@ -59,7 +60,8 @@
 	}
 	
 	// Write case study specific css  
-	function project_classes($projects){
+	function project_classes(){
+		$projects = get_the_projects();
 		foreach($projects as $project){
 			if(isset($project['project_data']->color)){
 				buildClass($project['project_data']->name, $project['project_data']->color);
@@ -97,37 +99,6 @@
 		echo 'border-color:' . $color . ';' . PHP_EOL;
 		echo 'stroke:' . $color . ';' . PHP_EOL;
 		echo 'fill:' . $color . ';' . PHP_EOL;
-	}
-	function buildSpinner($projects){
-		write_svg_file($projects);
-		foreach($projects as $project){
-			global $page;
-			$name = $project['project_data']->name;
-			echo '.' . $name . ' figure.loading {' . PHP_EOL;
-			echo 'background-image: url("'. $page->rel_depth() .'img/spinner.svg#' . $name . '-spinner");' . PHP_EOL;
-			echo '}' . PHP_EOL;
-		}
-	}
-		
-	function write_svg_file($projects){
-		$svg = file_get_contents(DIR_MARKUP . 'spinner-string.svg');
-		$spinners = [];
-		foreach($projects as $project){
-			$name = $project['project_data']->name;
-			if(isset($project['project_data']->color['fg'])){
-				$color = $project['project_data']->color['fg'];
-			}else{
-				$color = 'white';
-			}
-			$id = 'id="' . $name . '-spinner" fill="' . $color . '"';
-			$spinners[$name] = preg_replace('/id="spinner"/', $id , $svg);
-		}
-		// Add default spinnier
-		$id = 'id="default-spinner" fill="white"';
-		$spinners['default'] = preg_replace('/id="spinner"/', $id , $svg);
-		// 
-		$spinner_svg = '<?xml version="1.0" encoding="utf-8"?>'. PHP_EOL . '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 45 45">' . implode('', $spinners). PHP_EOL . '</svg>';
-		file_put_contents(DIR_BASE . 'img/spinner.svg', $spinner_svg);
 	}
 	
 	// Add Special cursors for casestudies
@@ -208,9 +179,7 @@
 		global $page;
 		if($page->is_casestudy()){
 			global $cs;
-			$roles = implode($cs->role, ' • ');
-			$text  = preg_match('/^[^.?!]+/', strip_tags($cs->text), $text_match);
-			$description = $roles . '// ' . $text_match[0];
+			$description = implode($cs->role, ' • ') . ' // ' . substr(preg_replace('/([^?!.]*.).*/', '\\1', strip_tags($cs->text)), 0 , -1);
 		}else{
 			include_once(DIR_MARKUP . 'desc.php');
 			if(array_key_exists($page->name, $desc_arr)){
@@ -219,7 +188,7 @@
 				$description = $desc_default;
 			}
 		}
-		return trim($description);
+		return $description;
 	}
 	
 	
