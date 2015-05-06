@@ -155,9 +155,51 @@ body {
 	font-family:'AvenirNextLTW01-UltraLi' , helvetica, sans-serif;
 }
 
-#container {
+#container{
 	position: relative;
+	pointer-events: none;
 }
+
+#container.active{
+	pointer-events: auto;
+}
+
+#container.unfiltered{
+	opacity: 1;
+	z-index: 3;
+	transition: opacity 0.67s ease;
+}
+
+#container.unfiltered.fade{
+	opacity: 0;
+	z-index: 3;
+	transition: opacity 1.67s ease;
+}
+
+#container.filtered{
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+#container.filtered .menu-container .site-title{
+	opacity: 1 !important;
+	//transition: opacity 1s ease 2s;
+}
+
+#container.filtered .header-svg{
+	fill: white !important;
+	stroke: white !important;
+}
+
+#container.filtered .site-title *{
+	-webkit-animation: none 0 !important;
+			animation: none 0 !important;
+}
+
 
 /* === ARTICLE TEXT === */
 
@@ -483,7 +525,7 @@ header.main-header{
 	padding-bottom: 0;
 	margin: 0;
 	transition: 
-		opacity 0.34s ease 0.34s,
+		opacity 0.33s ease 0.34s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
 		fill-opacity 0.67s ease,
 }
@@ -491,7 +533,7 @@ header.main-header{
 .menu-container.active .site-title{
 	padding-bottom: 35vw;
 	transition:
-		opacity 0.34s ease 0s,
+		opacity 0.33s ease 0s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0s,
 		fill-opacity 0.67s ease 0.67s;
 }
@@ -501,7 +543,7 @@ header.main-header{
 	padding-bottom: 0;
 	margin: 0;
 	transition: 
-		opacity 0.34s ease 0s,
+		opacity 0.33s ease 0s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
 		fill-opacity 0.67s ease,
 }
@@ -509,9 +551,9 @@ header.main-header{
 // Home page needs a different opacity transition
 .home .site-title{
 	transition:
-		opacity 0.167s cubic-bezier(0.165, 0.840, 0.440, 1.000) 0.33s,
+		opacity 0.33s cubic-bezier(0.165, 0.840, 0.440, 1.000) 0.33s,
 		padding-bottom 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860) 0.33s,
-		fill-opacity 0.67s ease,
+		fill-opacity 0.67s ease;
 }
 
 .home .menu-container.active .site-title{
@@ -529,14 +571,28 @@ header.main-header{
 
 /* Site title SVG styling: menu closed */
 
-.site-title a.header-png {
+.site-title .header-png {
 	background-image: url('../img/header-png/HenryProudlove-stacked.png');
 	background-size: 100%, 100%;
 	overflow: hidden;
 	padding-top: 45.5%;
 	height: 0;
 	text-indent: -9000px;
+	display: block;
 }
+
+.inlinesvg.cssanimations.svgclippaths .site-title .header-png{
+	display: none;
+}
+
+.header-svg{
+	display: none;
+}
+
+:not(.inlinesvg.cssanimations.svgclippaths) .site-title .header-svg{
+	display: block;
+}
+
 
 .header-svg{
 	stroke-opacity: 1;
@@ -545,7 +601,29 @@ header.main-header{
 	//stroke-dasharray : 0;
 	stroke: white;
 	fill: white;
+}
+
+.header-svg .fill{
+	//fill-opacity: 1;
+	stroke-width : 2px;
+	fill-opacity: 0.1;
+	stroke-opacity: 0.3;
+	//stroke-dasharray : 0;
 	width: 100%;
+	//-webkit-animation: introanim 1s ease;
+//			animation: introanim 1s ease;
+}
+
+.header-inline{
+	display:none;
+}
+.header-stacked{
+	display:block;
+}
+
+#container.active .header-svg .fill{
+	fill-opacity: 1;
+	stroke-opacity: 1;
 }
 
 body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #container.active .header-svg{
@@ -553,14 +631,14 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 	fill: $red;
 }
 
-#container.active .header-svg{
+#container.active .header-svg .fill,
+#container.active .header-svg .stroke{
 	transition:
-		fill 0.33s ease 0.33s, stroke 0.33s ease 0.33s;
-}
-
-#container.active .menu-container.active .header-svg{
-	transition:
-		fill 0.33s ease 0.33s, stroke 0.33s ease 0.33s;
+		fill 0.33s ease 0.33s,
+		stroke 0.33s ease 0.33s,
+		fill-opacity 0.67s ease,
+		stroke-opacity 0.67s ease;
+		//all 0.33s ease;
 }
 
 /* Site title SVG styling: menu open */
@@ -584,9 +662,11 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 
 /* Hover state for .site-title */
 
-.site-title a .mask{
+.site-title .mask{
 	@include transform(scaleX(0));
-	transition: transform 0.33s ease;
+	transition:	-webkit-transform 0.33s ease,
+					-ms-transform 0.33s ease,
+						transform 0.33s ease;
 }
 
 .menu-container.active .site-title:hover a .stroke,
@@ -594,18 +674,18 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 	stroke: white !important;
 }
 
-.menu-container .site-title a:hover .mask,
-.menu-container .site-title a.active .mask,
-.about:not(.menu) .menu-container .site-title a .mask,
-.contact:not(.menu) .menu-container .site-title a .mask,
-.home .menu-container .site-title a .mask{
+.home #container.active .site-title .mask,
+.about #container.active .site-title .mask,
+.contact #container.active .site-title .mask,
+.menu-container.active .site-title:hover .mask{
 	@include transform(scaleX(1));
-	//@include allTrans(0.34s, ease);
 }
 
-/* Viewport dependant */
-.site-title a .mask{
-	@include transformOrigin(0, 0);
+.about #container.active.transition .site-title .mask,
+.contact #container.active.transition .site-title .mask,
+.menu.about #container.active .site-title .mask,
+.menu.contact #container.active .site-title .mask{
+	@include transform(scaleX(0));
 }
 
 /* ---- .site-links ---- */
@@ -686,11 +766,6 @@ nav.site-links {
 .site-links a:hover span:after, .site-links a.active span:after, .contact-links a:hover span:after{
 	@include transform(scaleX(1));
 	@include allTrans(0.33s, ease);
-}
-
-/* Viewport dependant */
-.site-title a .mask{
-	@include transformOrigin(0, 0);
 }
 
 /* Viewport dependant */
@@ -1561,7 +1636,71 @@ section.cycle{
 	overflow: hidden;
 	background-color: #818181;
 	background: transparent;
+	position: fixed;
 }
+
+#cycle-scroll-holder{
+	z-index: 1;
+	//transition: none;
+}
+
+.cycle-active #cycle-scroll-holder{
+	display: none;
+}
+
+.cycle-active.cycle-scroll #cycle-scroll-holder{
+	display: block;
+	-webkit-animation: cyclescrollin 0.34s;
+			animation: cyclescrollin 0.34s;
+}
+
+@keyframes cyclescrollin{
+	from{ opacity: 0; }
+	to{ opacity: 1; }
+}
+
+@-webkit-keyframes cyclescrollin{
+	from{ opacity: 0; }
+	to{ opacity: 1; }
+}
+
+.cycle-active.cycle-scroll #cycle-scroll-holder.out{
+	display: block;
+	-webkit-animation: cyclescrollout 0.34s;
+			animation: cyclescrollout 0.34s;
+}
+
+@keyframes cyclescrollout{
+	from{ opacity: 1; }
+	to{ opacity: 0; }
+}
+
+@-webkit-keyframes cyclescrollout{
+	from{ opacity: 1; }
+	to{ opacity: 0; }
+}
+
+
+.cycle-active.cycle-scroll #cycle-scroll-holder{
+	transition: opacity 0.67s ease;
+}
+
+.cycle-scroll #cycle-auto-holder{
+	z-index: 0;
+	//display: none;
+}
+
+//.cssfilters .cycle-active section.cycle,
+//{
+//	-webkit-filter: grayscale(1);
+//			filter: grayscale(1);
+//}
+
+//.cssfilters .content,
+//.cssfilters .cycle-active.cycle-scroll section.cycle{
+//	-webkit-filter: none;
+//			filter: none;
+//}
 
 .home .menu-container.active .site-title,
 .home #container.transition .site-title,
@@ -1573,24 +1712,20 @@ section.cycle{
 	opacity: 1;
 }
 
-.home .cycle-active .site-title{
-	transition: opacity 1.67s ease 0s;
+.home .cycle-active:not(.menu-open) .site-title{
+	transition: opacity 1s ease 0s;
 }
 
-.home .cycle-scroll .site-title{
-	opacity: 0.167;
+.home .cycle-scroll:not(.menu-open) .site-title{
+	opacity: 0.33;
 	transition: opacity 0.67s ease 0s;
 }
 
-.home .cycle-scroll.timeout .site-title{
-	transition: opacity 1.67s ease 0s;
-}
-
-//.home:hover .cycle-active .site-title{
-//	transition: opacity 0.67s ease 0s;
+//.home .cycle-scroll.timeout .site-title{
+//	transition: opacity 1s ease 0s;
 //}
 
-section.cycle:after{
+section.cycle:after, .filter:after{
 	content: ' ';
 	display: block;
 	position: absolute;
@@ -1600,16 +1735,25 @@ section.cycle:after{
 	left: 0;
 	z-index: -1;
 	opacity: 0;
-	background:
-		radial-gradient(ellipse at center, rgba(178, 182, 184, 0.25) 0%, rgba(178, 182, 184, 0.25) 100%),
-		radial-gradient(ellipse at center, rgba(69, 82, 91, 0) 0%, rgba(69, 82, 91, 0.33) 100%);
+	background: rgba(178,182,184,0.33);
+		//radial-gradient(ellipse at center, rgba(178, 182, 184, 0.25) 0%, rgba(178, 182, 184, 0.25) 100%),
+		//radial-gradient(ellipse at center, rgba(69, 82, 91, 0) 0%, rgba(69, 82, 91, 0.33) 100%);
 	transition: opacity 0.67s ease 0s, z-index 0s linear 0.67s;
+}
+
+.cssfilters section.cycle:after{
+	display: none;
+}
+
+.filtered .main-header .fg-color{
+	background: white;
+	color: white;
 }
 
 .cycle-active section.cycle:after{
 	z-index: 199;
 	opacity: 1;
-	transition: opacity 1.67s ease 0s, z-index 0s linear 0s;
+	transition: opacity 1s ease 0s, z-index 0s linear 0s;
 }
 
 .cycle-active.cycle-scroll section.cycle:after{
@@ -1620,7 +1764,7 @@ section.cycle:after{
 
 
 .cycle-scroll.timeout section.cycle:after{
-	transition: opacity 1.67s ease 0s, z-index 0s linear 0s;
+	transition: opacity 1s ease 0s, z-index 0s linear 0s;
 }
 
 section.cycle.cycle.active{
@@ -1630,6 +1774,7 @@ section.cycle.cycle.active{
 
 section.cycle.too-fast{
 	opacity: 0;
+	transition: opacity 1.33s ease;
 	@include transDelay(1.33s);
 }
 
@@ -1755,19 +1900,21 @@ section.cycle img{
 	
 }
 
-section.cycle figcaption span{
+.cycle-pager figcaption span{
 	@include transform(none);
-	position: absolute;
 	top: 0;
-	width: 60%;
 }
 
-section.cycle figcaption{
+.cycle-pager figcaption{
 
 	//transition: inherit;
 }
 
-section.cycle figcaption.cycle-pager-active{
+#container:not(.cycle-active) .cycle-pager *{
+	transition: none;
+}
+
+.cycle-pager figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 0.8em;
 }
@@ -1788,7 +1935,7 @@ section.cycle picture{
 }
 
 section.cycle figure{
-	background: $grey;
+	background-color: $grey;
 }
 
 section.intro.cycle .fade {
@@ -1804,11 +1951,11 @@ section.intro.cycle .fade {
 }
 
 
-section.cycle figcaption.cycle-pager-active .indicator{
+.cycle-pager figcaption.cycle-pager-active .indicator{
 	@include transform(scaleY(100%));
 }
 
-section.cycle figcaption span.cycle-pager-text{
+.cycle-pager figcaption span.cycle-pager-text{
 	opacity: 0;
 	transition: inherit;
 }
@@ -1818,7 +1965,12 @@ section.cycle figcaption span.cycle-pager-text{
 //}
 
 .cycle-scroll .cycle-pager{
-	@include allTrans(0.167s, ease-out);
+	@include allTrans(0.33s, ease-out);
+	transition-delay: 0.33s;
+}
+
+.cycle-scroll .cycle-pager.notrans{
+	transition: none;
 }
 
 //section.cycle:hover figcaption.cycle-pager-active{
@@ -1826,12 +1978,12 @@ section.cycle figcaption span.cycle-pager-text{
 //	height: 1.34em;
 //}
 
-.cycle-scroll section.cycle figcaption.cycle-pager-active{
+.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
 	opacity: 1;
 	height: 1.33em;
 }
 
-span.cycle-pager-text {
+.cycle-pager-text {
   font-size: 0.8em;
   margin-top: 0em;
   display: none !important;
@@ -1841,7 +1993,7 @@ span.cycle-pager-text {
 //	opacity: 1;
 //}
 
-.cycle-scroll section.cycle figcaption.cycle-pager-active span.cycle-pager-text{
+.cycle-scroll .cycle-pager figcaption.cycle-pager-active span.cycle-pager-text{
 	opacity: 1;
 }
 
@@ -1850,15 +2002,6 @@ span.cycle-pager-text {
 }
 
 /* Pager */ 
-
-//.cycle-pager{
-//	@include allTrans(0.33s, ease-out);
-//}
-//
-//.cycle-pager figcaption{
-//}
-//
-//.cycle-pager .indicator
 
 $cycleptrans: 0.33s ease;
 
@@ -1876,6 +2019,14 @@ $cycleptrans: 0.33s ease;
 						transform $cycleptrans;
 }
 
+.cycle-scroll .cycle-pager .indicator{
+	transition-delay: 0.33s;
+}
+
+.cycle-pager.notrans .indicator{
+	transition: none;
+}
+
 .cycle-pager figcaption{
 	position: relative;
 	display: block;
@@ -1888,8 +2039,15 @@ $cycleptrans: 0.33s ease;
 	margin-bottom: 0.5em;
 	transition: height $cycleptrans,
 				opacity $cycleptrans;
-	
-} 
+}
+
+.cycle-scroll .cycle-pager figcaption{
+	transition-delay: 0.33s;
+}
+
+.cycle-pager.notrans figcaption{
+	transition: none;
+}
 
 .cycle-pager span{
 	display: inline-block;
@@ -1897,6 +2055,22 @@ $cycleptrans: 0.33s ease;
 
 .cycle-pager .cycle-pager-text{
 	transition: opacity $cycleptrans;
+}
+
+.cycle-scroll .cycle-pager .cycle-pager-text{
+	transition-delay: 0.33s;
+}
+
+.cycle-pager.notrans .cycle-pager-text{
+	transition: none;
+}
+
+.cycle-scroll .cycle-pager .cycle-pager-active .cycle-pager-text{
+	transition: opacity 0.67s ease 0.67s;
+}
+
+.cycle-pager.notrans .cycle-pager-active .cycle-pager-text{
+	transition: none;
 }
 
 .cycle-pager h3, .cycle-pager h4{
@@ -1915,10 +2089,11 @@ $cycleptrans: 0.33s ease;
 
 .cycle-pager{
 	z-index: 200;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
-	width: 100%;
+	//width: 100%;
 	margin: 2em 0;
+	@include transform(translate3d(0,0,0));
 	//text-shadow: 0px 0px 1px rgba(0,0,0,0.88);
 }
 
@@ -2005,7 +2180,7 @@ body {
 	height: 5em;
 	opacity: 0;
 	position: absolute;
-	display: none;
+	//display: none;
 	overflow: visible !important;
 	@include allTrans(0.33s, ease);
 	@include vertHorzCenter(50%);
@@ -2020,26 +2195,30 @@ body {
 }
 
 
-#container.transition .fill, .video-spinner .fill{
-	fill-opacity: 0.2;
+#container.active.transition .fill, .video-spinner .fill{
+	fill-opacity: 0.1;
 	stroke-opacity: 0.33;
 	@include transDelay(0s);
 }
 
 #spinner-left, #spinner-right{
-	-webkit-animation: spin 1.33s infinite;
-			animation: spin 1.33s infinite;
-	-webkit-animation-play-state: paused;
-	        animation-play-state: paused;
+	-webkit-animation: spin 1.33s;
+			animation: spin 1.33s;
+	-webkit-animation-iteration-count: 1;
+			animation-iteration-count: 1;
+	//-webkit-animation-play-state: paused;
+//	        animation-play-state: paused;
 			stroke-width: 2px;
-			opacity: 0;
+			visibility: hidden;
 }
 
-#container.transition #spinner > *,
+#container:not(.active) #spinner > *,
+#container.active.transition #spinner > *,
 .cycle-slide-active #spinner > *  {
-	-webkit-animation-play-state: running;
-	        animation-play-state: running;
-			opacity: 1;
+	//-webkit-animation-play-state: running;
+//	        animation-play-state: running;
+	-webkit-animation-iteration-count: infinite;
+			animation-iteration-count: infinite;
 }
 
 
@@ -2050,15 +2229,25 @@ body {
 
 @-webkit-keyframes spin {
   from {
-    @include transform(rotate(720deg));
+    @include transform(rotate(-720deg));
+	visibility: visible;
 	//@include transformOrigin(center,center);	
+  }
+  to{
+    @include transform(rotate(0));
+	visibility: visible;
   }
 }
 
 @keyframes spin {
   from {
-    @include transform(rotate(720deg));
+    @include transform(rotate(-720deg));
+	visibility: visible;
 	//@include transformOrigin(center,center);
+  }
+  to{
+    @include transform(rotate(0));
+	visibility: visible;
   }
 }
 
@@ -2318,9 +2507,16 @@ a:hover figcaption h4{
 
 /* ==== LAZYSIZES ==== */
 
-img{
-	opacity: 0;
-	@include allTrans(0.67s, ease);
+figure.loading{
+	background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 2em 2em;
+    background-position: center center;
+}
+
+.lazyload,
+.lazyloading {
+    opacity: 0;
 }
 
 .lazyloaded{
@@ -2504,18 +2700,17 @@ img{
 
 	/* ---- cycle figcaption large version  ---- */
 
-	section.cycle figcaption{
+	.cycle-pager figcaption{
 		height: 0.34em;
 		margin-bottom: 0.67em;
 	}
 
-	section.cycle figcaption.cycle-pager-active{
+	.cycle-pager figcaption.cycle-pager-active{
 		height: 1em;
 	}
 	
 	.cycle-pager{
 		margin: 3em 0;
-		//text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.66);
 	}
 	
 	.cycle-pager .indicator{
@@ -2527,15 +2722,11 @@ img{
 		padding: 0 0 0 6.67em;
 	}
 	
-	//section.cycle:hover figcaption.cycle-pager-active{
-//		height: 2em;
-//	}
-	
-	.cycle-scroll section.cycle figcaption.cycle-pager-active{
+	.cycle-scroll .cycle-pager figcaption.cycle-pager-active{
 		height: 2em;
 	}
 	
-	span.cycle-pager-text {
+	.cycle-pager-text {
 	  font-size: 1em;
 	  display: block !important;
 	}
@@ -2600,7 +2791,11 @@ img{
 		display:none;
 	}
 	
-	.site-title a.header-png {
+	.site-title .mask{
+		@include transformOrigin(50%, 50%);
+	}
+	
+	.site-title .header-png {
 		background-image: url('../img/header-png/HenryProudlove-inline.png');
 		padding-top: 12.75%;
 	}
@@ -2622,9 +2817,9 @@ img{
 	
 	/* ---- .site-title hover line origin centered  ---- */
 	
-	.site-title a .mask{
-		@include transformOrigin(50%, 50%);
-	}
+	//.site-title a .mask{
+//		@include transformOrigin(50%, 50%);
+//	}
 	
 	/* ---- .site-title covers 5 columns ---- */
 	
