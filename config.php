@@ -1,6 +1,6 @@
 <?php
 	// Global consants
-	define('SERVER_FLAG',	FALSE);
+	define('SERVER_FLAG',	TRUE);
 	define('DIR_ROOT',      dirname( dirname( __FILE__ ) ));
 	define('SUB_DOM',       '/henryproudlove/');
 	define('DIR_BASE',      DIR_ROOT    . SUB_DOM);
