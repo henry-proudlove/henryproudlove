@@ -125,7 +125,7 @@
 				'portrait' => $this->create_filepath_arr('lead/portrait'),
 				'landscape'=> $this->create_filepath_arr('lead/landscape')
 			);
-			$tag = '<figure class="loading">';
+			$tag = '<figure>';
 				$tag .= '<picture><!--[if IE 9]><video style="display: none"><![endif]-->';
 				foreach($files as $orientation => $file){
 					$props = array(
