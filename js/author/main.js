@@ -46,7 +46,10 @@ $(document).ready(function(e){
 	// $(window).on('debouncedresize', function(e){
 // 		getHeader();
 // 	});
-	
+
+	$('.header-svg, .header-svg #spinner').addClass('animating').on(animationEnd, function(){
+		introAnim();
+	});
 	
 	function introAnim(firstimg){
 		//$svg = $(svg);
@@ -60,7 +63,6 @@ $(document).ready(function(e){
 			}, 2000);
 		}
 	}
-	introAnim()
 	
 	$(document).on('showpage', function(e){
 		$('#container').addClass('active');
