@@ -14,5 +14,5 @@
 	define('VIEW_FUNCTIONS',DIR_GLOBAL  . 'functions.php');
 	define('VIEW_FOOTER',   DIR_GLOBAL  . 'footer.php');
 	// Cache
-	//include(DIR_INCLUDE . 'cache/top-cache.php');
+	include(DIR_INCLUDE . 'cache/top-cache.php');
 ?>
