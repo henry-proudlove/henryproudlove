@@ -545,7 +545,56 @@ header.main-header{
 	//stroke-dasharray : 0;
 	stroke: white;
 	fill: white;
+<<<<<<< HEAD
 	width: 100%;
+=======
+	-webkit-animation: introanim 0.67s linear backwards;
+			animation: introanim 0.67s ease backwards;
+}
+.header-svg #spinner{
+	-webkit-animation: introanim 0.67s linear 0.34s backwards;
+			animation: introanim 0.67s linear 0.34s backwards;
+}
+
+
+.header-svg .fill{
+	//fill-opacity: 1;
+	stroke-width : 2px;
+	fill-opacity: 0.1;
+	stroke-opacity: 0.3;
+	//stroke-dasharray : 0;
+	width: 100%;
+}
+
+@keyframes introanim{
+	from{
+		opacity: 0;
+	}
+	to{
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes introanim{
+	from{
+		opacity: 0;
+	}
+	to{
+		opacity: 1;
+	}
+}
+
+.header-inline{
+	display:none;
+}
+.header-stacked{
+	display:block;
+}
+
+#container.active .header-svg .fill{
+	fill-opacity: 1;
+	stroke-opacity: 1;
+>>>>>>> svg-trigger-anim
 }
 
 body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #container.active .header-svg{
