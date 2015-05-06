@@ -32,10 +32,6 @@ css/.sass-cache
 css/compressssed
 css/main.css.map
 
-# GRUNT # 
-######################
-node_modules/
-
 # OS generated files #
 ######################
 .DS_Store
@@ -47,7 +43,18 @@ node_modules/
 ehthumbs.db
 Thumbs.db
 
-# Password #
+# Media and data #
 ######################
+
+data.php
+
+*.jpg
+!img/*.jpg
+*.png
+!img/*.jpg
+*.svg
+*!img/*.svg
+*.webp
+!img/*.webp
 
 .htpasswd
