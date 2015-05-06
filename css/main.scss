@@ -47,6 +47,8 @@ $greytrans: rgba(34,34,34,0.96);
 	        transform: translate($left * -1, -50%) rotate(0deg);
 }
 
+
+
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
@@ -169,9 +171,12 @@ article h1, article h2{
 	font-weight: normal;
 }
 
+//.project.content header.main h2{
+//	display: none;
+//}
+
 article h1{
 	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
-	font-weight: normal;
 	margin-right: 0.3em;
 }
 
@@ -181,40 +186,12 @@ article.project header.main{
 	position: fixed;
 	z-index: 1;
 	//padding: 1.6em 5em;
-	padding: 2em 6em 2em 4em;
+	padding: 2em 5em;
 }
 
 article.project header.main h1, 
 article.project header.main h2{
 	font-size: 1.6em;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	max-width: 100%;
-	overflow: hidden;
-}
-
-article.project header.main h1.touchanim,  
-article.project header.main h2.touchanim{
-	transition: all 0.34s ease;
-}
-
-article.project header.main h1.hide,  
-article.project header.main h2.hide{
-	opacity: 0;
-}
-
-article.project header.main h1.hide{  
-	@include transform(translateY(-60px));
-}
-
-article.project header.main h2.hide{
-	@include transform(translateY(-90px));
-}
-
-article.project header.main h1.show,  
-article.project header.main h2.show{
-	opacity: 1;
-	@include transform(translateY(0px));
 }
 
 article .text{
@@ -225,15 +202,8 @@ article .text{
 	position: relative;
 }
 
-
-
 article .text .wrapper{
 	margin: 0 3em;
-}
-
-.about article .text .wrapper,
-.contact article .text .wrapper{
-	margin: 0;
 }
 
 .project article .text .wrapper{
@@ -270,14 +240,13 @@ article aside{
 
 article aside ul {
 	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
-	font-weight: normal;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
 article aside li, article aside time{
-	padding: 0 0.67em 0.34em 0;
+	padding: 0 0.67em 0.33em 0;
 	display: block;
 }
 
@@ -338,50 +307,25 @@ nav li{
 }
 
 .menu-wrapper{
-	transition: all 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+	transition:
+		transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+	//transition: all 0.67s cubic-bezier(0.645, 0.045, 0.355, 1);
+	/*transition: stroke 0.34s ease 0.34s,
+				fill 0.34s ease 0.34s,
+				opacity 0.34s ease 0,
+				padding-bottom 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
+				-webkit-transform 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
+					-ms-transform 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
+						transform 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0,
+				top 0.67s cubic-bezier(0.645, 0.045, 0.355, 1) 0;*/
 }
 
 .menu-continer.active .menu-wrapper{
-	transition: all 0.34s cubic-bezier(0.785, 0.135, 0.150, 0.860);
-}
-
-.menu-wrapper.touchanim{
-}
-
-.menu-wrapper.hide{
-	-webkit-transform: translateY(-50px) !important;
-		-ms-transform: translateY(-50px) !important;
-			transform: translateY(-50px) !important;
-	
-	opacity: 0;
-}
-
-.menu-wrapper.show{
-	@include transform(translateY(0));
-	transition: all 0.67s ease-out;
-}
-
-@keyframes titlehideshow{
-	from{
-		opacity: 1;
-		@include transform(translateY(0));
-	}
-	to{
-		opacity: 0;
-		@include transform(translateY(-70px));
-	}
-}
-
-@-webkit-keyframes titlehideshow{
-	from{
-		opacity: 1;
-		@include transform(translateY(0));
-	}
-	to{
-		opacity: 0;
-		@include transform(translateY(-70px));
-	}
-}
+	transition:
+		transform 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860),
+		top 0.67s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+} 
 
 .about .active:not(.transition) .menu-container:not(.active) .menu-wrapper,
 .contact #container.active:not(.transition) .menu-container:not(.active) .menu-wrapper{
@@ -542,7 +486,7 @@ header.main-header{
 	stroke-opacity: 1;
 	fill-opacity: 1;
 	stroke-width : 2px;
-	//stroke-dasharray : 0;
+	stroke-dasharray : 0;
 	stroke: white;
 	fill: white;
 	width: 100%;
@@ -569,6 +513,14 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 .contact .site-title{
 	opacity: 1;
 }
+
+/*.home .cycle-active .site-title{
+	opacity: 1;
+}
+
+.home:hover .cycle-active .site-title{
+	opacity: 0.167s;
+}*/
 
 .site-title{
 	opacity: 0;
@@ -832,7 +784,7 @@ nav.site-links a, .contact article li {
 	z-index: inherit;
 	background-clip: content-box;
 }
-.menu-button a, .slideshow-close a{
+.menu-button a, .next-button, .slideshow-close a{
 	width: 100%;
 	height: 100%;
 }
@@ -1047,12 +999,10 @@ nav.site-links a, .contact article li {
 {
 	width: 100%;
 	opacity: 0;
+	background: white !important;
 	top: 50%;
 	left: 50%;
 	@include transform(translate(-50%, -50%) rotate(0));
-}
-.menu-button a .close .bar{
-	background: white !important;
 }
 
 .menu-button a.active .close .bar{
@@ -1160,7 +1110,7 @@ nav.site-links a, .contact article li {
 
 .menu-button a.active .close .bar{
 	transition: background 0.33s ease 0s,
-				-webkit-transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.33s,
+				-webkit-transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.34s,
 					-ms-transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.33s,
 						transform 0.33s cubic-bezier(0.645, 0.045, 0.355, 1) 0.33s,
 				width 0.5s ease 0.33s,
@@ -1244,12 +1194,12 @@ nav.site-links a, .contact article li {
 
 .back-button span:after{
 	@include transform(rotate(45deg));
-	//left: 33%;
+	left: 33%;
 }
 
 .next-button span:after{
 	@include transform(rotate(225deg));
-	//right: 33%;
+	right: 33%;
 }
 
 //.back-button span{
@@ -1579,7 +1529,7 @@ section.cycle{
 
 .home .cycle-scroll .site-title{
 	opacity: 0.167;
-	transition: opacity 0.67s ease 0s;
+	//transition: opacity 0.67s ease 0s;
 }
 
 .home .cycle-scroll.timeout .site-title{
@@ -1718,7 +1668,6 @@ section.cycle img{
 	section.cycle img{
 		height: 100%;
 		width: auto;
-		top: auto;
 		left: 50%;
 		@include transform(translateX(-50%));
 	}
@@ -1730,7 +1679,6 @@ section.cycle img{
 		width: 100%;
 		height: auto;
 		top: 50%;
-		left: auto;
 		@include transform(translateY(-50%));
 	}
 }
@@ -1740,7 +1688,6 @@ section.cycle img{
 		height: 100%;
 		width: auto;
 		left: 50%;
-		top: auto;
 		@include transform(translateX(-50%));
 	}
 }
@@ -1749,7 +1696,6 @@ section.cycle img{
 		width: 100%;
 		height: auto;
 		top: 50%;
-		left: auto;
 		@include transform(translateY(-50%));
 	}
 	
@@ -1763,8 +1709,10 @@ section.cycle figcaption span{
 }
 
 section.cycle figcaption{
-
-	//transition: inherit;
+	opacity: 0.33;
+	height: 0.25em;
+	margin-bottom: 0.5em;
+	transition: inherit;
 }
 
 section.cycle figcaption.cycle-pager-active{
@@ -1833,8 +1781,7 @@ section.cycle figcaption span.cycle-pager-text{
 
 span.cycle-pager-text {
   font-size: 0.8em;
-  margin-top: 0em;
-  display: none !important;
+  margin-top: -0.1em;
 }
 
 //section.cycle:hover figcaption.cycle-pager-active span.cycle-pager-text{
@@ -1851,16 +1798,9 @@ span.cycle-pager-text {
 
 /* Pager */ 
 
-//.cycle-pager{
-//	@include allTrans(0.33s, ease-out);
-//}
-//
-//.cycle-pager figcaption{
-//}
-//
-//.cycle-pager .indicator
-
-$cycleptrans: 0.33s ease;
+.cycle-pager{
+	@include allTrans(0.33s, ease-out);
+}
 
 .cycle-pager .indicator{
 	position: absolute;
@@ -1870,10 +1810,8 @@ $cycleptrans: 0.33s ease;
 	@include transformOrigin(0, 0); 
 	left: 2em;
 	top: 0;
-	display: block;
-	transition:	-webkit-transform $cycleptrans,
-					-ms-transform $cycleptrans,
-						transform $cycleptrans;
+	display:block;
+	transition: inherit;
 }
 
 .cycle-pager figcaption{
@@ -1883,20 +1821,10 @@ $cycleptrans: 0.33s ease;
 	box-sizing: border-box;
 	background: transparent;
 	pointer-events: none;
-	opacity: 0.33;
-	height: 0.25em;
-	margin-bottom: 0.5em;
-	transition: height $cycleptrans,
-				opacity $cycleptrans;
-	
 } 
 
 .cycle-pager span{
 	display: inline-block;
-}
-
-.cycle-pager .cycle-pager-text{
-	transition: opacity $cycleptrans;
 }
 
 .cycle-pager h3, .cycle-pager h4{
@@ -1905,7 +1833,7 @@ $cycleptrans: 0.33s ease;
 	font-size: 1.5em;
 	line-height: 1.33em;
 	opacity: 1;
-	padding : 0 0 0 0.34em;
+	padding : 0 0 0 0.33em;
 	box-sizing: border-box;
 }
 
@@ -1925,7 +1853,7 @@ $cycleptrans: 0.33s ease;
 .cycle-pager figcaption{
 	box-sizing: border-box;
 	width: auto;
-	//height: auto;
+	height: auto;
 }
 
 
@@ -2071,28 +1999,6 @@ body {
 section.images > figure{
 	position: fixed;
     //@include transform(translate3d(0,0,0));
-}
-
-section.images > figure.touchanim,
-section.images > figure.touchanim .pad{
-	transition: all 0.67s ease;
-	background: #222;
-}
-
-section.images > figure.hide{
-	@include transform(translateY(-100px));
-}
-
-section.images > figure.hide .pad{
-	opacity: 0.25;
-}
-
-section.images > figure.show{
-	@include transform(translateY(0));
-}
-
-section.image > figure.show .pad{
-	opacity: 1;
 }
 
 section.images > figure figcaption{
@@ -2267,7 +2173,6 @@ figcaption h3, figcaption h4{
 
 figcaption h3{
 	font-family: 'AvenirNextLTW01-Medium', helvetica, sans-serif;
-	font-weight: normal;
 }
 
 figcaption span{
@@ -2422,7 +2327,7 @@ img{
 	}
 	
 	article.project header.main{
-		padding: 2.6em 9em 2.6em 6em
+		padding: 2.6em 6em;
 	}
 	
 	article.project header.main h1, 
@@ -2454,10 +2359,6 @@ img{
 	article .text{
 		padding: 8.33% 1/12 * 100%;
 	}
-	.about article .text .wrapper,
-	.contact article .text .wrapper{
-		margin: 0 3em;
-	}
 	.pair.width1{
 		width: 100%
 	}
@@ -2468,7 +2369,7 @@ img{
 	}
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 768px) {
 	
 	/* ---- .menu-button large version ---- */
 	
@@ -2482,19 +2383,11 @@ img{
 	}
 	
 	.menu-button a span .bar, .slideshow-close a span .bar{
-		height: 0.34em;
+		height: 0.33em;
 	}
 	
 	.back-button span:after, .next-button span:after{
-		border-width: 0.34em;
-	}
-	
-	.back-button span:after{
-		left: 16.67%;
-	}
-	
-	.next-button span:after{
-		right: 16.67%;
+		border-width: 0.33em;
 	}
 	
 	.menu-button a.active .close, .slideshow-close a.active .close, .slideshow-paging a span{
@@ -2505,7 +2398,7 @@ img{
 	/* ---- cycle figcaption large version  ---- */
 
 	section.cycle figcaption{
-		height: 0.34em;
+		height: 0.33em;
 		margin-bottom: 0.67em;
 	}
 
@@ -2537,7 +2430,7 @@ img{
 	
 	span.cycle-pager-text {
 	  font-size: 1em;
-	  display: block !important;
+	  margin-top: 0.2em;
 	}
 	
 	
@@ -2550,7 +2443,7 @@ img{
 	}
 	
 	article.project header.main{
-		padding: 2.6em 9em 2.6em 7em
+		padding: 2.6em 8em;
 	}
 	
 	article .text aside{
@@ -2588,7 +2481,7 @@ img{
 	}
 	
 	nav li{
-		padding-bottom: 0.34em;
+		padding-bottom: 0.33em;
 	}
 	
 	/* ---- .site-title switches to single line  ---- */
@@ -2605,6 +2498,11 @@ img{
 		padding-top: 12.75%;
 	}
 	
+	.about article .text,
+	.contact article .text{
+		padding-top: 12em;
+	}
+	
 	.about article .description,
 	.contact article .description{
 		margin: 12.75% 0 10%;
@@ -2614,11 +2512,7 @@ img{
 	.about #container.active:not(.transition) .menu-container:not(.active) .menu-wrapper,
 	.contact #container.active:not(.transition) .menu-container:not(.active) .menu-wrapper{
 		top: 12em;
-	}
-	
-	.about article .text, .contact article .text {
-	  padding: 18.67% 0;
-	}
+	}	
 	
 	/* ---- .site-title hover line origin centered  ---- */
 	
@@ -2643,7 +2537,6 @@ img{
 	article .text{
 		//padding: 8.33% 0;
 	}
-	
 	.contact article span{
 		font-size: 0.9em;
 	  	line-height: 0.9em;
@@ -2674,11 +2567,6 @@ img{
 	article .description{
 		font-size: 2em;
 	}
-	
-	.about article .text,
-	.contact article .text{
-		padding: 12em 0;
-	}
 }
 
 @media only screen and (min-width: 960px) {
@@ -2698,6 +2586,7 @@ img{
 	article .text{
 		padding: 8.33% 1/12 * 100%;
 	}
+	
 	.about .description > p{
 		width: 100%;
 		float: none;
@@ -2708,16 +2597,6 @@ img{
 		width: 100%;
 		display: block;
 		float: none;
-	}
-	
-	.about article .text .wrapper,
-	.contact article .text .wrapper{
-		margin: 0 3em;
-	}
-	
-	.about article .text,
-	.contact article .text{
-		padding: 12em 8.33%;
 	}
 }
 
@@ -2797,11 +2676,6 @@ img{
 		float: none;
 	}
 	
-	.about article .text,
-	.contact article .text{
-		padding: 12em 16.67%;
-	}
-	
 }
 
 /* ==========================================================================
@@ -2811,23 +2685,14 @@ img{
 .amv.project .images > figure .pad{
 	background: #323232;
 }
+
 .lvmh.project .images > figure .pad{
 	background: #efefef;
 }
-.fridr.project .images > figure .pad{
-	background: #2f3433;
-}
-.exercism.project .images > figure .pad{
-	background: #f7f7f8;
-}
-
 
 @media only screen and (max-width: 840px) {
 	.amv.project .images > figure img,
-	.lvmh.project .images > figure img,
-	.jordans.project .images > figure img,
-	.fridr.project .images > figure img,
-	.exercism.project .images > figure img{
+	.lvmh.project .images > figure img{
 		top: 60%;
 	}
 }
@@ -3048,8 +2913,4 @@ img{
         page-break-after: avoid;
     }
     
-}
-
-@-ms-viewport{
-  width: device-width;
 }

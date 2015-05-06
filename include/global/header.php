@@ -2,6 +2,7 @@
 	include(VIEW_FUNCTIONS);
 	$page = new Page;
 	$cs = get_the_project();
+	//var_dump($cs);
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -13,15 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title><?php echo get_title(); ?></title>
         <meta name="description" content="<?php echo get_description(); ?>">
-		<meta property="og:site_name" content="Henry Proudlove // Independent Creative"/>
-		<meta property="og:title" content="Portfolio site of freelance designer and creative director Henry Proudlove" />
-		<meta property="og:description" content="This site showcases some of my more recent projects including work for AMV BBDO, Universal Music, The Guardian, Huawei and more" />
-		<meta property="og:image" content="<?php echo $page->rel_depth() . 'img/og_image.png'; ?>" />
-		<meta property="og:type" content="article" />
-		<meta property="article:publisher" content="http://henryproudlove.com" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		
+        <meta name="viewport" content="width=device-width">
 
 		<link rel="icon" type="image/png" href="<?php echo $page->rel_depth() . 'img/favicon/favicon-32x32.png'; ?>" sizes="32x32" />
 		<link rel="icon" type="image/png" href="<?php echo $page->rel_depth() . 'img/favicon/favicon-16x16.png'; ?>" sizes="16x16" />
@@ -31,13 +24,15 @@
 		<meta name="application-name" content="Henry Proudlove // Independent Creative"/>
 		<meta name="msapplication-TileColor" content="#E55242" />
 		<meta name="msapplication-TileImage" content="<?php echo $page->rel_depth() . 'img/thumbs/mstile-144x144.png';?>" />
-		<?php include(DIR_MARKUP . 'fonts.php');?>
+		
+
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/normalize.css'; ?>">
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/main.css'; ?>">
         <link rel="stylesheet" href="<?php echo $page->rel_depth() . 'css/dynamic.php'; ?>">
+		<script type="text/javascript" src="http://fast.fonts.net/jsapi/6debb9f6-678b-474d-b007-9fa2baf9b402.js"></script>
+		<?php// include(DIR_MARKUP . 'fonts.php'); ?>
         <script src="<?php echo $page->rel_depth() . 'js/vendor/modernizr.js'; ?>"></script>
-		<script src="<?php echo $page->rel_depth() . 'js/vendor/picturefill.min.js'?>" async></script>
-		<!-- include fonts --> 
+		<script src="<?php echo $page->rel_depth() . 'js/vendor/picturefill.min.js'?>" async></script>    
 	</head>
 	<?php
 		$body_class = $page->name;
