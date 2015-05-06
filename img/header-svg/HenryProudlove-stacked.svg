@@ -1,6 +1,6 @@
 <svg version="1.1" class="header-stacked header-svg trans" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1200 545" enable-background="new 0 0 1200 545" xml:space="preserve">
 	<title>Henry Proudlove</title>
-	<g class="fade-in">
+	<g class="fade-in" opacity="0">
 		<g id="Henry">
 			<g class="fill">
 				<path id="H" d="M172,17.8v-6.6h-53v6.6l22,3.9v85.5H31v-85h-0.2L53,17.8v-6.6H0v6.6l22,3.9v174.1l-22,3.9v5.5h53v-5.5l-22.2-3.5
@@ -61,15 +61,15 @@
 			<line class="stroke" x1="0" y1="236" x2="579" y2="236"/>
 			<line class="stroke" x1="0" y1="527" x2="1200" y2="527"/>
 		</g>
-		<g id="spinner" transform="translate(858.7, 432)">
+		<g id="spinner" transform="translate(858.7, 432)" opacity="0">
 			<g id="spinner-left">
 				<path d="M0-58.7v-9c-37.4,0-67.7,30.3-67.7,67.7h9C-58.7-32.4-32.4-58.7,0-58.7z"/>
 			</g>
 			<g id="spinner-right">
 				<path d="M58.7,0c0,32.4-26.3,58.7-58.7,58.7v9c37.4,0,67.7-30.3,67.7-67.7l0,0H58.7L58.7,0z"/>
 			</g>
-		    <!-- <animate attributeName="opacity" dur="0.67s" begin="0.34s" to="1" fill="freeze" />   -->
+		    <animate attributeName="opacity" dur="0.67s" begin="0.34s" to="1" fill="freeze" />  
 		</g>
-	    <!-- <animate attributeName="opacity" dur="0.67s" to="1" fill="freeze" />   -->
+	    <animate attributeName="opacity" dur="0.67s" to="1" fill="freeze" />  
 	</g>
 </svg>

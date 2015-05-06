@@ -601,14 +601,7 @@ header.main-header{
 	//stroke-dasharray : 0;
 	stroke: white;
 	fill: white;
-	-webkit-animation: introanim 0.67s linear backwards;
-			animation: introanim 0.67s ease backwards;
 }
-.header-svg #spinner{
-	-webkit-animation: introanim 0.67s linear 0.34s backwards;
-			animation: introanim 0.67s linear 0.34s backwards;
-}
-
 
 .header-svg .fill{
 	//fill-opacity: 1;
@@ -617,24 +610,8 @@ header.main-header{
 	stroke-opacity: 0.3;
 	//stroke-dasharray : 0;
 	width: 100%;
-}
-
-@keyframes introanim{
-	from{
-		opacity: 0;
-	}
-	to{
-		opacity: 1;
-	}
-}
-
-@-webkit-keyframes introanim{
-	from{
-		opacity: 0;
-	}
-	to{
-		opacity: 1;
-	}
+	//-webkit-animation: introanim 1s ease;
+//			animation: introanim 1s ease;
 }
 
 .header-inline{
