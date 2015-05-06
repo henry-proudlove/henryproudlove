@@ -63,9 +63,11 @@
 		private function get_sibs()
 		{
 			if(is_dir($this->dirpath)){
+				return false;
+			}else{
 				$sibs = glob($this->dirpath . '*', GLOB_ONLYDIR);
+				return $sibs;
 			}
-			return $sibs;
 		}
 		
 		public function get_parent(){
