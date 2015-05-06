@@ -20,53 +20,139 @@ $(document).ready(function(e){
 	Intro Anim
 	============================================== */
 	
-	// function getHeader(event){
-// 		// if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
-// // 			var inline  = '.header-inline';
-// // 			var stacked = '.header-stacked';
-// // 			var m = $(window).width() < 769;
-// // 			// Load appropriate header based on screen widths
-// // 			if (m && $(stacked).length < 1){
-// // 				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
-// // 					introAnim(stacked);
-// // 				});
-// // 			}else if(!m && $(inline).length < 1){
-// // 				$title.load(uriStem + 'img//header-svg/HenryProudlove-inline.svg', function(){
-// // 					introAnim(inline);
-// // 				});
-// // 			}
-// // 		}else{
-// // 			$title.addClass('header-png');
-// // 			setTimeout(function(){
-// // 				$(document).trigger('showpage');
-// // 			}, 1000);
-// // 		}
-// 	}
-		
-	// $(window).on('debouncedresize', function(e){
-// 		getHeader();
-// 	});
-	
-	
-	function introAnim(firstimg){
-		//$svg = $(svg);
-		if($('img').length < 1 || firstimg){
-			//console.log('this fjfjfjklsd');
-			hideLoader();
-		}
-		function hideLoader(){
-			window.setTimeout(function(){
+	function getHeader(event){
+		if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
+			var inline  = '.header-inline';
+			var stacked = '.header-stacked';
+			var m = $(window).width() < 769;
+			// Load appropriate header based on screen widths
+			if (m && $(stacked).length < 1){
+				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
+					introAnim(stacked);
+				});	
+			}else if(!m && $(inline).length < 1){
+				$title.load(uriStem + 'img//header-svg/HenryProudlove-inline.svg', function(){
+					introAnim(inline);
+				});
+			}
+		}else{
+			$title.addClass('header-png');
+			setTimeout(function(){
 				$(document).trigger('showpage');
-			}, 2000);
+			}, 1000);
 		}
 	}
-	introAnim()
+		
+	$(window).on('debouncedresize', function(e){
+		getHeader();
+	});
 	
+	function introAnim(svg){
+		$svg = $(svg);
+		var delayStart = 1.5;
+		var paths = $svg.find('.fill > path');
+		$svg.parent().css('opacity' , '1');
+		$svg.find('.mask').css({
+			'transform' : 'scaleX(0)',
+			'-webkit-transform' : 'scaleX(0)'
+		}).addBack().find('.stroke').css({
+			'stroke-opacity' : '0.1',
+			'stroke-width' : '2px',
+			'opacity' : '0',
+			'transition-delay' : '0'
+		});
+		var n = paths.length -1;
+		var totalDuration = 0;
+		$('head').append('<style type="text/css" id="intro-anim-styles"></style>');
+		$.each(paths, function(i){
+			$(this).attr('class' , 'animation');
+				//var $path = $(this);
+				var offset = Math.abs(1/2 - i/n);
+				var duration = 1;
+				var delay = 0;
+				if(i==n){
+					totalDuration = duration + delay;
+				}
+				l = $(this)[0].getTotalLength();
+				id = $(this).attr('id');
+				var animName = id + '-anim';
+				var animSeq = {
+					'0%': {
+						'stroke-opacity' : '0.4',
+						'stroke-width' : '1px',
+						'stroke-dasharray' : l,
+					    'stroke-dashoffset': l,
+						'fill-opacity' : '0',
+					},
+					'50%' : {
+						'stroke-opacity' : '0.4',
+						'stroke-dasharray' : l,
+					    'stroke-dashoffset': 0,
+						'fill-opacity' : '0',
+					},
+					'100%' : {
+						'stroke-opacity' : '1',
+						'stroke-width' : '2px',
+						'stroke-dasharray' : l,
+					    'stroke-dashoffset': 0,
+						'fill-opacity' : '1'
+					}
+				}
+				controller = {
+					'name' : animName,
+				    'duration': duration + 's',
+				    'delay': delay + 's',
+				    'timing-function': 'ease-out',
+					'play-state' : 'paused',
+				    'fill-mode': 'backwards'
+				}
+				prefix = ['-webkit-', ''];
+				$('#intro-anim-styles').append(function(){
+					style = ".header-svg path#" + id + ".animation{\n";
+					$.each(prefix, function(i){
+						$.each(controller, function(k , v){
+								style += "\t" + prefix[i] + "animation-" + k + " : " + v + ";\n";
+						});
+					});
+					style += "}\n";
+					$.each(prefix, function(i){
+						style += "@" + prefix[i] + "keyframes " + animName + " {\n";
+							$.each(animSeq, function(k , v){
+								style +=  "\t" + k + "{\n";
+	 							$.each(v , function(k, v){
+	 								style += "\t\t" + k + " : " + v + ";\n"
+	 							});
+								style += "\t}\n";
+							});
+						  	style += "}\n";
+					});
+					return style;
+				});
+		});
+		setTimeout(function(){
+			var done = 0;
+			var n = paths.length;
+			$.each(paths, function(i){
+				$(this).attr('class' , 'animation animating').on(animationEnd, function(e){
+					done ++;
+					
+					if(done == n){
+						$(document).trigger('showpage');
+						$svg
+							.find('.mask')
+							.removeAttr('style')
+							.attr('class', 'mask animated')
+							.addBack().find('.stroke')
+							.removeAttr('style')
+							.attr('class' ,  'stroke animated');
+					}	
+				});						
+			});
+		}, delayStart * 1000);
+	}
 	$(document).on('showpage', function(e){
 		$('#container').addClass('active');
-		if(activePage.sectionID == null){
-			$(window).trigger('cycle-activate');
-		}
+		$(window).trigger('cycle-activate');
 		//$('.header-svg').find('.fill > path').removeAttr('class');
 		$('.site-title a').removeAttr('style');
 	});
@@ -88,6 +174,7 @@ $(document).ready(function(e){
 			this.page = url;
 			this.caller = caller;
 			this.getSection(url);
+			//console.log(this);
 			//return this.page;
 			callBack = callBack || noop;
 			callBack();
@@ -121,9 +208,7 @@ $(document).ready(function(e){
 		},
 		exit : function(callBack){
 			window.clearTimeout(cycleTimer);
-			window.clearTimeout(idleTimer);
 			cycleTimer = null;
-			idleTimer = null;
 			$('.menu-wrapper').removeAttr('style');
 			var id = this.sectionID;
 			var cs = this.isCaseStudy();
@@ -140,7 +225,7 @@ $(document).ready(function(e){
 			callBack = callBack || noop;
 			callBack();
 		},
-		enter: function(initial){
+		enter: function(){
 			//updateLocation(url);
 			var id = this.sectionID;
 			var cs = this.isCaseStudy();
@@ -148,8 +233,7 @@ $(document).ready(function(e){
 				if(id == 'about' || id == 'contact'){
 					acScrollTop();
 				}else if(id == null){
-					initial = initial || false;
-					cycleInit(initial);
+					cycleInit();
 				}
 				backBtn.down();
 			}else{
@@ -159,7 +243,6 @@ $(document).ready(function(e){
 			}
 			$(window).trigger('debouncedresize');
 			backBtn.up();
-			idleTimeout();
 		}
 	}
 	/* 
@@ -239,13 +322,10 @@ $(document).ready(function(e){
 								$('.outgoing').remove();
 								window.scrollTo(0,0);
 								$('#container').removeClass('transition');
-								// $(window).trigger('cycle-activate');
+								$content.removeClass('incoming').one(transitionEnd, function(){
+									$(window).trigger('cycle-stage');
+								});
 								activePage.enter();
-								$content.removeClass('incoming');// .one(transitionEnd, function(){
-// 									if(activePage.sectionID == null){
-// 										$(window).trigger('cycle-activate');
-// 									}
-// 								});
 							});
   						});
  					});
@@ -331,11 +411,10 @@ $(document).ready(function(e){
 	
 	function menuOpen(){
 		$('.site-title').off(transitionEnd);
-		$('#container').addClass('menu-open')
 		cyclePause();
 		$('.menu-wrapper').removeAttr('style');
 		if(activePage.sectionID == 'about' || activePage.sectionID == 'contact'){
-			acHeadAnimateKill()
+			acHeadAnimateKill();
 		}
 		$menCnt.addClass('active');
 		$('body').addClass('menu');
@@ -346,8 +425,7 @@ $(document).ready(function(e){
 			$('.site-title').on(transitionEnd, function(e){
 				if(e.originalEvent.propertyName == 'padding-bottom'){
 					$('#container').addClass('cycle-active');
-					$('#container').removeClass('menu-open')
-					$(this).off(transitionEnd).trigger('cycle-activate');
+					$(this).off(transitionEnd).trigger('cycle-stage');
 				}
 			});
 		}
@@ -394,19 +472,23 @@ $(document).ready(function(e){
 							</nav>\
 						</section>';
 						
-	var videoSpinner = '<svg version="1.1" class="video-spinner fg-color active trans" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\
-		 viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">\
-		 <g id="spinner-holder" transform="translate(20,20)">\
-			<g id="spinner">\
-				<g id="spinner-left">\
-					<path d="M0-17.3V-20c-11.1,0-20,8.9-20,20h2.7C-17.3-9.5-9.6-17.3,0-17.3z"/>\
-				</g>\
-				<g id="spinner-right">\
-					<path d="M20,0h-2.7c0,9.6-7.8,17.3-17.3,17.3V20C11.1,20,20,11,20,0z"/>\
-				</g>\
-			</g>\
-		</g>\
-	</svg>';
+	var videoSpinner = '<svg version="1.1" class="video-spinner active fg-color trans" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="1054.6 58.3 107.8 107.8" enable-background="new 1054.6 58.3 107.8 107.8" xml:space="preserve">\
+							<g class="fill">\
+								<path id="o-spinner" class="animated" d="M1108.5,65.4c25.8,0,46.7,20.9,46.7,46.7s-20.9,46.7-46.7,46.7s-46.7-20.9-46.7-46.7\
+								S1082.7,65.4,1108.5,65.4 M1108.5,58.3c-29.8,0-53.9,24.1-53.9,53.9s24.1,53.9,53.9,53.9c29.8,0,53.9-24.1,53.9-53.9\
+								S1138.3,58.3,1108.5,58.3L1108.5,58.3z"/>\
+							</g>\
+							<g id="spinner">\
+								<g id="spinner-left">\
+									<path d="M1108.5,65.4v-7.2c-29.8,0-53.9,24.1-53.9,53.9h7.2C1061.8,86.4,1082.7,65.4,1108.5,65.4z"/>\
+									<rect x="1054.6" y="58.3" fill="none" stroke="none" width="107.8" height="107.8"/>\
+								</g>\
+								<g id="spinner-right">\
+									<path d="M1162.4,112.2h-7.2c0,25.8-20.9,46.7-46.7,46.7v7.2C1138.3,166.1,1162.4,141.9,1162.4,112.2z"/>\
+									<rect x="1054.6" y="58.3" fill="none" stroke="none" width="107.8" height="107.8"/>\
+								</g>\
+							</g>\
+						</svg>';
 	
 	var slideshows = {};
 					
@@ -473,22 +555,28 @@ $(document).ready(function(e){
 			$.ajax({
 				url : 'https://vimeo.com/api/oembed.json?url=' + videoPath + '&api=true&player_id=' + videoId + '&title=false&portrait=false&byline=false',
 				success : function(data){
-					var	vidcont  = $('.slideshow-wrapper').find('#slide-video-' + index);
-					var iframe = $(data.html)
-						.wrap('<div class="lazyload center"></div>')
-						.parent()
-						.fitVids()
-						.appendTo($vidcont)
-						.addClass('active')
-						.find('iframe')
-						.attr('id' , videoId)[0];
-					var player = $f(iframe);
-				    player.addEvent('ready', function() {
-						video[videoId] = player;
-						$vidcont.find('.video-spinner').attr('class', 'video-spinner').on(transitionEnd, function(){
-								$(this).remove();
+					//$(var	vidcont  = $('.slideshow-wrapper').find('#slide-video-' + index);
+					function appendVideo(){
+						if($vidcont.length > 0){
+							clearInterval(vidinterval);
+							var iframe = $(data.html)
+								.wrap('<div class="lazyload center"></div>')
+								.parent()
+								.fitVids()
+								.appendTo($vidcont)
+								.addClass('active')
+								.find('iframe')
+								.attr('id' , videoId)[0];
+							var player = $f(iframe);
+						    player.addEvent('ready', function() {
+								video[videoId] = player;
+								$vidcont.find('.video-spinner').attr('class', 'video-spinner').on(transitionEnd, function(){
+										$(this).remove();
+									});
 							});
-					});
+						}
+					}
+					var vidinterval = setInterval(appendVideo, 500);
 				}
 			});
 			// Add a placeholder contianer for video
@@ -716,6 +804,7 @@ $(document).ready(function(e){
 		 	acHead.go = false;
 			acHead.header.css({
 				'transform': 'translate3d(' + acHead.o + 'px)',
+				//'opacity': 0
 			});
 	     	cancelAnimationFrame(acHeadAnim);
 		}
@@ -826,6 +915,7 @@ $(document).ready(function(e){
 		
 	}
 	function csTextAnimStop(){
+		//$('section.images .grid').addClass('hover-fade');
 		if(csText.go){
 		 	csText.go = false;
 			csText.client.css({
@@ -856,6 +946,7 @@ $(document).ready(function(e){
 		$('.menu-wrapper').children().on(transitionEnd, function(e){
 			e.stopPropagation();
 		}).parent().on(transitionEnd, function(e){
+			console.log(e);
 			var prop = e.originalEvent.propertyName;
 			if(prop == 'transform' || prop == '-webkit-transform' || prop == '-ms-transform'){
 				acHeadAnimate();
@@ -863,6 +954,7 @@ $(document).ready(function(e){
 			}
 		});
 	}
+	
 	
 	/* 
 	==============================================
@@ -882,6 +974,7 @@ $(document).ready(function(e){
 					csHeadAnim = requestAnimationFrame(csHeadAnimStop);
 				}
 				if(scrolled > csText.s){
+					//console.log(scrolled, csText.e);
 			    	csTextAnim = requestAnimationFrame(csTextAnimPlay);
 				}else if(csText.go && csText.ok){
 					csTextAnim = requestAnimationFrame(csTextAnimStop);
@@ -890,15 +983,18 @@ $(document).ready(function(e){
 		}else{
 			csHead.init();
 			var showHide = false;
+			//var pShowHide = false;
+			//var pscroll = 0;
 			var header = csHead.client.add(csHead.title).add(csHead.img);
 			var imgh = csHead.img.height();
 			$(window).on('scroll', function(e){
 				scrolled = $(this).scrollTop();
 					if(scrolled > imgh/2 && !showHide){
+						console.log('hide');
 						header.addClass('touchanim hide').removeClass('show');
 						showHide = true;
 					}else if(scrolled <= imgh/2 && showHide){
-						//console.log('show');
+						console.log('show');
 						header.addClass('show').removeClass('hide');
 						showHide = false;
 					}
@@ -944,46 +1040,19 @@ $(document).ready(function(e){
 		manualSpeed: 1,
 		slides: '> a',
 		loader: true,
-		pager: '.cycle-pager',
 		log: false,
+		fx :  'homeTrans',
 		startingSlide : 0,
 		paused: true
 	}
 	// Timeout for all autoanim and idle timeouts
 	var cycleTimer = null;
-	// Holder for filtered slideshow instance
-	var $autoCycle = null;
 	
-	function cycleInit(onReady){
-		//console.log('cycleInit')
-		$cycle = $('section.cycle')
-		cycleSlides = $cycle.find('> a').each(function(i){
-			$(this).data('slideindex', i)
-		});
-		$autoCycle = $cycle.clone().attr('id', 'cycle-auto-holder').addClass('filter').appendTo('.content').cycle(cycleOpts);
-		var fade = $('<div class="fade"/>').appendTo('#cycle-scroll-holder');		
-		//
-		cyc.reset();
-		cyc.wsize(cycleSlides.length);
-		cyc.section = 0;
-		//
-		window.scrollTo(0, 0);
-		//
-		$('.cycle-pager').addClass('notrans');
-		$(window).on('cycle-activate', function(e){
-			$('#container').addClass('cycle-active');
-			if($('html:hover').length > 0){
-				cycleScrollInit(true);
-				$autoCycle.addClass('hidden')
-			}else{
-				cycleAuto(true);
-				$cycle.addClass('hidden')
-			}
-			onReady = false;
-		});
-		if(!onReady){
-			$(window).trigger('cycle-activate');
-		}
+	$.fn.cycle.transitions.homeTrans = {
+	    before: function( opts, curr, next, fwd ) {
+			//cycleCss = $(next).data('project-name');
+			cycleSwitchVisibility(next, fwd);	
+	    }
 	}
 	
 	// Properties for cyclescroll anim
@@ -991,9 +1060,7 @@ $(document).ready(function(e){
 		w  : $(window).height(),
 		h  : this.w / 4, // How far user has to scroll to trigger transition
 		shift : this.w / 2, // Amount slide is transformed by before vis jump
-		pager : $('.cycle-pager'),
 		wsize : function(slides){ // Refreshes viewport dependent props
-				//console.log(slides);
 				this.w = $(window).height();
 				this.h = this.w /4;
 				this.shift = this.w/2;
@@ -1027,125 +1094,269 @@ $(document).ready(function(e){
 	}
 	// Refresh viewport dependant props on resize
 	$(window).on('debouncedresize', function(){
-		if($('#cycle-scroll-holder section.cycle').length > 0){
-			cyc.wsize(cycleSlides.length);	
+		if($('section.cycle').length > 0){
+			cyc.wsize(cycleSlides);	
+		}
+	});
+	
+	$(document).on('cycle-post-initialize', function(e, opts){
+		if($(e.target).is('section.cycle')){
+			cycleSlides = $(opts.slides).each(function(i){
+				$(this).data('slideindex', i);
+			});
+			var fade = $('<div class="fade"/>');
+			$('section.cycle').css('position', 'fixed').append(fade);
+			//
+			cyc.reset();
+			cyc.wsize(opts.slideCount);
+			cyc.section = 0;
+			//
+			window.scrollTo(0, 0);
+			var visible = $(cycleSlides[cyc.section + 1]).addClass('cycle-slide-visible').add(cycleSlides[cyc.section]);
+			$(cycleSlides).not(visible).addClass('cycle-slide-hidden');
+			//
+			var firstRun = true;
+			$(window).on('cycle-activate', function(e){
+				if($('html:hover').length > 0){
+					$('#container').addClass('cycle-scroll');
+					cycleScrollInit(opts);
+					if(firstRun){
+						$('.cycle-pager').css('transition', 'none');
+						$(window).one('scrollstart mousemove', function(){
+							$('.cycle-pager').removeAttr('style');
+						});
+					}
+				}else{
+					autoAnimate(cyc.section, 3000);
+				}
+				firstRun = false;
+			});
+		}
+	});
+	
+	$(window).on('cycle-stage', function(){
+		if($cycle != null){
+			$(this).trigger('cycle-activate');
+		}else{
+			$(document).on('cycle-post-initialize', function(e){
+				if($(e.target).is('section.cycle')){
+					$(window).trigger('cycle-activate');
+				}
+			});
 		}
 	})
 	
-	function cycleScrollInit(firstRun){
-		//console.log('cycleScrollInit')
-		if($cycle != null){
-			cycleSwitchVisibility(cycleSlides[cyc.section], true)
-			firstRun = firstRun || false
-			if(!firstRun){
-				$('#cycle-scroll-holder').removeClass('hidden')
-				$('#container').addClass('cycle-scroll').one(animationEnd, function(e){
-					//console.log(e)
-					$('#cycle-auto-holder').addClass('hidden')
-					cycleScroll()
-					cycleScrolledTimeout(firstRun)
-				});
-			}else{
-				$('.cycle-pager').addClass('notrans')
-				$('#container').addClass('cycle-scroll')
-				cycleScroll()
-				cycleScrolledTimeout(true)
-			}
-		}
+	function cycleScrollInit(opts){
+		// Clear the autoAnimate interval
+		window.clearTimeout(cycleTimer);
+		// Set section holder to currSlide
+		cyc.section = opts.currSlide;
+		// Scroll to the section scrollbar
+		scrollto = opts.currSlide * cyc.h;
+		window.scrollTo(0, scrollto);
+		// Advance slides on scrolll
+		cycleScroll();
+		//Switch to auto transition after timeout
+		cycleScrolledTimeout(opts);
 	}
 	
-	function cycleScrolledTimeout(firstRun){
-		//console.log('cycleScrollTimeout')
+	function cycleScrolledTimeout(opts){
+		//console.log(opts);
 		var idle = true;
-		firstRun = firstRun || false
-		$(window).on('mousemove scrollstart touchstart click', function(e){
-			if(firstRun){
-				$('.cycle-pager').removeClass('notrans');
-			}
-			$(this).off('mousemove scrollstart touchstart click');
+		$(window).one('mousemove scrollstart', function(e){
 			idle = false;
 		});
 		cycleTimer = window.setTimeout(function(){
 			if(idle && !$('body').hasClass('menu')){
-				if(firstRun){
-					$('.cycle-pager').removeClass('notrans');
-				}
-				//console.log('cycleScrolledTimeout : ' + cycleTimer);
-				cycleAuto();
+				$('#container').addClass('timeout');
+				cycleClearScrollAuto(opts);
 			}else{
-				cycleScrolledTimeout();
+				cycleScrolledTimeout(opts);
 			}
-		}, 4000);
+		}, 3000);
 	}
 	
-	function cycleAuto(firstRun){
-		$(this).off('mousemove scrollstart touchstart click')
-		$autoCycle.cycle('goto', cyc.section)
-		cycleSlides.removeClass('cycle-slide-hidden cycle-slide-visible')
-		firstRun = firstRun || false
-		if(!firstRun){
-			$('#cycle-auto-holder').removeClass('hidden')
-			$(window).off('scroll scrollstop scrollstart mousemove')
-			$('#cycle-scroll-holder').addClass('out').one(animationEnd, function(e){
-				//console.log(e)
-				$(this).removeClass('out').find('figure').removeAttr('style')
-				$('#container').removeClass('cycle-scroll')
-				$autoCycle.cycle('resume')
-				clearCycleAuto()
-			});
-		}else{
-			$('.cycle-pager').removeClass('notrans')
-			$autoCycle.cycle('resume')
-			clearCycleAuto()
+	function cycleClearScrollAuto(opts, delay){
+		window.clearTimeout(cycleTimer);
+		$(window).off('scroll scrollstop scrollstart mousemove');
+		$('#container').removeClass('cycle-scroll');
+		cyc.section = opts.currSlide;
+		cycleSwitchVisibility(cycleSlides[cyc.section], true);
+		var delay = delay || 1000;
+		autoAnimate(cyc.section, delay);
+	}
+	
+	function autoAnimate(start, initalDelay){
+		var i = start;
+		var opts = $('section.cycle').data('cycle.opts');
+		//var int = 550;
+		var curr, next, nextSec;
+		//
+		var t = 0;
+		// Initial anim loop three sceconds, advance slide…
+		autoSwitch(function(){
+			cycleTimeout(function(){
+				scrollto = opts.currSlide * cyc.h;
+				//window.scrollTo(0, scrollto);
+				advanceSlide(autoMainLoop);
+				//console.log('mainLoop called');
+			}, initalDelay);
+		});
+		// Main anim loop wait 5 seconds, adance slide
+		function autoMainLoop(){
+			cycleTimeout(function(){
+				autoSwitch(function(){
+					advanceSlide(autoMainLoop);
+				});
+			}, 5000)
 		}
-	}
-	
-	function clearCycleAuto(){
-		//console.log('clearCycleAuto')
-		var counter = 0;
-		$(window).on('mousemove scrollstart click touchstart', function(e){
-			if(!e.type == 'mousemove' || counter > 0){
-				//console.log(e)
-				$(this).off('mousemove scrollstart click touchstart')
-				$autoCycle.cycle('pause')
-				var currSection = $autoCycle.data('cycle.opts').currSlide
-				cyc.section = currSection
-				scrollto = cyc.section * cyc.h
-				window.scrollTo(0, scrollto)
-				cycleScrollInit()
+		function cycleTimeout(callBack, time){
+			window.clearTimeout(cycleTimer);
+			cycleTimer = window.setTimeout(function(){
+				callBack = callBack || noop;
+				callBack();
+			}, time);
+		}
+		//cycleInterval = setTimeout(advanceSlide, 2000);
+		function autoSwitch(callBack){
+			//clearTimeout(cycleInterval);
+			var loop;
+			curr = cycleSlides[i];
+			if(i < cycleSlides.length - 1){
+				nextSec = i + 1;
+				next = cycleSlides[nextSec];
+				cyc.a = 1;
+				loop = false;
+				cycleSwitchVisibility(curr, true);
 			}else{
-				counter ++;
+				nextSec = 0;
+				next = cycleSlides[nextSec];
+				cyc.a = 1;
+				loop = true;
+				cycleSwitchVisibility(curr, true, loop);
 			}
+			callBack = callBack || noop;
+			callBack();
+		}
+		//cycleInterval = setInterval(advanceSlide, 6000);
+		function advanceSlide(callBack){
+			// Tell the container that we're about to kick off a transition
+			$('#container').addClass('cycle-auto-transition');
+			// Flag that we're abut to move the slides and bring up the fade
+			//$(next).add(curr).find('figure').css('will-change', 'transform, -webkit-transform, -ms-transform');
+			//$('.fade').css('will-change', 'opacity');
+			//window.setTimeout(function(){
+				$(next).find('figure').css('transform', 'translate3d(0,75%,0)').transition({
+					transform : 'translate3d(0,50%,0))' 
+				}, 667, 'easeInQuart');
+				//
+				$('.fade').css('opacity', 1).transition({
+					opacity : 0 
+				}, 667, 'easeInQuart');
+				//
+				$(curr).find('figure').css('transform' , 'translate3d(0,0,0)').transition({
+					transform : 'translate3d(0,-50%,0)'
+				}, 667, 'easeInQuart', function(){
+					//
+					cyc.a = -1;
+					$cycle.cycle('goto', nextSec);
+					//
+					$(next).find('figure').css('transform' , 'translate3d(0,50%,0)').transition({
+						transform : 'translate3d(0,0,0))' 
+					}, 667, 'easeOutQuart');
+					//
+					$('.fade').css('opacity' , 0).transition({
+						opacity : 1 
+					}, 667, 'easeOutQuart');
+					//
+					$(curr).find('figure').css('transform' , 'translate3d(0,-50%,0)').transition({
+						transform : 'translate3d(0,-75%,0)' 
+					}, 667, 'easeOutQuart', function(){
+						$('#container').removeClass('cycle-auto-transition').trigger('cycle-auto-transition-end');
+						// remove will change hint
+						$(curr).add(next).find('figure').add('.fade').removeAttr('style');
+						
+					});
+				});
+				//}, 10);
+			if(i < cycleSlides.length - 1){ i++; } else { i=0; }
+			callBack = callBack || noop;
+			callBack();
+		}
 		
+		$(window).one('mousemove scrollstart', function(e){
+			//console.log(e);
+			//$(this).off('mousemove scrollstart');
+			//clearInterval(cycleInterval);
+			var opts = $('section.cycle').data('cycle.opts');
+			//cycleSwitchToScroll(opts);
+			$('#container').removeClass('timeout').addClass('cycle-scroll');
+			if(!$('#container').hasClass('cycle-auto-transition')){
+				cycleScrollInit(opts);
+			}else{
+				//console.log('section.cycle hasClass cycle-auto-transition-end');
+				$('#container').one('cycle-auto-transition-end' , function(){
+					cycleScrollInit(opts);
+				});
+			}
 		});
 	}
+	
+	// Stop slides clicking through is mid transition
+	$('section.cycle.cycle-auto-transition a').click(function(e){
+		e.preventDefault();
+	});
+	
+	function cycleInit(){
+		$('#container').addClass('cycle-active');
+		$cycle = $('section.cycle').cycle(cycleOpts);
+	}
 		
-	var cycleAnim;
+	var cycleAnim; // Holder for requestframanim	
+	// Animation functions
 	function cycleScrollAnimPlay(){
 		cyc.frame(scrolled);
+		//console.log('offset : ' + cyc.o, 'curve : ' + cyc.c, 'area :' + cyc.a, 'speed: ' + cyc.speed)
 		var n;
+		if(cyc.speed < 120){
 			if(cyc.o > 0){
-				n = 1
-				moveSlide(-1)
-				cycleFadeUp()
-				moveNextBackSlide(1, 'bottom')
+				n = 1;
+				moveSlide(-1);
+				cycleFadeUp();
+				moveNextBackSlide(1, 'bottom');
+				//console.log('next slide visible');
 				if(cyc.pa != cyc.a){
-					cycleSwitchVisibility(cycleSlides[cyc.section], true)
+					cycleSwitchVisibility(cycleSlides[cyc.section], true);
 				}
 			}else{
-				n = -1
-				moveSlide(1)
-				cycleFadeUp()
-				moveNextBackSlide(-1, 'top')
+				n = -1;
+				moveSlide(1);
+				cycleFadeUp();
+				moveNextBackSlide(-1, 'top');
 				if(cyc.pa != cyc.a){
-					cycleSwitchVisibility(cycleSlides[cyc.section], false)
+					cycleSwitchVisibility(cycleSlides[cyc.section], false);
 				}
+				//console.log('previous slide visible');
 			}
 			if(cyc.section != cyc.psection){
-				cyc.psection = cyc.section
+				$cycle.cycle('goto', cyc.section);
+				cyc.psection = cyc.section;
 			}
-		cyc.pscroll = scrolled
-		cyc.pa = cyc.a
+		}else{
+			cycleAnim = cancelAnimationFrame(cycleScrollAnimPlay);
+			$(window).off('scroll scrollstop');
+			$cycle.addClass('too-fast').on(transitionEnd, function(){
+				cyc.section = Math.round(scrolled/cyc.h);
+				if(cyc.section != cyc.psection){
+					$cycle.cycle('goto', cyc.section);
+					cyc.psection = cyc.section;
+				}else{
+					cycleTooFastRefresh();
+				}
+			});
+		}
+		cyc.pscroll = scrolled;
+		cyc.pa = cyc.a;
 	}
 	function moveSlide(d){
 		var move = cyc.c * 50 * d;
@@ -1174,94 +1385,100 @@ $(document).ready(function(e){
 	function cycleFadeUp(){
 		$('.fade').css('opacity', 1 - cyc.c);
 	}
+
+	// Speed too great! Don't perform transition
+	function cycleTooFast(){
+		$cycle.on('cycle-after', function(e, opts){
+			cycleTooFastRefresh();
+		});
+	}
+	function cycleTooFastRefresh(){
+		if($cycle.is('.too-fast')){
+			$cycle.removeClass('too-fast');
+			$(window).scrollTop(cyc.h * cyc.section);
+			cycleScroll();
+		}
+	}
 	
 	// Switch visibility classes during scroll animation
 	function cycleSwitchVisibility(slide, fwd, loop){
 		var a = cyc.a;
-		$(slide).removeClass('cycle-slide-visible cycle-slide-hidden').addClass('cycle-slide-active');
+		$(slide).removeClass('cycle-slide-visible cycle-slide-hidden');//.data('slideindex');	
 		switch(true){
 			case loop && a > 0:
-				poop = $(cycleSlides[0]).removeClass('cycle-slide-hidden cycle-slide-active').addClass('cycle-slide-visible').add(slide);
+				poop = $(cycleSlides[0]).removeClass('cycle-slide-hidden').addClass('cycle-slide-visible').add(slide);
 				break;
 			case a < 0 && $(slide).data('slideindex') == 0:
 				poop = $(cycleSlides[cycleSlides.length -1]).addClass('cycle-slide-visible').add(slide);
 				break;
 			case fwd && a >= 0:
-				poop = $(slide).next('a').removeClass('cycle-slide-hidden cycle-slide-active').addClass('cycle-slide-visible').add(slide);
+				poop = $(slide).next('a').removeClass('cycle-slide-hidden').addClass('cycle-slide-visible').add(slide);
 				break;
 			case fwd && a < 0:
-				poop = $(slide).prev('a').removeClass('cycle-slide-hidden cycle-slide-active').addClass('cycle-slide-visible').add(slide);
+				poop = $(slide).prev('a').removeClass('cycle-slide-hidden').addClass('cycle-slide-visible').add(slide);
 				break;
 			case !fwd && a < 0:
-				poop = $(slide).prev('a').removeClass('cycle-slide-hidden cycle-slide-active').addClass('cycle-slide-visible').add(slide);
+				poop = $(slide).prev('a').removeClass('cycle-slide-hidden').addClass('cycle-slide-visible').add(slide);
 				break;
 			case !fwd && a >= 0:
-				poop = $(slide).next('a').removeClass('cycle-slide-hidden cycle-slide-active').addClass('cycle-slide-visible').add(slide);
+				poop = $(slide).next('a').removeClass('cycle-slide-hidden').addClass('cycle-slide-visible').add(slide);
 				break;
 		}
-		$(cycleSlides).not(poop).removeClass('cycle-slide-visible cycle-slide-active').addClass('cycle-slide-hidden');
+		$(cycleSlides).not(poop).removeClass('cycle-slide-visible').addClass('cycle-slide-hidden');
 	}
 	
 	function cycleKill(){
-		if($cycle != null && $autoCycle != null){
+		if($cycle != null){
 			// Clear any possible running timeouts
-			cycleClear()
+			cycleClear();
 			// Empty all vars
-			$('#container').removeClass('cycle-active')
-			$autoCycle.cycle('destroy')
-			$('#container').removeClass('cycle-active cycle-scroll cycle-auto-transition')
-			$autoCycle = null
-			$cycle = null
-			cycleSlides = null
-			cycleAnim = null
+			$cycle.cycle('destroy');
+			$cycle = null;
+			cycleSlides = null;
+			cycleAnim = null;
 			// reset the cyc anim object to its default values
-			cyc.reset()
+			cyc.reset();
 		}
 	}
 	
 	function cycleClear(){
-		window.clearTimeout(cycleTimer)
-		$(window).off('scroll scrollstop scrollstart mousemove click touchstart')
-		$autoCycle.cycle('pause')
-		cycleTimer = null
+		$(window).off('scroll scrollstop scrollstart mousemove');
+		window.clearTimeout(cycleTimer);
+		cycleTimer = null;
+		$('#container').removeClass('cycle-active cycle-scroll cycle-auto-transition timeout');
 	}
 	
 	function cyclePause(){
-		if($autoCycle != null && $cycle != null){
-			cycleClear()
+		if($cycle != null){
+			if(!$('#container').hasClass('cycle-auto-transition')){
+				cycleClear();
+			}else{
+				$('#container').one('cycle-auto-transition-end' , function(){
+					cycleClear();
+				});
+			}
 		}
 	}
-		
+	
+	//var pstep = 0;
+	//$('section.cycle a').addClass('cursor-move-up');
+	
 	function cycleScroll(){
-		//console.log('cycleScroll')
-		var $pager = $('.cycle-pager')
-		$(window).on('scrollstart', function(e){
-			$pager.addClass('notrans')
-		}).on('scroll', function(e){
-			scrolled = $(this).scrollTop()
+		//$('.fade').addClass('changing-opacity');
+		$(window).on('scroll', function(e){
+			scrolled = $(this).scrollTop();
 			if($cycle != null){
-				cycleAnim = requestAnimationFrame(cycleScrollAnimPlay)
+				cycleAnim = requestAnimationFrame(cycleScrollAnimPlay);
 			}
 		}).trigger('scroll').on('scrollstop', {latency: 333}, function(e){
-			cycleSnap()
+			if($cycle != null){
+				$bodyHTML.stop().animate({
+					scrollTop: (cyc.h * cyc.section)
+				}, 333, function(){
+					//$('.fade').removeClass('changing-opacity');
+				});
+			}
 		});
-		
-		function cycleSnap(){
-			$(window).off('scrollstop')
-			$bodyHTML.stop().animate({
-				scrollTop: (cyc.h * cyc.section)
-			}, 333, function(){
-				$pager.removeClass('notrans')
-				$pagerActive = $($pager.find('figcaption:nth-child(' + (cyc.section + 1) + ')'))
-				//console.log($pagerActive)
-				if(!$pagerActive.hasClass('cycle-pager-active')){
-					$pagerActive.addClass('cycle-pager-active').siblings().removeClass('cycle-pager-active')
-				}
-				$(window).on('scrollstop', {latency: 333}, function(e){
-					cycleSnap()
-				})
-			})
-		}
 	}
 	
 	/* 
@@ -1272,121 +1489,12 @@ $(document).ready(function(e){
 	window.lazySizesConfig = {
 		addClasses: true
 	};
-	var firstimg = false;
-	$(document).on('lazybeforeunveil', function(e){
-		if(!firstimg){
-			//$(this).trigger('firstimg');
-			firstimg = true;
-			introAnim(firstimg)
-		}
-		$(e.target).parents('figure').removeClass('loading');
-		//console.log('loader removed')
-	});
-	
-	// /*
-// 	==============================================
-// 	Title Underline
-// 	============================================== */
-//
-// 	var titleState = false;
-// 	function titleStrokeIn(){
-// 		if(titleState || !$(container).hasClass('.active')){
-// 			return;
-// 		}else{
-// 			var animation = $(':visible #line-mask-in');
-// 			animation.beginElement();
-// 			titleState = true;
-// 		}
-// 	}
-// 	function titleStrokeOut(){
-// 		if(!titleState){
-// 			return;
-// 		}else{
-// 			var animation = $(':visible #line-mask-out');
-// 			animation.beginElement();
-// 			titleState = false;
-// 		}
-// 	}
-	
-	/* 
-	==============================================
-	Filters on Page idle
-	============================================== */
-
-	// Append filter stylet to head
-	var string = "<style type='text/css'>\n\t";
-	var trans = Modernizr.prefixed('transform');
-	if(trans == 'WebkitTransform'){
-		string += "\
-			.filter{\n\t\t\
-				filter: grayscale(1);\n\t\t\
-				-webkit-filter: grayscale(1);\n\t\t\
-				background-color: rgba(178,182,184,0.33);\n\t\t\
-				opacity: 0.66;\n\t\t\
-				-webkit-transform: translate3d(0,0,0);\n\t\
-			}\n\t\
-			.filter:after{\n\t\t\
-				display:block !important;\n\t\t\
-				z-index: 2;\n\t\t\
-				opacity: 1;\n\t\
-			}\n";
-	}else{
-		string += "\
-			.filter{\t\t\
-				filter: url('#grad');\n\t\t\
-				-webkit-filter: url('#grad');\n\t\
-			}";
-	}
-	string += "\n</style>";
-	$('head').append(string);
-	
-	var idleTimer;
-	
-	// After a period of inactivty turn the page red
-	function idleTimeout(){
-		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
-			var idle = true;
-			$(window).on('mousemove scrollstart click', function(e){
-				//console.log(e)
-				$(window).off('mousemove scrollstart click');
-				idle = false;
-			});
-			idleTimer = window.setTimeout(function(){
-				if(idle && $('body.slideshow').length < 1){
-					applyFilter();
-				}else{
-					idleTimeout();
-				}
-			}, 6000);
-		}
-	}
-	
-	function applyFilter(){
-		window.clearTimeout(idleTimer);
-		//
-		var $container = $('#container');
-		var $filtered = $container.clone().addClass('filtered');
-		$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
-		//
-		if($container.length < 2){
-			$filtered.insertAfter($container);
-			$container.addClass('unfiltered fade');
-			// Clear the filter if the user interacts
-			$(window).one('mousemove scroll click', function(e){
-				$(window).off('mousemove scrollstart click');
-				$container.removeClass('fade').one(transitionEnd, function(){
-					$(this).removeClass('unfiltered');
-					$('.filtered').remove();
-					idleTimeout();
-				});
-			});
-		}
-	}	
 	
 	/* 
 	==============================================
 	Viewport Units
 	============================================== */
+
 	window.viewportUnitsBuggyfill.init();
 	
 	/* 
@@ -1395,6 +1503,6 @@ $(document).ready(function(e){
 	============================================== */
 	
 	activePage.locate(window.location.pathname, null);
-	activePage.enter(true);
+	activePage.enter();
 	
 });
