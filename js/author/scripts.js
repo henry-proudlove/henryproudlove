@@ -2563,34 +2563,10 @@ $(document).ready(function(e){
 	Intro Anim
 	============================================== */
 	
-	// function getHeader(event){
-// 		// if(Modernizr.cssanimations && Modernizr.inlinesvg && Modernizr.svgclippaths){
-// // 			var inline  = '.header-inline';
-// // 			var stacked = '.header-stacked';
-// // 			var m = $(window).width() < 769;
-// // 			// Load appropriate header based on screen widths
-// // 			if (m && $(stacked).length < 1){
-// // 				$title.load(uriStem + 'img/header-svg/HenryProudlove-stacked.svg', function(){
-// // 					introAnim(stacked);
-// // 				});
-// // 			}else if(!m && $(inline).length < 1){
-// // 				$title.load(uriStem + 'img//header-svg/HenryProudlove-inline.svg', function(){
-// // 					introAnim(inline);
-// // 				});
-// // 			}
-// // 		}else{
-// // 			$title.addClass('header-png');
-// // 			setTimeout(function(){
-// // 				$(document).trigger('showpage');
-// // 			}, 1000);
-// // 		}
-// 	}
-		
-	// $(window).on('debouncedresize', function(e){
-// 		getHeader();
-// 	});
-
-	$('.header-svg, .header-svg #spinner').addClass('animating').on(animationEnd, function(){
+	$('.header-svg, .header-svg #spinner').each(function(){
+		var c =  $(this).attr('class');
+		c = c === undefined ? 'animating' : c + ' animating'
+	}).on(animationEnd, function(){
 		introAnim();
 	});
 	
@@ -3858,76 +3834,76 @@ $(document).ready(function(e){
 	Filters on Page idle
 	============================================== */
 
-	// Append filter stylet to head
-	var string = "<style type='text/css'>\n\t";
-	var trans = Modernizr.prefixed('transform');
-	if(trans == 'WebkitTransform'){
-		string += "\
-			.filter{\n\t\t\
-				filter: grayscale(1);\n\t\t\
-				-webkit-filter: grayscale(1);\n\t\t\
-				background-color: rgba(178,182,184,0.33);\n\t\t\
-				opacity: 0.66;\n\t\t\
-				-webkit-transform: translate3d(0,0,0);\n\t\
-			}\n\t\
-			.filter:after{\n\t\t\
-				display:block !important;\n\t\t\
-				z-index: 2;\n\t\t\
-				opacity: 1;\n\t\
-			}\n";
-	}else{
-		string += "\
-			.filter{\t\t\
-				filter: url('#grad');\n\t\t\
-				-webkit-filter: url('#grad');\n\t\
-			}";
-	}
-	string += "\n</style>";
-	$('head').append(string);
-	
-	var idleTimer;
-	
-	// After a period of inactivty turn the page red
-	function idleTimeout(){
-		if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
-			var idle = true;
-			$(window).on('mousemove scrollstart click', function(e){
-				//console.log(e)
-				$(window).off('mousemove scrollstart click');
-				idle = false;
-			});
-			idleTimer = window.setTimeout(function(){
-				if(idle && $('body.slideshow').length < 1){
-					applyFilter();
-				}else{
-					idleTimeout();
-				}
-			}, 6000);
-		}
-	}
-	
-	function applyFilter(){
-		window.clearTimeout(idleTimer);
-		//
-		var $container = $('#container');
-		var $filtered = $container.clone().addClass('filtered');
-		$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
-		//
-		if($container.length < 2){
-			$filtered.insertAfter($container);
-			$container.addClass('unfiltered fade');
-			// Clear the filter if the user interacts
-			$(window).one('mousemove scroll click', function(e){
-				$(window).off('mousemove scrollstart click');
-				$container.removeClass('fade').one(transitionEnd, function(){
-					$(this).removeClass('unfiltered');
-					$('.filtered').remove();
-					idleTimeout();
-				});
-			});
-		}
-	}	
-	
+	// // Append filter stylet to head
+	// var string = "<style type='text/css'>\n\t";
+	// var trans = Modernizr.prefixed('transform');
+	// if(trans == 'WebkitTransform'){
+	// 	string += "\
+	// 		.filter{\n\t\t\
+	// 			filter: grayscale(1);\n\t\t\
+	// 			-webkit-filter: grayscale(1);\n\t\t\
+	// 			background-color: rgba(178,182,184,0.33);\n\t\t\
+	// 			opacity: 0.66;\n\t\t\
+	// 			-webkit-transform: translate3d(0,0,0);\n\t\
+	// 		}\n\t\
+	// 		.filter:after{\n\t\t\
+	// 			display:block !important;\n\t\t\
+	// 			z-index: 2;\n\t\t\
+	// 			opacity: 1;\n\t\
+	// 		}\n";
+	// }else{
+	// 	string += "\
+	// 		.filter{\t\t\
+	// 			filter: url('#grad');\n\t\t\
+	// 			-webkit-filter: url('#grad');\n\t\
+	// 		}";
+	// }
+	// string += "\n</style>";
+	// $('head').append(string);
+	//
+	// var idleTimer;
+	//
+	// // After a period of inactivty turn the page red
+	// function idleTimeout(){
+	// 	if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
+	// 		var idle = true;
+	// 		$(window).on('mousemove scrollstart click', function(e){
+	// 			//console.log(e)
+	// 			$(window).off('mousemove scrollstart click');
+	// 			idle = false;
+	// 		});
+	// 		idleTimer = window.setTimeout(function(){
+	// 			if(idle && $('body.slideshow').length < 1){
+	// 				applyFilter();
+	// 			}else{
+	// 				idleTimeout();
+	// 			}
+	// 		}, 6000);
+	// 	}
+	// }
+	//
+	// function applyFilter(){
+	// 	window.clearTimeout(idleTimer);
+	// 	//
+	// 	var $container = $('#container');
+	// 	var $filtered = $container.clone().addClass('filtered');
+	// 	$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
+	// 	//
+	// 	if($container.length < 2){
+	// 		$filtered.insertAfter($container);
+	// 		$container.addClass('unfiltered fade');
+	// 		// Clear the filter if the user interacts
+	// 		$(window).one('mousemove scroll click', function(e){
+	// 			$(window).off('mousemove scrollstart click');
+	// 			$container.removeClass('fade').one(transitionEnd, function(){
+	// 				$(this).removeClass('unfiltered');
+	// 				$('.filtered').remove();
+	// 				idleTimeout();
+	// 			});
+	// 		});
+	// 	}
+	// }
+	//
 	/* 
 	==============================================
 	Viewport Units

@@ -16,11 +16,17 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="<?php echo $page->rel_depth() . 'js/vendor/jquery-1.9.0.min.js'; ?>"><\/script>')</script>
         <script src="<?php echo $page->rel_depth() . 'js/scripts.min.js';?>"></script>
+		<?php 
+		// $js_src = ['js/vendor/froogaloop.min.js','js/vendor/viewport-units-buggyfill.js', 'js/vendor/jquery.cycle2.js', 'js/vendor/jquery.cycle2.swipe.min.js', 'js/vendor/snap.svg-min.js', 'js/author/plugins.js', 'js/author/main.js'];
+// 				foreach($js_src as $src){
+// 					echo '<script src="' . $page->rel_depth() . $src . '"></script>';
+// 				}
+		?>
         <script>
             // var _gaq=[['_setAccount','UA-33045219-1'],['_trackPageview']];
-//             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-//             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-//             s.parentNode.insertBefore(g,s)}(document,'script'));
+ //            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+ //            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+ //            s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
 		
     </body>

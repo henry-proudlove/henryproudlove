@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	jsSrc = ['js/vendor/froogaloop.min.js',
+	var jsSrc = ['js/vendor/froogaloop.min.js',
 			'js/vendor/viewport-units-buggyfill.js',
        	 	'js/vendor/jquery.cycle2.js',
         	'js/vendor/jquery.cycle2.swipe.min.js',
