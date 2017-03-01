@@ -571,29 +571,6 @@ header.main-header{
 
 /* Site title SVG styling: menu closed */
 
-.site-title .header-png {
-	background-image: url('../img/header-png/HenryProudlove-stacked.png');
-	background-size: 100%, 100%;
-	overflow: hidden;
-	padding-top: 45.5%;
-	height: 0;
-	text-indent: -9000px;
-	display: block;
-}
-
-.inlinesvg.cssanimations.svgclippaths .site-title .header-png{
-	display: none;
-}
-
-.header-svg{
-	display: none;
-}
-
-:not(.inlinesvg.cssanimations.svgclippaths) .site-title .header-svg{
-	display: block;
-}
-
-
 .header-svg{
 	stroke-opacity: 1;
 	fill-opacity: 1;
@@ -604,11 +581,11 @@ header.main-header{
 	-webkit-animation: introanim 0.67s linear backwards;
 			animation: introanim 0.67s ease backwards;
 }
+
 .header-svg #spinner{
 	-webkit-animation: introanim 0.67s linear 0.34s backwards;
 			animation: introanim 0.67s linear 0.34s backwards;
 }
-
 
 .header-svg .fill{
 	//fill-opacity: 1;
@@ -637,13 +614,6 @@ header.main-header{
 	}
 }
 
-.header-inline{
-	display:none;
-}
-.header-stacked{
-	display:block;
-}
-
 #container.active .header-svg .fill{
 	fill-opacity: 1;
 	stroke-opacity: 1;
@@ -662,6 +632,16 @@ body.about:not(.menu) #container.active .header-svg, body.contact:not(.menu) #co
 		fill-opacity 0.67s ease,
 		stroke-opacity 0.67s ease;
 		//all 0.33s ease;
+}
+
+.header-inline
+{
+	display:none;
+}
+
+.header-stacked
+{
+	display:block;
 }
 
 /* Site title SVG styling: menu open */
@@ -2604,12 +2584,13 @@ figure.loading{
 
 /* ==== MEDIA QUERIES ==== */
 
-@media only screen and (min-width: 550px) {
+@media screen and (min-width: 550px) {
 	
 	/* --- increase button padding --*/
 	.menu-button a, .back-button, .next-button, .slideshow-close a{
 		padding: 3em;
 	}
+	
 	.menu-button, .back-button, .next-button, .slideshow-close{
 		width: 8em;
 		height: 8em;
@@ -2653,9 +2634,11 @@ figure.loading{
 	.box.width1, .box.width3{
 		width: 50%;
 	}
+	
 	.box, .grid-sizer{
 		width: 25%;
 	}
+	
 	/* ---- .site-title covers 5 columns ---- */
 	
 	.menu-wrapper{
@@ -2663,20 +2646,25 @@ figure.loading{
 		left: 1/12 * 100%;
 		font-size: 1em;
 	}
+	
 	.menu-container.active .site-title{
 		padding-bottom: 21.5vw;
 	}
+	
 	nav.site-links a, .contact article li {
 	    font-size: 5.33vw;
 	    line-height: 7.33vw;
 	}
+	
 	article .text{
 		padding: 8.33% 1/12 * 100%;
 	}
+	
 	.about article .text .wrapper,
 	.contact article .text .wrapper{
 		margin: 0 3em;
 	}
+	
 	.pair.width1{
 		width: 100%
 	}
@@ -2687,7 +2675,7 @@ figure.loading{
 	}
 }
 
-@media only screen and (min-width: 769px) {
+@media screen and (min-width: 769px) {
 	
 	/* ---- .menu-button large version ---- */
 	
@@ -2807,10 +2795,13 @@ figure.loading{
 	
 	/* ---- .site-title switches to single line  ---- */
 	
-	.header-inline{
+	.header-inline
+	{
 		display:block;
 	}
-	.header-stacked{
+
+	.header-stacked
+	{
 		display:none;
 	}
 	
@@ -2838,28 +2829,19 @@ figure.loading{
 	  padding: 18.67% 0;
 	}
 	
-	/* ---- .site-title hover line origin centered  ---- */
-	
-	//.site-title a .mask{
-//		@include transformOrigin(50%, 50%);
-//	}
-	
-	/* ---- .site-title covers 5 columns ---- */
-	
 	.menu-wrapper{
 		width: 100%;
 		left: 0;
 		font-size: 1em;
 	}
+	
 	.menu-container.active .site-title{
 		padding-bottom: 17vw;
 	}
+	
 	nav.site-links a, .contact article li {
 		font-size: 4vw;
 		line-height: 5.33vw;
-	}
-	article .text{
-		//padding: 8.33% 0;
 	}
 	
 	.contact article span{
@@ -2867,9 +2849,10 @@ figure.loading{
 	  	line-height: 0.9em;
 		display: inline-block;
 	}
+	
 }
 
-@media only screen and (min-width: 840px) {
+@media screen and (min-width: 840px) {
 
 	/* ---- about page float ---- */
 	.about .description > p{
@@ -2878,6 +2861,7 @@ figure.loading{
 		padding-right: 4%;
 		box-sizing: border-box;
 	}
+	
 	.about .description span{
 		width: 60%;
 		display: block;
@@ -2899,29 +2883,34 @@ figure.loading{
 	}
 }
 
-@media only screen and (min-width: 960px) {
+@media screen and (min-width: 960px) {
 	/* ---- .site-title covers 5 columns ---- */
 	.menu-wrapper{
 		width: 5/6 * 100%;
 		left: 1/12 * 100%;
 		font-size: 1em;
 	}
+	
 	.menu-container.active .site-title{
 		padding-bottom: 13.67vw;
 	}
+	
 	nav.site-links a, .contact article li {
 		font-size: 3.2vw;
 		line-height: 4.5vw;
 	}
+	
 	article .text{
 		padding: 8.33% 1/12 * 100%;
 	}
+	
 	.about .description > p{
 		width: 100%;
 		float: none;
 		padding-right: 0;
 		box-sizing: border-box;
 	}
+	
 	.about .description span{
 		width: 100%;
 		display: block;
@@ -2937,21 +2926,25 @@ figure.loading{
 	.contact article .text{
 		padding: 12em 8.33%;
 	}
+	
 }
 
-@media only screen and (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
 	
 	
 	/* ---- Isotope Elements widths ---- */
 	.box.width4{
 		width: 66.67%;
 	}
+	
 	.box.width2{
 		width: 33.33%;
 	}
+	
 	.box.width1{
 		width: 33.33%;
 	}
+	
 	.box, .grid-sizer{
 		width: 16.66%;
 	}
@@ -2977,7 +2970,7 @@ figure.loading{
 	
 }
 
-@media only screen and (min-width: 1280px) {
+@media screen and (min-width: 1280px) {
 	
 	/* ---- .site-title covers 4 columns ---- */
 	.menu-wrapper{
@@ -3040,7 +3033,7 @@ figure.loading{
 }
 
 
-@media only screen and (max-width: 840px) {
+@media screen and (max-width: 840px) {
 	.amv.project .images > figure img,
 	.lvmh.project .images > figure img,
 	.jordans.project .images > figure img,
@@ -3073,6 +3066,7 @@ figure.loading{
 .willchange .changing-transform{
 	will-change: transform;
 }
+
 .willchange .changing-opacity{
 	will-change: opacity;
 }
@@ -3090,7 +3084,7 @@ figure.loading{
     border: 0;
     overflow: hidden;
     /* IE 6/7 fallback */
-    *text-indent: -9999px;
+    //text-indent: -9999px;
 }
 
 .ir:before {
@@ -3167,32 +3161,6 @@ figure.loading{
 
 .clearfix:after {
     clear: both;
-}
-
-/*
- * For IE 6/7 only
- * include this rule to trigger hasLayout and contain floats.
- */
-
-.clearfix {
-    *zoom: 1;
-}
-
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   Theses examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
-}
-
-@media print,
-       (-o-min-device-pixel-ratio: 5/4),
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 120dpi) {
-    /* Style adjustments for high resolution devices */
 }
 
 /* ==========================================================================
