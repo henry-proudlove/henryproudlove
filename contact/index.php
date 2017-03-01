@@ -18,20 +18,18 @@
 									<span>henry.proudlove@gmail.com</span>
 								</a>
 							</li>
-							<li id="skype">
+							<!-- <li id="skype">
 								<span class="contact-label">Skype</span>
 								<a href="skype:henry.proudlove?add" target="_blank">
 									<span>henry.proudlove</span>
 								</a>
-							</li>
-							<li id="phone">
-								<span class="contact-label">Phone</span>							
-								<a href="tel:+8613021137691" target="_blank">
+							</li> -->
+							<!-- <li id="phone">
+								<span class="contact-label">Phone</span>
+								<a href="tel:+447482259606" target="_blank">
 									<span>+86 130 2113 7691</span>
 								</a>
-							</li>
-						</ul>
-						<ul id="social">
+							</li> -->
 							<li>
 								<span class="contact-label">Pinterest</span>
 								<a href="https://www.pinterest.com/henryproudlove/" target="_blank">

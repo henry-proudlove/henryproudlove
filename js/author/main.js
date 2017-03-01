@@ -7,7 +7,7 @@ $(document).ready(function(e){
 
 	var noop = function(){};
 	var $bodyHTML = $('body, html');
-	var linkContainers = '.menu-wrapper , .content-wrapper';
+	var linkContainers = '.menu-wrapper , :not(.contact) .content-wrapper';
 	var $menCnt        = $('.menu-container');
 	var $siteLnks      = $('.menu-wrapper a');
 	var $menuBtn       = $('.menu-button a');
@@ -99,9 +99,9 @@ $(document).ready(function(e){
 		},
 		exit : function(callBack){
 			window.clearTimeout(cycleTimer);
-			window.clearTimeout(idleTimer);
+			//window.clearTimeout(idleTimer);
 			cycleTimer = null;
-			idleTimer = null;
+			//idleTimer = null;
 			$('.menu-wrapper').removeAttr('style');
 			var id = this.sectionID;
 			var cs = this.isCaseStudy();
@@ -137,7 +137,7 @@ $(document).ready(function(e){
 			}
 			$(window).trigger('debouncedresize');
 			backBtn.up();
-			idleTimeout();
+			//idleTimeout();
 		}
 	}
 	/* 
@@ -155,7 +155,7 @@ $(document).ready(function(e){
 	});
 	
 	// Fire navChange event on internal link click
-	$(linkContainers).on('click', 'a:not([href^="http://"])', function(e){
+	$(linkContainers).on('click', 'a:not([href^="http://"], [href^="https://"], [href^="mailto:"], [href^="tel://"])', function(e){
 	    var url = $(this).attr('href');
 		var loc = activePage.page;
 		//console.log(e);
@@ -1261,106 +1261,6 @@ $(document).ready(function(e){
 		//console.log('loader removed')
 	});
 	
-	// /*
-// 	==============================================
-// 	Title Underline
-// 	============================================== */
-//
-// 	var titleState = false;
-// 	function titleStrokeIn(){
-// 		if(titleState || !$(container).hasClass('.active')){
-// 			return;
-// 		}else{
-// 			var animation = $(':visible #line-mask-in');
-// 			animation.beginElement();
-// 			titleState = true;
-// 		}
-// 	}
-// 	function titleStrokeOut(){
-// 		if(!titleState){
-// 			return;
-// 		}else{
-// 			var animation = $(':visible #line-mask-out');
-// 			animation.beginElement();
-// 			titleState = false;
-// 		}
-// 	}
-	
-	/* 
-	==============================================
-	Filters on Page idle
-	============================================== */
-
-	// // Append filter stylet to head
-	// var string = "<style type='text/css'>\n\t";
-	// var trans = Modernizr.prefixed('transform');
-	// if(trans == 'WebkitTransform'){
-	// 	string += "\
-	// 		.filter{\n\t\t\
-	// 			filter: grayscale(1);\n\t\t\
-	// 			-webkit-filter: grayscale(1);\n\t\t\
-	// 			background-color: rgba(178,182,184,0.33);\n\t\t\
-	// 			opacity: 0.66;\n\t\t\
-	// 			-webkit-transform: translate3d(0,0,0);\n\t\
-	// 		}\n\t\
-	// 		.filter:after{\n\t\t\
-	// 			display:block !important;\n\t\t\
-	// 			z-index: 2;\n\t\t\
-	// 			opacity: 1;\n\t\
-	// 		}\n";
-	// }else{
-	// 	string += "\
-	// 		.filter{\t\t\
-	// 			filter: url('#grad');\n\t\t\
-	// 			-webkit-filter: url('#grad');\n\t\
-	// 		}";
-	// }
-	// string += "\n</style>";
-	// $('head').append(string);
-	//
-	// var idleTimer;
-	//
-	// // After a period of inactivty turn the page red
-	// function idleTimeout(){
-	// 	if(Modernizr.cssfilters && !$('body.home').length > 0 && !$('body.slideshow').length > 0) {
-	// 		var idle = true;
-	// 		$(window).on('mousemove scrollstart click', function(e){
-	// 			//console.log(e)
-	// 			$(window).off('mousemove scrollstart click');
-	// 			idle = false;
-	// 		});
-	// 		idleTimer = window.setTimeout(function(){
-	// 			if(idle && $('body.slideshow').length < 1){
-	// 				applyFilter();
-	// 			}else{
-	// 				idleTimeout();
-	// 			}
-	// 		}, 6000);
-	// 	}
-	// }
-	//
-	// function applyFilter(){
-	// 	window.clearTimeout(idleTimer);
-	// 	//
-	// 	var $container = $('#container');
-	// 	var $filtered = $container.clone().addClass('filtered');
-	// 	$filtered.find('.content-wrapper')/*.add($filtered.find('.main-header nav'))*/.addClass('filter');
-	// 	//
-	// 	if($container.length < 2){
-	// 		$filtered.insertAfter($container);
-	// 		$container.addClass('unfiltered fade');
-	// 		// Clear the filter if the user interacts
-	// 		$(window).one('mousemove scroll click', function(e){
-	// 			$(window).off('mousemove scrollstart click');
-	// 			$container.removeClass('fade').one(transitionEnd, function(){
-	// 				$(this).removeClass('unfiltered');
-	// 				$('.filtered').remove();
-	// 				idleTimeout();
-	// 			});
-	// 		});
-	// 	}
-	// }
-	//
 	/* 
 	==============================================
 	Viewport Units
